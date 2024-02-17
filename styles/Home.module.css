@@ -1,0 +1,114 @@
+.main {
+  color: #333;
+  margin: 0 auto;
+  background-color: #eae2d9;
+}
+
+.overlayText {
+  position: absolute;
+  top: 70%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 3rem;
+  z-index: 2; /* Ensure it's above the video and the tint */
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav:hover {
+  cursor: pointer;
+}
+
+.headerContainer {
+  position: relative;
+  height: 100vh; /* Adjusted to leave room for navbar */
+  width: 100%;
+}
+
+.imageTint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1; /* Ensure it's above the image but below the text */
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header,
+.sticky {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  width: 100%;
+  /*background: transparent;*/
+  transition: background-color 2s;
+  position: absolute; /* Start as absolute */
+  top: 94vh; /* Positioned at the bottom of the video */
+  z-index: 10;
+  background-color: #eae2d9; /* Solid color on sticky */
+}
+
+.sticky {
+  position: fixed; /* Sticky behavior */
+  top: 0; /* Stick to the top */
+  background-color: #fff; /* Solid color on sticky */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero,
+.services,
+.testimonials,
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.ctaButton {
+  background-color: #0070f3;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card:hover {
+  color: #0070f3;
+  border-color: #0070f3;
+}
+
+.footer {
+  border-top: 1px solid #eaeaea;
+  margin-top: 20px;
+}
