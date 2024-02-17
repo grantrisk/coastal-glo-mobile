@@ -35,9 +35,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 1; /* Ensure it's above the image but below the text */
+  /* TODO ask Meghan which she prefers */
+  /*background-color: rgba(0, 0, 0, 0.2);*/
+  background-color: rgba(129, 75, 3, 0.2);
 }
+
+.parallaxBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Adjust as needed */
+  background-image: url('/home_background_image.JPG');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Key property for parallax */
+  overflow: hidden;
+}
+
 
 .video {
   position: absolute;

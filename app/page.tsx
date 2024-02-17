@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
 
 export default function Home() {
   const [isSticky, setIsSticky] = useState(false);
@@ -32,6 +31,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.headerContainer}>
+        {/* Parallax Background Container */}
+        <div className={styles.parallaxBackground}></div>
+
         <div className={styles.overlayText}>
           <h1>Coastal Glo Mobile</h1>
           <p>Your premier mobile spray tanning service in Wilmington, NC.</p>
@@ -41,18 +43,7 @@ export default function Home() {
         </div>
         {/* This is the new tint layer */}
         <div className={styles.imageTint}></div>
-        <Image
-          src={"/home_background_image.JPG"}
-          width={4797}
-          height={3192}
-          className={styles.video}
-          alt={"Background Image"}
-        />
-        {/*TODO: Add video to replace static image*/}
-        {/*<video autoPlay loop muted className={styles.video}>
-          <source src="/ocean_video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>*/}
+        {/* Other sections remain the same */}
       </div>
 
       <header className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
