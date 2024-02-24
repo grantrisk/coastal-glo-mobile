@@ -1,10 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import React, { useState } from "react";
 import styles from "../../styles/Nav.module.css";
 
-export default function Nav() {
+const Nav: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <nav className={styles.nav}>
-      <ul className={styles.navList}>
+      <button
+        className={styles.hamburger}
+        onClick={toggleMenu}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul
+        className={`${styles.navList} ${isMenuOpen ? styles.menuVisible : ""}`}
+      >
         <li className={styles.navItem}>
           <Link href="/">Home</Link>
         </li>
@@ -23,4 +41,6 @@ export default function Nav() {
       </ul>
     </nav>
   );
-}
+};
+
+export default Nav;

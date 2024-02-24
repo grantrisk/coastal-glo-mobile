@@ -1,17 +1,21 @@
 .nav {
   background: #eae2d9; /* Adjust background color as needed */
   padding: 20px; /* Adjust padding as needed */
+  width: 100%;
+  height: 70px;
 }
 
 .navList {
   list-style: none; /* Removes default list styling */
   display: flex; /* Displays list items in a row */
-  justify-content: center; /* Center items horizontally */
+  justify-content: space-evenly; /* Center items horizontally */
+  align-items: center;
   padding: 0; /* Removes default padding */
 }
 
 .navItem {
   margin: 0 15px; /* Adjust space between items */
+  font-size: 1.3rem;
 }
 
 .navItem a {
@@ -22,5 +26,72 @@
 }
 
 .navItem a:hover {
-  color: #32e3c3; /* Color change on hover */
+  color: #daa972; /* Color change on hover */
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  z-index: 10;
+}
+
+.hamburger span {
+  display: block;
+  width: 2rem;
+  height: 0.25rem;
+  background: #333;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  transform-origin: 1px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    background-color: transparent;
+    padding: 15px;
+  }
+
+  .hamburger {
+    display: flex;
+    position: absolute; /* Changed to absolute for better control */
+    top: 15px; /* Adjust as needed */
+    right: 15px; /* Adjust as needed */
+    z-index: 20; /* Ensure hamburger is above the menu */
+  }
+
+  .navList {
+    position: fixed; /* Use fixed to overlay on top of the page content */
+    top: 60px;
+    left: 50%; /* Center the menu */
+    width: 50%;
+    height: 500px; /* Take full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    background-color: #eae2d9;
+    border-top-left-radius: 15px; /* Adjust if needed */
+    border-bottom-left-radius: 15px; /* Adjust if needed */
+    opacity: 0; /* Start fully transparent */
+    visibility: hidden; /* Hide by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition for both opacity and visibility */
+    z-index: 10; /* Ensure menu is below the hamburger button */
+    border: 1px solid #333; /* Add a border for better visibility */
+  }
+
+  .menuVisible {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Show the menu */
+  }
+
+  .navItem {
+    margin: 20px 0; /* Adjust spacing for mobile view */
+  }
 }

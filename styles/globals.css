@@ -27,5 +27,5 @@ h6 {
 
 main {
   background-color: #eae2d9;
-  min-height: 86vh; /* <---- TODO: Possibly delete this */
+  min-height: 100vh; /* <---- TODO: Possibly delete this */
 }
