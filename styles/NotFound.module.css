@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #eae2d9;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+}
+
+.message {
+  margin: 20px 0;
+  color: #666;
+}
+
+.link {
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: #32e3c3;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #25a992;
+}

@@ -1,14 +1,12 @@
-.main {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #333;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  /*align-items: center;*/
+  /*padding: 20px 0;*/
+  /*margin: auto;*/
+}
+
+.headerImage {
   padding: 20px 0;
 }
 

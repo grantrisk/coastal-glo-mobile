@@ -1,0 +1,26 @@
+.nav {
+  background: #eae2d9; /* Adjust background color as needed */
+  padding: 20px; /* Adjust padding as needed */
+}
+
+.navList {
+  list-style: none; /* Removes default list styling */
+  display: flex; /* Displays list items in a row */
+  justify-content: center; /* Center items horizontally */
+  padding: 0; /* Removes default padding */
+}
+
+.navItem {
+  margin: 0 15px; /* Adjust space between items */
+}
+
+.navItem a {
+  text-decoration: none; /* Removes underline from links */
+  color: #333; /* Adjust link color as needed */
+  font-weight: bold; /* Makes the font bold */
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.navItem a:hover {
+  color: #32e3c3; /* Color change on hover */
+}

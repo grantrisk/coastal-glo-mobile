@@ -1,0 +1,29 @@
+.footer {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #333; /* Dark text color for contrast */
+  text-align: center; /* Center-aligns the text */
+  padding: 20px; /* Padding around the content */
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: center; /* Center the social links horizontally */
+  list-style: none; /* Removes default list styling */
+  padding: 0; /* Removes default padding */
+}
+
+.socialLink {
+  margin: 0 10px; /* Space between social links */
+}
+
+.socialLink a {
+  display: inline-block;
+  color: #333; /* Social link color */
+  text-decoration: none; /* Removes underline */
+  font-size: 24px; /* Adjusts the size of the icons/text */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.socialLink a:hover {
+  color: #0070f3; /* Color change on hover */
+}

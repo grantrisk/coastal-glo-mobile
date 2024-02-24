@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather, Dancing_Script } from "next/font/google";
+import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
+import Footer from "./components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
-const merriWeather = Merriweather({ subsets: ["latin"], weight: ["400"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-primary",
+  weight: ["400", "700"],
+  display: "swap",
+});
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-special",
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Coastal Glo Mobile",
@@ -17,9 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} ${merriWeather.className}`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${playfairDisplay.variable}`}
+    >
+      <body>
         {children}
+        <Footer />
       </body>
     </html>
   );
