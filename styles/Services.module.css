@@ -17,7 +17,10 @@
 
 .serviceSection {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates as many 300px columns as the container width allows */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Creates as many 300px columns as the container width allows */
   gap: 80px;
   justify-content: center;
   align-items: center;

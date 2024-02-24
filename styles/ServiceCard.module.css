@@ -40,9 +40,9 @@
 
 .button {
   padding: 10px 20px;
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
   color: black;
-    border: 1px solid #000000;
+  border: 1px solid #000000;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -50,5 +50,5 @@
 }
 
 .button:hover {
-    background-color: var(--color-secondary);
+  background-color: var(--color-secondary);
 }
