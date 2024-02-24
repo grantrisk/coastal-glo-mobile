@@ -18,13 +18,22 @@ export default function Home() {
             <p>Mobile Spray Tans</p>
           </div>
 
-          {/* This is the new tint layer */}
+          {/* This adds a dark tink to the background image */}
           <div className={styles.imageTint}></div>
-        </div>
 
-        {/* Need this container to position the Nav on top of the background image */}
-        <div className={styles.navContainer}>
-          <Nav />
+          {/* V1 */}
+          {/*<button className={styles.bookNowButton}>
+            <p>Book</p>
+            <p>Now</p>
+          </button>*/}
+
+          {/* V2 */}
+          <button className={styles.bookNowButton}>Book Now</button>
+
+          {/* Need this container to position the Nav on top of the background image */}
+          <div className={styles.navContainer}>
+            <Nav />
+          </div>
         </div>
       </header>
       <main>

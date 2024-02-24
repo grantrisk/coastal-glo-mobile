@@ -30,7 +30,9 @@
 
 .overlayText2 {
   position: absolute;
-  top: calc(100vh - 200px); /* Hard coded 200px to get the text above the Nav component */
+  top: calc(
+    100vh - 200px
+  ); /* Hard coded 200px to get the text above the Nav component */
   left: 3%;
   transform: none;
   color: #fff;
@@ -48,6 +50,55 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+/* V1 */
+/*.bookNowButton {
+  position: absolute;
+  top: calc(100vh - 150px);
+  left: 90%;
+  transform: translate(-50%, -50%);
+  padding: 10px 40px;
+  font-size: 2rem;
+  font-weight: 700;
+  background-color: transparent;
+  color: #ffffff;
+  border: 5px solid var(--color-primary);
+  border-radius: 100%;
+  cursor: pointer;
+  z-index: 3;
+  transition: 0.2s;
+}
+
+.bookNowButton:hover {
+  transition: 0.2s;
+  background-color: var(--color-secondary);
+  color: #000;
+}*/
+
+/* V2 */
+.bookNowButton {
+  width: 250px;
+  position: absolute;
+  top: calc(100vh - 150px);
+  left: calc(100vw - 200px);
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 1);
+  transition: 0.2s;
+}
+
+.bookNowButton:hover {
+  background-color: var(--color-secondary);
+  transition: 0.2s;
+  box-shadow: none;
+}
+
 .navContainer {
   display: flex;
   justify-content: center;
@@ -58,7 +109,7 @@
     100vh - 70px
   ); /* The 70px is the height of the nav element in the Nav component */
   z-index: 10;
-  background-color: #eae2d9;
+  background-color: var(--color-primary);
 }
 
 .hero {
@@ -81,8 +132,14 @@
 
   .overlayText2 {
     font-size: 2rem;
-    top: 90vh
+    top: 90vh;
   }
+
+  /*TODO - decide where to put the CTA*/
+  /*.bookNowButton {
+    top: calc(100vh - 50px);
+    left: calc(100vw - 125px);
+  }*/
 
   .navContainer {
     position: absolute;

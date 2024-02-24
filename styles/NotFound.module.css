@@ -5,7 +5,7 @@
   justify-content: center;
   height: 100vh;
   text-align: center;
-  background-color: #eae2d9;
+  background-color: var(--color-primary);
   padding: 10px;
 }
 
@@ -23,12 +23,13 @@
   padding: 10px 20px;
   margin-top: 20px;
   border-radius: 5px;
-  background-color: #32e3c3;
-  color: #fff;
+  background-color: var(--color-secondary);
+  color: black;
+  border: 1px solid black;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
 .link:hover {
-  background-color: #25a992;
+  background-color: var(--color-tertiary);
 }

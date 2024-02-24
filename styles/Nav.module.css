@@ -1,5 +1,5 @@
 .nav {
-  background: #eae2d9; /* Adjust background color as needed */
+  background: var(--color-primary); /* Adjust background color as needed */
   padding: 20px; /* Adjust padding as needed */
   width: 100%;
   height: 70px;
@@ -26,7 +26,7 @@
 }
 
 .navItem a:hover {
-  color: #daa972; /* Color change on hover */
+  color: var(--color-tertiary); /* Color change on hover */
 }
 
 .hamburger {
@@ -76,14 +76,16 @@
     flex-direction: column;
     justify-content: center; /* Center items vertically */
     align-items: center; /* Center items horizontally */
-    background-color: #eae2d9;
+    background-color: var(--color-primary);
     border-top-left-radius: 15px; /* Adjust if needed */
     border-bottom-left-radius: 15px; /* Adjust if needed */
     opacity: 0; /* Start fully transparent */
     visibility: hidden; /* Hide by default */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition for both opacity and visibility */
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease; /* Smooth transition for both opacity and visibility */
     z-index: 10; /* Ensure menu is below the hamburger button */
-    border: 1px solid #333; /* Add a border for better visibility */
+    border: 2px solid #333; /* Add a border for better visibility */
   }
 
   .menuVisible {

@@ -11,6 +11,12 @@ body {
   background-color: #000000;
 }
 
+:root {
+  --color-primary: #eae2d9;
+  --color-secondary: #eac1b1;
+  --color-tertiary: #cc8e75;
+}
+
 /* NOTE: variables are located and set in the layout.tsx file in the app directory */
 body {
   font-family: var(--font-primary); /* Apply Montserrat to all text */
@@ -21,11 +27,12 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+button {
   font-family: var(--font-special); /* Apply Playfair Display to headers */
 }
 
 main {
-  background-color: #eae2d9;
+  background-color: var(--color-primary);
   min-height: 100vh; /* <---- TODO: Possibly delete this */
 }
