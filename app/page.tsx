@@ -10,9 +10,14 @@ export default function Home() {
           <div className={styles.parallaxBackground}></div>
 
           <div className={styles.overlayText}>
-            <h1>Coastal Glo Mobile</h1>
-            <p>Your premier mobile spray tanning service in Wilmington, NC.</p>
+            <h1>Coastal Glo</h1>
+            <h1>Mobile</h1>
           </div>
+          <div className={styles.overlayText2}>
+            <p>Wilmington, NC.</p>
+            <p>Mobile Spray Tans</p>
+          </div>
+
           {/* This is the new tint layer */}
           <div className={styles.imageTint}></div>
         </div>
@@ -22,7 +27,7 @@ export default function Home() {
           <Nav />
         </div>
       </header>
-      <main className={styles.main}>
+      <main>
         {/* Welcome Section */}
         <section className={styles.hero}>
           <h1>TBD</h1>
