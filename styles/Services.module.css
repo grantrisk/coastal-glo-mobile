@@ -1,65 +1,30 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  /*align-items: center;*/
-  /*padding: 20px 0;*/
-  /*margin: auto;*/
+  border-bottom: 2px solid black;
 }
 
-.headerImage {
-  padding: 20px 0;
+.servicesMain {
+  padding-top: 50px;
 }
 
-.hero {
+.servicesHeader {
+  /* Styling for the services header section */
   text-align: center;
-  padding: 40px 20px;
-  background-color: #f0f0f0; /* Light grey, adjust to fit your color scheme */
 }
 
-.ctaButton {
-  background-color: #0070f3; /* Bright blue, adjust to your brand color */
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.servicesTitle {
+  /* Additional styling for the services section title if needed */
 }
 
-.ctaButton:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
-
-.services,
-.testimonials {
-  padding: 20px;
-}
-
-.grid {
+.serviceSection {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates as many 300px columns as the container width allows */
+  gap: 80px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  justify-items: center;
 }
 
 .card {
-  border: 1px solid #eaeaea; /* Light grey border */
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  transition:
-    color 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.card:hover {
-  color: #0070f3; /* Highlight text on hover */
-  border-color: #0070f3; /* Highlight border on hover */
-}
-
-.footer {
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid #eaeaea; /* Light grey border */
-  margin-top: 20px;
+  margin-bottom: 20px; /* Ensure there is space at the bottom of each card, especially when they wrap */
 }

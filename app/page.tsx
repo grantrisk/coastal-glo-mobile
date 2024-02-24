@@ -14,8 +14,8 @@ export default function Home() {
             <h1>Mobile</h1>
           </div>
           <div className={styles.overlayText2}>
-            <p>Wilmington, NC.</p>
-            <p>Mobile Spray Tans</p>
+            <h4>Wilmington, NC.</h4>
+            <h4>Mobile Spray Tans</h4>
           </div>
 
           {/* This adds a dark tink to the background image */}

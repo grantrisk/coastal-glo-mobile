@@ -11,6 +11,11 @@ body {
   background-color: #000000;
 }
 
+/*:root {
+  --color-primary: #99bfe3;
+  --color-secondary: #4b8bd0;
+  --color-tertiary: #2b547a;
+}*/
 :root {
   --color-primary: #eae2d9;
   --color-secondary: #eac1b1;
@@ -34,5 +39,5 @@ button {
 
 main {
   background-color: var(--color-primary);
-  min-height: 100vh; /* <---- TODO: Possibly delete this */
+  min-height: 95vh; /* <---- TODO: Possibly delete this */
 }

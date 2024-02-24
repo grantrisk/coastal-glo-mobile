@@ -3,8 +3,8 @@ import styles from "../../styles/Footer.module.css";
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <p>Contact Us: coastalglomobile@gmail.com | (910) 633-7352</p>
-      <p>Follow us on social media:</p>
+      <p>Contact Me: coastalglomobile@gmail.com</p>
+      {/*<p>Follow us on social media:</p>*/}
       {/*<ul className={styles.socialLinks}>
         <li className={styles.socialLink}>
           <a

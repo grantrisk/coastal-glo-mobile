@@ -32,9 +32,10 @@ const Nav: React.FC = () => {
         <li className={styles.navItem}>
           <Link href="/about">About</Link>
         </li>
-        <li className={styles.navItem}>
+        {/*  NOTE: TO BE ADDED IN THE FUTURE  */}
+        {/*<li className={styles.navItem}>
           <Link href="/gallery">Gallery</Link>
-        </li>
+        </li>*/}
         <li className={styles.navItem}>
           <Link href="/faq">FAQ</Link>
         </li>

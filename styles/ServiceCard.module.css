@@ -1,0 +1,54 @@
+.card {
+  background: #fff;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 10px;
+  width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* TODO: I need to figure out how to handle the global.css with the fonts... */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.title {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1.2em;
+  color: #666;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.price {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+    background-color: var(--color-primary);
+  color: black;
+    border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.2rem;
+}
+
+.button:hover {
+    background-color: var(--color-secondary);
+}
