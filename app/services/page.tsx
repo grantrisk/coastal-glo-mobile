@@ -26,6 +26,7 @@ export default function Services() {
             description="Need a quick, last minute glo? The rapid tan allows you to shower within 2-5 hours! Perfect if you don’t have time to wait the full 8-10 hours for a classic tan. For light tans, shower after two hours – wait four to five hours for that extra dark look! The depth of color is entirely up to you."
             price="$75+"
             buttonText="Select"
+            recommended={true}
           />
 
           <ServiceCard

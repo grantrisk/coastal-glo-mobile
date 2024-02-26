@@ -6,6 +6,7 @@ interface ServiceCardProps {
   description: string;
   price?: string;
   buttonText: string;
+  recommended?: boolean;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -13,9 +14,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   price,
   buttonText,
+  recommended,
 }) => {
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${recommended ? styles.recommended : ""}`}>
+      {recommended && (
+        <div className={styles.recommendedLabel}>RECOMMENDED</div>
+      )}
       <div className={styles.content}>
         <h2 className={styles.title}>{title}</h2>
         <p className={styles.description}>{description}</p>

@@ -19,13 +19,16 @@
 
 .overlayText {
   position: absolute;
-  top: 5%;
+  top: 1%;
   left: 3%;
   transform: none;
   color: #fff;
-  font-size: 4rem;
   z-index: 3;
   width: auto;
+}
+
+.overlayText h1 {
+  font-size: 8rem;
 }
 
 .overlayText2 {
@@ -36,9 +39,12 @@
   left: 3%;
   transform: none;
   color: #fff;
-  font-size: 2.5rem;
   z-index: 2;
   width: auto;
+}
+
+.overlayText2 h4 {
+  font-size: 2.5rem;
 }
 
 .imageTint {
@@ -75,6 +81,7 @@
 }*/
 
 /* V2 */
+/* TODO: add animation so the shadow grows and shrinks */
 .bookNowButton {
   width: 250px;
   position: absolute;
@@ -126,13 +133,16 @@
     background-position: center;
   }
 
-  .overlayText {
-    font-size: 2.5rem;
+  .overlayText h1 {
+    font-size: 5rem;
   }
 
   .overlayText2 {
-    font-size: 2rem;
-    top: 90vh;
+    top: 85vh;
+  }
+
+  .overlayText2 h4 {
+    font-size: 2.5rem;
   }
 
   /*TODO - decide where to put the CTA*/
@@ -150,11 +160,15 @@
 }
 
 @media (max-width: 480px) {
-  .overlayText {
-    font-size: 2rem;
+  .overlayText h1 {
+    font-size: 4rem;
   }
 
   .overlayText2 {
-    font-size: 1.5rem;
+    top: 88vh;
+  }
+
+  .overlayText2 h4 {
+    font-size: 2rem;
   }
 }

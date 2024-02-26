@@ -40,6 +40,11 @@ export default function Home() {
         {/* Welcome Section */}
         <section className={styles.hero}>
           <h1>TBD</h1>
+          <h2>TBD</h2>
+          <h3>TBD</h3>
+          <h4>TBD</h4>
+          <h5>TBD</h5>
+          <h6>TBD</h6>
           <p>Something here...</p>
         </section>
       </main>

@@ -1,6 +1,21 @@
+.recommended {
+  border: 2px solid var(--color-tertiary);
+}
+
+.recommendedLabel {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  background: var(--color-tertiary);
+  color: white;
+  padding: 5px;
+  border-radius: 0 0 4px 4px;
+  font-size: 0.8rem;
+}
+
 .card {
+  position: relative;
   background: #fff;
-  border: 1px solid #000000;
   border-radius: 4px;
   padding: 20px;
   margin: 10px;
@@ -11,8 +26,6 @@
   height: 100%;
 }
 
-/* TODO: I need to figure out how to handle the global.css with the fonts... */
-
 .content {
   display: flex;
   flex-direction: column;
@@ -20,20 +33,20 @@
 }
 
 .title {
-  font-size: 2em;
+  /*font-size: 2em;*/
   color: #333;
   margin-bottom: 10px;
 }
 
 .description {
-  font-size: 1.2em;
+  /*font-size: 1.2em;*/
   color: #666;
   flex-grow: 1;
   margin-bottom: 20px;
 }
 
 .price {
-  font-size: 1.2em;
+  /*font-size: 1.2em;*/
   color: #333;
   margin-bottom: 20px;
 }
@@ -46,7 +59,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  font-size: 1.2rem;
+  /*font-size: 1.2rem;*/
 }
 
 .button:hover {

@@ -21,7 +21,7 @@
     auto-fit,
     minmax(300px, 1fr)
   ); /* Creates as many 300px columns as the container width allows */
-  gap: 80px;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   padding: 20px;

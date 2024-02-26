@@ -20,7 +20,6 @@
   display: inline-block;
   color: #333; /* Social link color */
   text-decoration: none; /* Removes underline */
-  font-size: 24px; /* Adjusts the size of the icons/text */
   transition: color 0.3s ease; /* Smooth color transition on hover */
 }
 
