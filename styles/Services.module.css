@@ -7,25 +7,19 @@
 }
 
 .servicesHeader {
-  /* Styling for the services header section */
   text-align: center;
 }
 
 .servicesTitle {
-  /* Additional styling for the services section title if needed */
+  padding-bottom: 20px;
 }
 
 .serviceSection {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(300px, 1fr)
-  ); /* Creates as many 300px columns as the container width allows */
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  justify-items: center;
+  align-items: stretch;
+  padding: 60px 20px;
 }
 
 .card {
