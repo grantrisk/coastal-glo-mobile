@@ -9,7 +9,9 @@
   z-index: 1;
 }
 
-@keyframes moveGradientBefore {
+/* ------------------ ANIMATIONS ------------------ */
+
+@keyframes moveGradientOne {
   0%,
   100% {
     left: 6vw;
@@ -19,7 +21,7 @@
   }
 }
 
-@keyframes moveGradientAfter {
+@keyframes moveGradientTwo {
   0%,
   100% {
     left: 6vw;
@@ -49,15 +51,16 @@
   }
 }
 
-.gradientBefore,
-.gradientAfter {
+.gradientOne,
+.gradientTwo {
   z-index: -1;
   position: absolute;
   width: calc(100% - 200px);
   height: calc(100% - 200px);
+  border-radius: 25px;
 }
 
-.gradientBefore {
+.gradientOne {
   transform: rotate(-45deg);
   background: linear-gradient(
     to right,
@@ -65,11 +68,11 @@
     var(--creamy-beige) 100%
   );
   animation:
-    moveGradientBefore 20s ease infinite,
+    moveGradientOne 20s ease infinite,
     fadeGradient 40s ease infinite;
 }
 
-.gradientAfter {
+.gradientTwo {
   transform: rotate(45deg);
   background: linear-gradient(
     to right,
@@ -77,42 +80,45 @@
     var(--rich-brown) 100%
   );
   animation:
-    moveGradientAfter 20s ease infinite,
+    moveGradientTwo 20s ease infinite,
     fadeGradient 40s ease infinite;
 }
 
 /* The additional layers with reverse the color schemes and opacities */
-.gradientBeforeAlt,
-.gradientAfterAlt {
+.gradientOneAlt,
+.gradientTwoAlt {
   z-index: -2; /* Ensure these are below the primary gradients */
   position: absolute;
   width: calc(100% - 200px);
   height: calc(100% - 200px);
+  border-radius: 25px;
 }
 
-.gradientBeforeAlt {
+.gradientOneAlt {
   transform: rotate(-45deg);
-  background: linear-gradient(
-    to right,
-    var(--creamy-beige) 0%,
-    var(--soft-tan) 100%
-  );
-  animation:
-    moveGradientBefore 20s ease infinite,
-    fadeGradientAlt 40s ease infinite reverse;
-}
-
-.gradientAfterAlt {
-  transform: rotate(45deg);
   background: linear-gradient(
     to right,
     var(--rich-brown) 0%,
     var(--gold-highlight) 100%
   );
   animation:
-    moveGradientAfter 20s ease infinite,
+    moveGradientOne 20s ease infinite,
     fadeGradientAlt 40s ease infinite reverse;
 }
+
+.gradientTwoAlt {
+  transform: rotate(45deg);
+  background: linear-gradient(
+    to right,
+    var(--creamy-beige) 0%,
+    var(--soft-tan) 100%
+  );
+  animation:
+    moveGradientTwo 20s ease infinite,
+    fadeGradientAlt 40s ease infinite reverse;
+}
+
+/* ------------------------------------------------- */
 
 .aboutBackground {
   background-color: white;
@@ -167,8 +173,13 @@
 }
 
 @media (max-width: 768px) {
+  .aboutMain {
+    padding: 0;
+  }
+
   .aboutBackground {
-    background-color: var(--color-primary);
+    background-color: white;
+    border-radius: 0;
   }
 
   .aboutSection {

@@ -125,6 +125,7 @@
 }
 
 @media (max-width: 768px) {
+  /*TODO when screen is flipped horizontally the overlay tax is broken*/
   .headerContainer {
     height: 100vh;
   }

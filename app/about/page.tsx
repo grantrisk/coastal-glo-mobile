@@ -10,10 +10,10 @@ export default function About() {
       </header>
       <main className={styles.aboutMain}>
         <div>
-          <div className={styles.gradientBefore}></div>
-          <div className={styles.gradientBeforeAlt}></div>
-          <div className={styles.gradientAfter}></div>
-          <div className={styles.gradientAfterAlt}></div>
+          <div className={styles.gradientOne}></div>
+          <div className={styles.gradientOneAlt}></div>
+          <div className={styles.gradientTwo}></div>
+          <div className={styles.gradientTwoAlt}></div>
         </div>
 
         <div className={styles.aboutBackground}>
