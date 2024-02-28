@@ -23,11 +23,18 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       {recommended && (
         <div className={styles.recommendedLabel}>RECOMMENDED</div>
       )}
-      <div className={styles.content}>
-        <h2 className={styles.title}>{title}</h2>
-        <p className={styles.description}>{description}</p>
-        {price && <p className={styles.price}>{price}</p>}
-        <button className={styles.button}>{buttonText}</button>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          {recommended && (
+            <div>
+              <div className={styles.lineAnimation}></div>
+            </div>
+          )}
+          <h2 className={styles.title}>{title}</h2>
+          <p className={styles.description}>{description}</p>
+          {price && <p className={styles.price}>{price}</p>}
+          <button className={styles.button}>{buttonText}</button>
+        </div>
       </div>
     </div>
   );

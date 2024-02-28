@@ -1,3 +1,40 @@
+/* ------------------ LINE ANIMATIONS ------------------ */
+
+@keyframes moveLine {
+  0%, 66.7% { /* 8s active, 8s pause in a 24s cycle */
+    top: -100%;
+    left: -50%;
+  }
+  83.3% { /* Starts moving again at 20s, which is 83.3% of 24s */
+    left: 100%;
+    top: 0;
+  }
+  100% {
+    left: 100%;
+    top: 0;
+  }
+}
+
+.lineAnimation {
+  top: -100%;
+  left: -50%;
+  transform: rotate(45deg);
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
+  height: 200%;
+  width: 20%;
+  opacity: 0.3;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--color-tertiary) 100%
+  );
+  animation: moveLine 24s ease-in-out infinite;
+}
+
+/* ------------------------------------------------- */
+
 @keyframes rotateBorderColor {
   0% {
     border-color: var(--color-quaternary);
@@ -34,19 +71,25 @@
   padding: 5px;
   border-radius: 0 0 4px 4px;
   font-size: 0.8rem;
+  z-index: 2; /* Ensure the label is above the line animation */
 }
 
 .card {
   position: relative;
   background: #fff;
   border-radius: 4px;
-  padding: 20px;
   margin: 10px;
   width: 350px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   min-height: 100%;
+}
+
+.container {
+  position: relative;
+  padding: 20px;
+  overflow: hidden; /*This keeps the animation contained inside the card element*/
 }
 
 .content {
