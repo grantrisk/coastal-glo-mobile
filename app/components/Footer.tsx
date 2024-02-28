@@ -1,39 +1,60 @@
 import styles from "../../styles/Footer.module.css";
+import Image from "next/image";
+import NextLink from "next/link";
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <p>Contact Me: coastalglomobile@gmail.com</p>
-      {/*<p>Follow us on social media:</p>*/}
-      {/*<ul className={styles.socialLinks}>
-        <li className={styles.socialLink}>
-          <a
-            href="https://www.facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Facebook
-          </a>
-        </li>
-        <li className={styles.socialLink}>
-          <a
-            href="https://www.instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        </li>
-        <li className={styles.socialLink}>
-          <a
-            href="https://www.twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Twitter
-          </a>
-        </li>
-      </ul>*/}
+      <div className={styles.footerContent}>
+        <div className={styles.footerLeft}>
+          <h3>Costal Glo Mobile</h3>
+          <h4>Wilmington, NC</h4>
+          <div className={styles.emergency}>
+            <p>After Hours Emergency Number:</p>
+            <p>
+              <a href="tel:910-633-7352">(910) 633-7352</a>
+            </p>
+          </div>
+          <div className={styles.nonEmergency}>
+            <p>For questions, please contact us at:</p>
+            <p>
+              <a href="mailto:coastalglomobile@gmail.com?subject=Question&amp;body=Dear%20Coastal%20Glo%20Mobile,%0D%0A%0D%0A[Your%20question%20here]%0D%0A%0D%0AThank%20you.">
+                coastalglomobile@gmail.com
+              </a>
+            </p>
+          </div>
+          <div className={styles.copyright}>
+            <p>
+              &copy; {new Date().getFullYear()} Coastal Glo Mobile. All Rights
+              Reserved.
+            </p>
+          </div>
+        </div>
+        <div className={styles.footerRight}>
+          <div className={styles.social}>
+            <NextLink
+              href="https://www.instagram.com/coastalglomobile/"
+              passHref
+              target="_blank"
+            >
+              <Image
+                src="/instagram_logo.svg"
+                alt="Coastal Glo Mobile Instagram"
+                height={50}
+                width={50}
+              />
+            </NextLink>
+            <NextLink href="https://www.tiktok.com/" passHref target="_blank">
+              <Image
+                src="/tiktok_logo.svg"
+                alt="Coastal Glo Mobile TikTok"
+                height={50}
+                width={50}
+              />
+            </NextLink>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
