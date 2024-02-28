@@ -1,15 +1,16 @@
-/*:root {
-  --font-size-base: 16px;
-  --color-primary: #99bfe3;
-  --color-secondary: #4b8bd0;
-  --color-tertiary: #2b547a;
-}*/
+/*TODO add font styling here*/
 :root {
   --font-size-base: 16px;
   --color-primary: #eae2d9;
   --color-secondary: #eac1b1;
   --color-tertiary: #cc8e75;
   --color-quaternary: #a65e2e;
+
+  --rich-brown: #8b4513;
+  --soft-tan: #a7856a;
+  --creamy-beige: #f5f5dc;
+  --dark-espresso: #3e2723;
+  --gold-highlight: #daa520;
 }
 
 * {

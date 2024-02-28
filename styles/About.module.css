@@ -1,0 +1,130 @@
+.header {
+  border-bottom: 2px solid black;
+}
+
+/*TODO ADD THE MOVING BACKGROUND LIKE CULLIN DID*/
+
+.aboutMain {
+  padding: 50px 0;
+  position: relative;
+  overflow: hidden; /* Ensure that pseudo-elements do not overflow the container */
+  z-index: 1;
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+
+.parallaxBackground::before,
+.parallaxBackground::after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5; /* Adjust for desired effect */
+  transform: rotate(-45deg); /* Rotate to 45 degrees */
+  background: linear-gradient(to right, var(--soft-tan) 0%, var(--creamy-beige) 100%);
+  background-size: 200% 200%; /* Increase the background size for a smooth transition */
+  animation: moveGradient 5s ease infinite; /* Apply the animation */
+}
+
+.parallaxBackground::after {
+  transform: rotate(45deg); /* Rotate to -45 degrees for the opposite effect */
+  background: linear-gradient(to right, var(--gold-highlight) 0%, var(--rich-brown) 100%);
+  background-size: 200% 200%; /* Increase the background size for a smooth transition */
+  animation: moveGradient 5s ease infinite; /* Apply the animation */
+}
+
+
+.aboutBackground {
+  background-color: white;
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: auto;
+  z-index: 5;
+}
+
+.aboutTitle {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.aboutSubtitle {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.aboutSection {
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageWrapper {
+  height: 400px;
+  width: 1200px;
+  margin-right: 20px;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border: 10px solid var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutImage {
+  object-fit: cover; /* This will cover the area of the wrapper, will be clipped to fit */
+  border-radius: 5px;
+  max-width: 100%; /* Ensure the image is never larger than the wrapper */
+  max-height: 100%; /* Ensure the image height is never larger than the wrapper */
+}
+
+.aboutText {
+  line-height: 1.6;
+  color: #333;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .aboutBackground {
+    background-color: var(--color-primary);
+  }
+
+  .aboutSection {
+    flex-direction: column;
+  }
+
+  .imageWrapper {
+    max-width: 400px;
+    width: 100%;
+    height: 300px;
+    margin-right: 0;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  .aboutImage {
+    object-fit: cover;
+    object-position: center 20%;
+  }
+
+  .aboutText {
+    padding: 0;
+  }
+}
