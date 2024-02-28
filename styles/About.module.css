@@ -2,8 +2,6 @@
   border-bottom: 2px solid black;
 }
 
-/*TODO ADD THE MOVING BACKGROUND LIKE CULLIN DID*/
-
 .aboutMain {
   padding: 50px 0;
   position: relative;
@@ -11,49 +9,60 @@
   z-index: 1;
 }
 
-@keyframes moveGradient {
-  0% {
-    background-position: 0 50%;
+@keyframes moveGradientBefore {
+  0%,
+  100% {
+    left: 6vw;
   }
   50% {
-    background-position: 100% 50%;
+    left: 10vw;
   }
+}
+
+@keyframes moveGradientAfter {
+  0%,
   100% {
-    background-position: 0 50%;
+    left: 6vw;
+  }
+  50% {
+    left: 4vw;
   }
 }
 
-
-.parallaxBackground::before,
-.parallaxBackground::after {
+.gradientBefore,
+.gradientAfter {
   z-index: -1;
-  content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5; /* Adjust for desired effect */
-  transform: rotate(-45deg); /* Rotate to 45 degrees */
-  background: linear-gradient(to right, var(--soft-tan) 0%, var(--creamy-beige) 100%);
-  background-size: 200% 200%; /* Increase the background size for a smooth transition */
-  animation: moveGradient 5s ease infinite; /* Apply the animation */
+  width: calc(100% - 200px);
+  height: calc(100% - 200px);
+  opacity: 0.5;
 }
 
-.parallaxBackground::after {
-  transform: rotate(45deg); /* Rotate to -45 degrees for the opposite effect */
-  background: linear-gradient(to right, var(--gold-highlight) 0%, var(--rich-brown) 100%);
-  background-size: 200% 200%; /* Increase the background size for a smooth transition */
-  animation: moveGradient 5s ease infinite; /* Apply the animation */
+.gradientBefore {
+  transform: rotate(-45deg);
+  background: linear-gradient(
+    to right,
+    var(--soft-tan) 0%,
+    var(--creamy-beige) 100%
+  );
+  animation: moveGradientBefore 20s ease infinite;
 }
 
+.gradientAfter {
+  transform: rotate(45deg);
+  background: linear-gradient(
+    to right,
+    var(--gold-highlight) 0%,
+    var(--rich-brown) 100%
+  );
+  animation: moveGradientAfter 20s ease infinite;
+}
 
 .aboutBackground {
   background-color: white;
   border-radius: 10px;
   max-width: 1000px;
   margin: auto;
-  z-index: 5;
 }
 
 .aboutTitle {

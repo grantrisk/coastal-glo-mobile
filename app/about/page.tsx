@@ -9,7 +9,10 @@ export default function About() {
         <Nav />
       </header>
       <main className={styles.aboutMain}>
-        <div className={styles.parallaxBackground}></div>
+        <div>
+          <div className={styles.gradientBefore}></div>
+          <div className={styles.gradientAfter}></div>
+        </div>
         <div className={styles.aboutBackground}>
           <h1 className={styles.aboutTitle}>~About~</h1>
           <p className={styles.aboutSubtitle}>Hi! I'm Meghan.</p>
