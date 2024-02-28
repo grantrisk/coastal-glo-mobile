@@ -29,13 +29,32 @@
   }
 }
 
+@keyframes fadeGradient {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeGradientAlt {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .gradientBefore,
 .gradientAfter {
   z-index: -1;
   position: absolute;
   width: calc(100% - 200px);
   height: calc(100% - 200px);
-  opacity: 0.5;
 }
 
 .gradientBefore {
@@ -45,7 +64,9 @@
     var(--soft-tan) 0%,
     var(--creamy-beige) 100%
   );
-  animation: moveGradientBefore 20s ease infinite;
+  animation:
+    moveGradientBefore 20s ease infinite,
+    fadeGradient 40s ease infinite;
 }
 
 .gradientAfter {
@@ -55,7 +76,42 @@
     var(--gold-highlight) 0%,
     var(--rich-brown) 100%
   );
-  animation: moveGradientAfter 20s ease infinite;
+  animation:
+    moveGradientAfter 20s ease infinite,
+    fadeGradient 40s ease infinite;
+}
+
+/* The additional layers with reverse the color schemes and opacities */
+.gradientBeforeAlt,
+.gradientAfterAlt {
+  z-index: -2; /* Ensure these are below the primary gradients */
+  position: absolute;
+  width: calc(100% - 200px);
+  height: calc(100% - 200px);
+}
+
+.gradientBeforeAlt {
+  transform: rotate(-45deg);
+  background: linear-gradient(
+    to right,
+    var(--creamy-beige) 0%,
+    var(--soft-tan) 100%
+  );
+  animation:
+    moveGradientBefore 20s ease infinite,
+    fadeGradientAlt 40s ease infinite reverse;
+}
+
+.gradientAfterAlt {
+  transform: rotate(45deg);
+  background: linear-gradient(
+    to right,
+    var(--rich-brown) 0%,
+    var(--gold-highlight) 100%
+  );
+  animation:
+    moveGradientAfter 20s ease infinite,
+    fadeGradientAlt 40s ease infinite reverse;
 }
 
 .aboutBackground {
