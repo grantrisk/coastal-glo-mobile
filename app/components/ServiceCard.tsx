@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/ServiceCard.module.css"; // Make sure to create a corresponding CSS module file
+import styles from "../../styles/ServiceCard.module.css";
 
 interface ServiceCardProps {
   title: string;

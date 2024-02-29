@@ -1,9 +1,6 @@
 import styles from "../../styles/Services.module.css";
 import Nav from "../components/Nav";
-import ServiceCard from "../components/ServiceCard"; // Assuming there's a component for the service cards
-// import FAQAccordion from "../components/FAQAccordion"; // New component for FAQs
-// import Testimonials from "../components/Testimonials"; // New component for testimonials
-// import ContactForm from "../components/ContactForm"; // New component for contact form
+import ServiceCard from "../components/ServiceCard";
 
 export default function Services() {
   return (
@@ -18,6 +15,8 @@ export default function Services() {
             Discover the perfect tan tailored to your skin type and preferences.
           </p>
         </section>
+
+        {/*TODO: add information about travel fees*/}
 
         <section className={styles.serviceSection}>
           <ServiceCard
@@ -48,53 +47,6 @@ export default function Services() {
             buttonText="Select"
           />
         </section>
-
-        {/* TODO: Implement this section so the service page isn't so bland */}
-        {/*<section className={styles.faqSection}>
-          <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-          <FAQAccordion
-            questions={[
-              {
-                question: "How long does a tan last?",
-                answer:
-                  "Typically, a tan can last up to 10 days, depending on your skin type and how well you maintain it.",
-              },
-              {
-                question: "What should I do before my tan?",
-                answer:
-                  "Exfoliate your skin 24 hours before your appointment to ensure an even application.",
-              },
-              // Add more FAQs as needed
-            ]}
-          />
-        </section>
-
-        <section className={styles.testimonialsSection}>
-          <h2 className={styles.testimonialsTitle}>What Our Clients Say</h2>
-          <Testimonials
-            reviews={[
-              {
-                name: "Jane Doe",
-                review:
-                  "Absolutely love my tan! It looks so natural and lasted longer than expected.",
-              },
-              {
-                name: "John Smith",
-                review:
-                  "Professional service and amazing results. Highly recommend!",
-              },
-              // Add more testimonials as needed
-            ]}
-          />
-        </section>
-
-        <section className={styles.contactSection}>
-          <h2 className={styles.contactTitle}>Ready to Book?</h2>
-          <p className={styles.contactSubtitle}>
-            Contact us now to schedule your mobile spray tan session.
-          </p>
-          <ContactForm />
-        </section>*/}
       </main>
     </>
   );

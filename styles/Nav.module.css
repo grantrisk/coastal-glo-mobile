@@ -10,6 +10,9 @@
   list-style: none; /* Removes default list styling */
   display: flex; /* Displays list items in a row */
   justify-content: space-evenly; /* Center items horizontally */
+  /*justify-content:space-around;*/
+  /*justify-content:space-evenly;*/
+  /*justify-content: space-between;*/
   align-items: center;
   padding: 0; /* Removes default padding */
 }
@@ -21,7 +24,7 @@
 
 .navItem a {
   text-decoration: none; /* Removes underline from links */
-  color: #333; /* Adjust link color as needed */
+  color: black; /* Adjust link color as needed */
   font-weight: bold; /* Makes the font bold */
   transition: color 0.3s ease; /* Smooth transition for hover effect */
 }
@@ -86,7 +89,7 @@
       opacity 0.3s ease,
       visibility 0.3s ease; /* Smooth transition for both opacity and visibility */
     z-index: 10; /* Ensure menu is below the hamburger button */
-    border: 2px solid #333; /* Add a border for better visibility */
+    border: 2px solid #000000; /* Add a border for better visibility */
   }
 
   .menuVisible {

@@ -1,0 +1,22 @@
+.header {
+  border-bottom: 2px solid black;
+}
+
+.aboutMain {
+  padding: 50px 0;
+  position: relative;
+  overflow: hidden; /* Ensure that pseudo-elements do not overflow the container */
+  z-index: 1;
+}
+
+.aboutTitle {
+  padding: 20px 0;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+  .aboutMain {
+    padding: 0;
+  }
+}
