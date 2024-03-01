@@ -2,6 +2,9 @@ import styles from "../styles/Home.module.css";
 import Nav from "./components/Nav";
 import Link from "next/link";
 import React from "react";
+import CycleText from "./components/CycleText";
+import InfoCard from "./components/InfoCard";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -34,15 +37,122 @@ export default function Home() {
         </div>
       </header>
       <main>
-        {/* Welcome Section */}
-        <section className={styles.hero}>
-          <h1>TBD</h1>
-          <h2>TBD</h2>
-          <h3>TBD</h3>
-          <h4>TBD</h4>
-          <h5>TBD</h5>
-          <h6>TBD</h6>
-          <p>Something here...</p>
+        <section className={styles.sjolieSection}>
+          <h2>Sjolie Tanning Solution is ...</h2>
+
+          <div className={styles.cycleText}>
+            <CycleText
+              textArray={[
+                "NATURAL INGREDIENTS",
+                "VEGAN & CRUELTY FREE",
+                "GLUTEN FREE",
+                "PARABEN FREE",
+                "MINERAL FREE",
+              ]}
+            />
+          </div>
+
+          <p className={styles.textSection}>
+            We use Sjolie products. Their tanning solutions offer customizable
+            formulas for all skin types, allowing you to tailor your tan with
+            options for color intensity, hydration levels, and your choice of
+            personalized scents through our spray tan enhancements.
+          </p>
+        </section>
+
+        <section className={styles.prepSection}>
+          <h2>Preparation</h2>
+          <h5>Before Your Appointment</h5>
+          <div className={styles.cardSection}>
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Exfoliate 24 hrs prior to your spray tan appointment using a mitt and oil-free scrub."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Shaving and waxing should be done 24 hrs prior to your appointment."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Do not apply any oils, makeup, deodorant and perfume before the spray. Your skin should be " +
+                "free from any products."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Make sure you schedule all other spa treatments for before your spray tan, including facials, " +
+                "waxing, and mani/pedis."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "During the session, it's up to you how much you want to undress, and I recommend you go with " +
+                "what makes you feel comfortable!"
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={"Book your appointment 2 days before an event."}
+            />
+          </div>
+        </section>
+
+        <section className={styles.afterCareSection}>
+          <h2>After Care</h2>
+          <h5>Tips To Maintain Your Glow</h5>
+          <div className={styles.cardSection}>
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "To help your tan develop, avoid all moisture for at least 5 hrs after the session."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Wear loose-fitting, dark clothing so your tan doesn't rub off or look uneven."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "When you shower, be gentle and only use oil-free cleansers. Pat yourself dry instead of rubbing."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "After every shower, I highly recommend using a moisturizer to extend the life of your tan."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "Avoid harsh chemicals such as BHA, salicylic acid, & anti-aging products."
+              }
+            />
+            <InfoCard
+              imageSrc={"/sun_image.svg"}
+              text={
+                "When the tan starts to fade, it's essential to exfoliate the skin in order to remove the old" +
+                " tan residue."
+              }
+            />
+          </div>
+          {/*<Image
+            src={"/sun_image.svg"}
+            alt={"Sun Image"}
+            height={200}
+            width={200}
+            className={styles.sunImage}
+          />*/}
         </section>
       </main>
     </>

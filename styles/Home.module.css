@@ -56,7 +56,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* TODO: add animation so the shadow grows and shrinks */
 .bookNowButton {
   width: 250px;
   position: absolute;
@@ -95,9 +94,55 @@
   background-color: var(--color-primary);
 }
 
-.hero {
+.sjolieSection {
   text-align: center;
   padding: 40px 20px;
+  background: linear-gradient(to bottom, var(--color-primary) 5%, white 100%);
+}
+
+.cycleText {
+  margin: 20px 0 50px;
+}
+
+.textSection {
+  padding: 20px;
+  text-align: center;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.prepSection {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  margin: auto;
+  background-color: white;
+}
+
+.prepSection h5 {
+  color: var(--color-tertiary);
+}
+
+.sunImage {
+  border-radius: 5px;
+}
+
+.afterCareSection {
+  text-align: center;
+  padding: 40px 20px 80px;
+  background: linear-gradient(to bottom, white 80%, var(--color-primary) 100%);
+}
+
+.afterCareSection h5 {
+  color: var(--color-tertiary);
+}
+
+.cardSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  max-width: 1000px;
 }
 
 @media (max-width: 768px) {

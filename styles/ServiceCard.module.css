@@ -1,11 +1,14 @@
 /* ------------------ LINE ANIMATIONS ------------------ */
 
 @keyframes moveLine {
-  0%, 66.7% { /* 8s active, 8s pause in a 24s cycle */
+  0%,
+  66.7% {
+    /* 8s active, 8s pause in a 24s cycle */
     top: -100%;
     left: -50%;
   }
-  83.3% { /* Starts moving again at 20s, which is 83.3% of 24s */
+  83.3% {
+    /* Starts moving again at 20s, which is 83.3% of 24s */
     left: 100%;
     top: 0;
   }
