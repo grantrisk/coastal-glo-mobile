@@ -3,9 +3,12 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import styles from "../../styles/Nav.module.css";
+import { usePathname } from "next/navigation";
 
 const Nav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const pathname = usePathname();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -23,20 +26,45 @@ const Nav: React.FC = () => {
       <ul
         className={`${styles.navList} ${isMenuOpen ? styles.menuVisible : ""}`}
       >
-        <li className={styles.navItem}>
+        <li
+          className={`${
+            pathname == "/"
+              ? `${styles.activeNavItem} ${styles.navItem}`
+              : styles.navItem
+          }`}
+        >
           <Link href="/">Home</Link>
         </li>
-        <li className={styles.navItem}>
+
+        <li
+          className={
+            pathname == "/services"
+              ? `${styles.activeNavItem} ${styles.navItem}`
+              : styles.navItem
+          }
+        >
           <Link href="/services">Services</Link>
         </li>
-        <li className={styles.navItem}>
+        <li
+          className={
+            pathname == "/about"
+              ? `${styles.activeNavItem} ${styles.navItem}`
+              : styles.navItem
+          }
+        >
           <Link href="/about">About</Link>
         </li>
         {/*  NOTE: TO BE ADDED IN THE FUTURE  */}
-        {/*<li className={styles.navItem}>
+        {/*<li className={pathname == "/gallery" ? `${styles.activeNavItem} ${styles.navItem}` : styles.navItem}>
           <Link href="/gallery">Gallery</Link>
         </li>*/}
-        <li className={styles.navItem}>
+        <li
+          className={
+            pathname == "/faq"
+              ? `${styles.activeNavItem} ${styles.navItem}`
+              : styles.navItem
+          }
+        >
           <Link href="/faq">FAQ</Link>
         </li>
       </ul>

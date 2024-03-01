@@ -15,12 +15,12 @@ const FAQCard: React.FC<FAQCardProps> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={`${isOpen ? styles.cardOpen : styles.cardClosed}`}>
+    <div
+      className={`${isOpen ? styles.cardOpen : styles.cardClosed}`}
+      onClick={() => setIsOpen(!isOpen)}
+    >
       <div className={styles.buttonContainer}>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={styles.questionButton}
-        >
+        <button className={styles.questionButton}>
           {isOpen ? <FaAngleDown /> : <FaAngleRight />}
         </button>
       </div>

@@ -73,6 +73,7 @@
   cursor: pointer;
   box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 1);
   transition: 0.2s;
+  text-align: center;
 }
 
 .bookNowButton:hover {

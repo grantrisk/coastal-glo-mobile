@@ -44,7 +44,11 @@ export default function Footer() {
                 width={50}
               />
             </NextLink>
-            <NextLink href="https://www.tiktok.com/" passHref target="_blank">
+            <NextLink
+              href="https://www.tiktok.com/@coastalglomobile?_t=8kIBEs54S9S&_r=1"
+              passHref
+              target="_blank"
+            >
               <Image
                 src="/tiktok_logo.svg"
                 alt="Coastal Glo Mobile TikTok"

@@ -1,5 +1,7 @@
 import styles from "../styles/Home.module.css";
 import Nav from "./components/Nav";
+import Link from "next/link";
+import React from "react";
 
 export default function Home() {
   return (
@@ -21,14 +23,9 @@ export default function Home() {
           {/* This adds a dark tink to the background image */}
           <div className={styles.imageTint}></div>
 
-          {/* V1 */}
-          {/*<button className={styles.bookNowButton}>
-            <p>Book</p>
-            <p>Now</p>
-          </button>*/}
-
-          {/* V2 */}
-          <button className={styles.bookNowButton}>Book Now</button>
+          <Link href="/services" passHref>
+            <p className={styles.bookNowButton}>Book Now</p>
+          </Link>
 
           {/* Need this container to position the Nav on top of the background image */}
           <div className={styles.navContainer}>
