@@ -1,3 +1,7 @@
+.main {
+  overflow: hidden; /* Prevents the star images from overflowing in mobile view */
+}
+
 .headerContainer {
   position: relative;
   height: 100vh; /* Adjusted to leave room for navbar */
@@ -123,10 +127,6 @@
   color: var(--color-tertiary);
 }
 
-.sunImage {
-  border-radius: 5px;
-}
-
 .afterCareSection {
   text-align: center;
   padding: 40px 20px 80px;
@@ -138,11 +138,32 @@
 }
 
 .cardSection {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
   max-width: 1000px;
+  z-index: 0;
+}
+
+.sunImage {
+  position: absolute;
+  border-radius: 5px;
+  z-index: -1;
+}
+
+.sunImage1 {
+  top: 0;
+  left: -100px;
+}
+.sunImage2 {
+  top: 95%;
+  left: calc(100% - 100px);
+}
+.sunImage3 {
+  top: 85%;
+  left: -200px;
 }
 
 @media (max-width: 768px) {
@@ -178,6 +199,11 @@
     justify-content: right;
     top: 0;
     background-color: transparent;
+  }
+
+  .sunImage3 {
+    top: 85%;
+    left: -100px;
   }
 }
 
