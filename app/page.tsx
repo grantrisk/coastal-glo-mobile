@@ -27,7 +27,7 @@ export default function Home() {
           <div className={styles.imageTint}></div>
 
           <Link
-            href={"https://meghanrisk.glossgenius.com/services"}
+            href={"https://coastalglomobile.glossgenius.com/services"}
             prefetch
             target={"_blank"}
           >
