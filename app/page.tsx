@@ -26,7 +26,11 @@ export default function Home() {
           {/* This adds a dark tink to the background image */}
           <div className={styles.imageTint}></div>
 
-          <Link href="/services" passHref>
+          <Link
+            href={"https://meghanrisk.glossgenius.com/services"}
+            prefetch
+            target={"_blank"}
+          >
             <p className={styles.bookNowButton}>Book Now</p>
           </Link>
 
@@ -53,10 +57,10 @@ export default function Home() {
           </div>
 
           <p className={styles.textSection}>
-            We use Sjolie products. Their tanning solutions offer customizable
+            I use Sjolie products. Their tanning solutions offer customizable
             formulas for all skin types, allowing you to tailor your tan with
             options for color intensity, hydration levels, and your choice of
-            personalized scents through our spray tan enhancements.
+            personalized scents through spray tan enhancements.
           </p>
         </section>
 

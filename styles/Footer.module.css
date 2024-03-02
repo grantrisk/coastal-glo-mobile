@@ -57,7 +57,11 @@
 }
 
 .nonEmergency {
-  padding-top: 1rem;
+  padding: 1rem 0;
+}
+
+.hours {
+  padding: 1rem 0;
 }
 
 .copyright {
@@ -80,15 +84,5 @@
   .footerLeft,
   .footerRight {
     max-width: 100%;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .footer {
-    background-color: #000;
-  }
-
-  .nonEmergency a {
-    color: #ffffff;
   }
 }

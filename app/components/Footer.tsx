@@ -16,11 +16,21 @@ export default function Footer() {
             </p>
           </div>
           <div className={styles.nonEmergency}>
-            <p>For questions, please contact us at:</p>
+            <p>For questions, please contact me at:</p>
             <p>
-              <a href="mailto:coastalglomobile@gmail.com?subject=Question&amp;body=Dear%20Coastal%20Glo%20Mobile,%0D%0A%0D%0A[Your%20question%20here]%0D%0A%0D%0AThank%20you.">
+              <a href="mailto:coastalglomobile@gmail.com?subject=Question&amp;body=Dear%20Meghan,%0D%0A%0D%0A[Your%20question%20here]%0D%0A%0D%0AThank%20you.">
                 coastalglomobile@gmail.com
               </a>
+            </p>
+          </div>
+          <div className={styles.hours}>
+            <h5>Hours of Operation:</h5>
+            <p>
+              Monday - Thursday: 6:00pm - 9:00pm
+              <br />
+              Friday - Saturday: 8:00am - 8:00pm
+              <br />
+              Sunday: 2:00pm - 6:00pm
             </p>
           </div>
           <div className={styles.copyright}>

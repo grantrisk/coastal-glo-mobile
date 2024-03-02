@@ -14,14 +14,55 @@
   padding-bottom: 20px;
 }
 
+.servicesSubtitle {
+  padding: 0 20px;
+}
+
 .serviceSection {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
-  padding: 60px 20px;
+  padding: 60px 20px 30px;
 }
 
 .card {
-  margin-bottom: 20px; /* Ensure there is space at the bottom of each card, especially when they wrap */
+  margin-bottom: 20px; /* Ensure there is space at the bottom of each card */
+}
+
+.bookingSection {
+  padding: 0 0 50px;
+}
+
+.bookNowButton {
+  margin: auto;
+  width: 250px;
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 1);
+  transition: 0.2s;
+  text-align: center;
+}
+
+.bookNowButton:hover {
+  background-color: var(--color-secondary);
+  transition: 0.2s;
+  box-shadow: none;
+}
+
+.feeSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 50px 50px;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
 }

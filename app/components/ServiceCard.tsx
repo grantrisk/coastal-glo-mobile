@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "../../styles/ServiceCard.module.css";
+import Link from "next/link";
 
 interface ServiceCardProps {
   title: string;
   description: string;
   price?: string;
-  buttonText: string;
   recommended?: boolean;
 }
 
@@ -15,7 +15,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   title,
   description,
   price,
-  buttonText,
   recommended,
 }) => {
   return (
@@ -33,7 +32,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           <h2 className={styles.title}>{title}</h2>
           <p className={styles.description}>{description}</p>
           {price && <p className={styles.price}>{price}</p>}
-          <button className={styles.button}>{buttonText}</button>
         </div>
       </div>
     </div>

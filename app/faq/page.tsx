@@ -24,7 +24,7 @@ export default function FAQ() {
         />
         <FAQCard
           question="Are spray tans safe when your pregnant or breastfeeding?"
-          answer="DHA (spray tan solution) is FDA approved and only penetrates the outermost layer of the skin. There is no evidence that DHA is harmful to the fetus or a nursing baby. Just make sure to talk to your doctor to get the go-ahead."
+          answer="DHA (spray tan solution) is FDA approved and only penetrates the outermost layer of the skin. Just make sure to talk to your doctor to get the go-ahead."
         />
         <FAQCard
           question="What do I wear before and after my spray tan?"
