@@ -18,7 +18,7 @@ export default function About() {
 
         <div className={styles.aboutBackground}>
           <h1 className={styles.aboutTitle}>~About~</h1>
-          <p className={styles.aboutSubtitle}>Hi! I'm Meghan.</p>
+          <p className={styles.aboutSubtitle}>Hi! I&apos;m Meghan.</p>
 
           <section className={styles.aboutSection}>
             <div className={styles.imageWrapper}>
@@ -37,8 +37,8 @@ export default function About() {
               I moved to Wilmington in 2020 and now live with my husband, Grant
               and our dog Bandit. I love hanging out with my girls on a weekend,
               a cozy night in watching a movie, or just being outside enjoying
-              beautiful weather. I'm a beach girl at heart and love living by
-              the coast!
+              beautiful weather. I&apos;m a beach girl at heart and love living
+              by the coast!
               <br />
               <br />
               As a natural redhead with fair skin, I burn so easily and never
