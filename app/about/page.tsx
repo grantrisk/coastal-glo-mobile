@@ -1,6 +1,7 @@
 import styles from "../../styles/About.module.css";
 import Nav from "../components/Nav";
 import Image from "next/image";
+import Footer from "../components/Footer";
 
 export default function About() {
   return (
@@ -71,6 +72,7 @@ export default function About() {
           </section>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import styles from "../../styles/Footer.module.css";
 import Image from "next/image";
 import NextLink from "next/link";
+import { FaArrowUpFromBracket } from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -12,14 +13,16 @@ export default function Footer() {
           <div className={styles.emergency}>
             <p>After Hours Emergency Number:</p>
             <p>
-              <a href="tel:910-633-7352">(910) 633-7352</a>
+              <a href="tel:910-633-7352">
+                (910) 633-7352 <FaArrowUpFromBracket />
+              </a>
             </p>
           </div>
           <div className={styles.nonEmergency}>
             <p>For questions, please contact me at:</p>
             <p>
               <a href="mailto:coastalglomobile@gmail.com?subject=Question&amp;body=Dear%20Meghan,%0D%0A%0D%0A[Your%20question%20here]%0D%0A%0D%0AThank%20you.">
-                coastalglomobile@gmail.com
+                coastalglomobile@gmail.com <FaArrowUpFromBracket />
               </a>
             </p>
           </div>

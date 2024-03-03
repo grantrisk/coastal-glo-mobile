@@ -3,7 +3,7 @@
 }
 
 .servicesMain {
-  padding-top: 50px;
+  padding: 50px 0;
 }
 
 .servicesHeader {
@@ -31,7 +31,9 @@
 }
 
 .bookingSection {
-  padding: 0 0 50px;
+  padding: 50px 0 0;
+  width: fit-content;
+  margin: auto;
 }
 
 .bookNowButton {
@@ -62,7 +64,40 @@
   align-items: center;
   flex-direction: column;
   padding: 0 50px 50px;
-  max-width: 800px;
+  /*max-width: 800px;*/
+  width: 85%;
   margin: auto;
   text-align: center;
+}
+
+.addonsSection {
+  background-color: #f9f9f9; /* Light grey background for subtle contrast */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px; /* Increased padding for spacious layout */
+  /*max-width: 800px;*/
+  width: 85%;
+  margin: 0 auto 50px; /* Added margin for spacing from other sections */
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.addonsSection h4 {
+  margin-bottom: 15px; /* Space between title and content */
+  font-size: 1.5rem; /* Larger font size for title */
+  color: #333; /* Darker color for emphasis */
+}
+
+.addonsSection ul {
+  list-style-type: none; /* Removing default bullets */
+  padding: 0;
+}
+
+.addonsSection li {
+  font-size: 1rem; /* Appropriate font size for readability */
+  color: var(--color-quaternary); /* Slightly lighter text for contrast */
+  padding: 8px 0; /* Spacing between list items */
 }

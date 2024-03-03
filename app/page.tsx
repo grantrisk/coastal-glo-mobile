@@ -5,6 +5,7 @@ import React from "react";
 import CycleText from "./components/CycleText";
 import InfoCard from "./components/InfoCard";
 import Image from "next/image";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -42,7 +43,7 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <section className={styles.sjolieSection}>
-          <h2>Sjolie Tanning Solution is ...</h2>
+          <h2>Sjolie Tanning Solution is</h2>
 
           <div className={styles.cycleText}>
             <CycleText
@@ -173,6 +174,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

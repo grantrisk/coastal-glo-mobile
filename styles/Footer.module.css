@@ -49,11 +49,11 @@
 }
 
 .emergency {
-  color: rgb(195, 0, 0);
+  color: var(--color-quaternary);
 }
 
 .emergency a {
-  color: rgb(195, 0, 0);
+  color: var(--color-quaternary);
 }
 
 .nonEmergency {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
-import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 const montserrat = Montserrat({
@@ -34,10 +33,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${playfairDisplay.variable}`}
     >
       <Analytics />
-      <body>
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
