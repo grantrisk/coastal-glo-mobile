@@ -82,7 +82,7 @@
   width: 85%;
   margin: 0 auto 50px; /* Added margin for spacing from other sections */
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 .addonsSection h4 {
@@ -100,4 +100,11 @@
   font-size: 1rem; /* Appropriate font size for readability */
   color: var(--color-quaternary); /* Slightly lighter text for contrast */
   padding: 8px 0; /* Spacing between list items */
+}
+
+@media (max-width: 768px) {
+  .feeSection {
+    padding: 0 0 50px;
+    text-align: justify;
+  }
 }
