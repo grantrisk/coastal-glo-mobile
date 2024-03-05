@@ -9,8 +9,6 @@ interface ServiceCardProps {
   recommended?: boolean;
 }
 
-// TODO: if its the request button, make it a link to the contact form or maybe open up email
-
 const ServiceCard: React.FC<ServiceCardProps> = ({
   title,
   description,

@@ -14,11 +14,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background-image: url("/home_background_image.JPG");
-  background-size: cover;
-  background-position: 40%;
-  background-attachment: fixed; /* Key property for parallax */
-  overflow: hidden;
+  z-index: 1;
 }
 
 .overlayText {
@@ -27,7 +23,7 @@
   left: 3%;
   transform: none;
   color: #fff;
-  z-index: 3;
+  z-index: 2;
   width: auto;
 }
 
@@ -58,6 +54,7 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 2;
 }
 
 .bookNowButton {
@@ -77,6 +74,7 @@
   box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 1);
   transition: 0.2s;
   text-align: center;
+  z-index: 2;
 }
 
 .bookNowButton:hover {
@@ -167,14 +165,8 @@
 }
 
 @media (max-width: 768px) {
-  /*TODO when screen is flipped horizontally the overlay tax is broken*/
   .headerContainer {
     height: 100vh;
-  }
-
-  .parallaxBackground {
-    background-position: center;
-    background-attachment: local;
   }
 
   .overlayText h1 {
@@ -188,12 +180,6 @@
   .overlayText2 h4 {
     font-size: 2.5rem;
   }
-
-  /*TODO - decide where to put the CTA*/
-  /*.bookNowButton {
-    top: calc(100vh - 50px);
-    left: calc(100vw - 125px);
-  }*/
 
   .navContainer {
     position: absolute;
@@ -223,11 +209,6 @@
 }
 
 @media (max-height: 500px) {
-  .parallaxBackground {
-    background-position: center;
-    background-attachment: local;
-  }
-
   .overlayText h1 {
     font-size: 4rem;
   }

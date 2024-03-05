@@ -43,7 +43,7 @@ button {
 
 main {
   background-color: var(--color-primary);
-  min-height: 95vh; /* <---- TODO: Possibly delete this */
+  min-height: 95vh;
 }
 
 h1 {

@@ -13,7 +13,16 @@ export default function Home() {
       <header>
         <div className={styles.headerContainer}>
           {/* Parallax Background Container */}
-          <div className={styles.parallaxBackground}></div>
+          <div className={styles.parallaxBackground}>
+            <Image
+              src={"/home_background_image.JPG"}
+              alt={"Coastal Glo Mobile"}
+              layout={"fill"}
+              objectFit={"cover"}
+              quality={75}
+              priority={true}
+            />
+          </div>
 
           <div className={styles.overlayText}>
             <h1>Coastal Glo</h1>
