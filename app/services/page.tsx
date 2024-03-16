@@ -57,6 +57,12 @@ export default function Services() {
             This package also includes priority booking over non-members and discounted rates per session."
             price="$100"
           />
+
+          <ServiceCard
+            title="Student Tan"
+            description="Any students in high school or college enjoy a student discount. Perfect for prom, special events, or just a summer glow!"
+            price="$40"
+          />
         </section>
 
         <section className={styles.addonsSection}>
