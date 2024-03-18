@@ -33,7 +33,7 @@ export default function Services() {
             title="Classic Mobile Tan"
             description="A quick, customizable glo in the comfort of your own home. No need to worry about what you
             look like or what to wear."
-            price="$65+"
+            price="$40+"
           />
 
           <ServiceCard
@@ -41,7 +41,7 @@ export default function Services() {
             description="Need a quick, last minute glo? The rapid tan allows you to shower within 2-5 hours! Perfect if
             you don’t have time to wait the full 8-10 hours for a classic tan. For light tans, shower after two hours –
             wait four to five hours for that extra dark look! The depth of color is entirely up to you."
-            price="$75+"
+            price="$50+"
             recommended={true}
           />
 
@@ -55,13 +55,13 @@ export default function Services() {
             title="Coastal Glo Membership"
             description="Becoming a member includes 2 custom spray tans a month, with your choice of classic or rapid!
             This package also includes priority booking over non-members and discounted rates per session."
-            price="$100"
+            price="$80"
           />
 
           <ServiceCard
             title="Student Tan"
             description="Any students in high school or college enjoy a student discount. Perfect for prom, special events, or just a summer glow!"
-            price="$40"
+            price="$30"
           />
         </section>
 
