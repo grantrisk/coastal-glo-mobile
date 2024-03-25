@@ -69,7 +69,7 @@ export default function Services() {
           <h4 className={styles.addonsTitle}>Enhance Your Experience:</h4>
           <p className={styles.addonsDescription}>
             Elevate your tan with our exclusive scent add-ons. For just an
-            additional $10, you can personalize your tanning experience with our
+            additional $7, you can personalize your tanning experience with our
             signature scents. Choose your favorite:
           </p>
           <ul className={styles.addonsList}>
