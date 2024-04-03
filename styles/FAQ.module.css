@@ -15,8 +15,21 @@
   margin-bottom: 50px;
 }
 
+.faqSection {
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 1200px;
+  margin: auto;
+  border: 2px solid var(--color-tertiary);
+}
+
 @media (max-width: 768px) {
   .aboutMain {
     padding: 0;
+  }
+
+  .faqSection {
+    padding: 0;
+    border: none;
   }
 }
