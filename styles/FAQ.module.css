@@ -17,10 +17,23 @@
 
 .faqSection {
   padding: 20px;
-  border-radius: 10px;
   max-width: 1200px;
   margin: auto;
-  border: 2px solid var(--color-tertiary);
+}
+
+.faqSection > div {
+  border: 2px solid rgba(204, 142, 117, 0.47);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.faqSection > div:hover {
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s;
 }
 
 @media (max-width: 768px) {
@@ -30,6 +43,18 @@
 
   .faqSection {
     padding: 0;
+  }
+
+  .faqSection > div {
     border: none;
+    padding: 0;
+    margin: 10px;
+    box-shadow: none;
+    transition: none;
+  }
+
+  .faqSection > div:hover {
+    box-shadow: none;
+    transition: none;
   }
 }
