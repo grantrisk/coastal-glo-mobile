@@ -20,6 +20,36 @@ export const metadata: Metadata = {
   title: "Coastal Glo Mobile",
   description:
     "Wilmington based mobile spray tans in the comfort of your own home!",
+  openGraph: {
+    title: "Coastal Glo Mobile",
+    description:
+      "Wilmington based mobile spray tans in the comfort of your own home!",
+    url: "https://www.coastalglomobile.info",
+    siteName: "Coastal Glo Mobile",
+    images: [
+      {
+        url: "https://www.coastalglomobile.info/coastal_glo_mobile_logo.jpg", // Absolute URL to the logo image.
+        width: 1024,
+        height: 1024,
+        alt: "Coastal Glo Mobile Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true, // Allow indexing for this page to be discoverable via search engines.
+    follow: true,
+    nocache: false, // Allowing caching can help with load times.
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
