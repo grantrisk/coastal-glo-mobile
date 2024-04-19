@@ -16,9 +16,17 @@ const Status: React.FC = () => {
 
   useEffect(() => {
     fetch("/api/status")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP status ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => setStatus(data.status))
-      .catch(() => setStatus("Error fetching status"));
+      .catch((error) => {
+        console.error("Failed to fetch status:", error);
+        setStatus("Error fetching status");
+      });
   }, []);
 
   const iconSize = "1.5em";
