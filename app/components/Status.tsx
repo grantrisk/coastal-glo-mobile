@@ -53,7 +53,7 @@ const Status: React.FC = () => {
       case businessStatus.vacation:
         return "#a3c6e6"; // A blue color
       default:
-        return "#ccc"; // Grey color for loading or error
+        return "#b6d7a8"; // Grey color for loading or error
     }
   };
 
@@ -63,7 +63,7 @@ const Status: React.FC = () => {
 
   return (
     <div className={styles.status} style={containerStyle}>
-      <p>Status: {status}</p>
+      <p>{status}</p>
       {getIcon(status)}
     </div>
   );
