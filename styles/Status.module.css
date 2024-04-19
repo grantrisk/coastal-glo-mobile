@@ -1,0 +1,9 @@
+.status {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Ensures vertical alignment */
+}
+
+.status svg {
+    margin-left: 10px;
+}
