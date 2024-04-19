@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  BsSunFill,
-  BsFillSunriseFill,
   BsFillMoonStarsFill,
+  BsFillSunriseFill,
   BsFillSunsetFill,
+  BsSunFill,
 } from "react-icons/bs";
-import { FaUmbrellaBeach } from "react-icons/fa";
 import styles from "../../styles/Status.module.css";
 import { businessStatus } from "../lib/businessStatus";
+import { FaPersonWalkingLuggage } from "react-icons/fa6";
 
 const Status: React.FC = () => {
   const [status, setStatus] = useState("Loading...");
@@ -34,7 +34,7 @@ const Status: React.FC = () => {
       case businessStatus.closingSoon:
         return <BsFillSunsetFill size={iconSize} />;
       case businessStatus.vacation:
-        return <FaUmbrellaBeach size={iconSize} />;
+        return <FaPersonWalkingLuggage size={iconSize} />;
       default:
         return null; // You might want to have a default icon or return null
     }
