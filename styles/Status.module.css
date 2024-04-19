@@ -1,10 +1,10 @@
 .status {
-    display: flex;
-    flex-direction: row;
-    align-items: center; /* Ensures vertical alignment */
-    padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Ensures vertical alignment */
+  padding-left: 10px;
 }
 
 .status svg {
-    margin-left: 10px;
+  margin-left: 10px;
 }
