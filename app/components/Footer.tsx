@@ -2,6 +2,9 @@ import styles from "../../styles/Footer.module.css";
 import Image from "next/image";
 import NextLink from "next/link";
 import { FaArrowUpFromBracket } from "react-icons/fa6";
+import Status from "./Status";
+import React from "react";
+import { FiCornerDownRight } from "react-icons/fi";
 
 export default function Footer() {
   return (
@@ -35,6 +38,11 @@ export default function Footer() {
               <br />
               Sunday: 2:00pm - 6:00pm
             </p>
+            <br />
+            <div className={styles.status}>
+              <FiCornerDownRight />
+              <Status />
+            </div>
           </div>
           <div className={styles.copyright}>
             <p>

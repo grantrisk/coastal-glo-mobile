@@ -1,0 +1,11 @@
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: center;
+  padding: 10px 0 10px 10px;
+}
+
+.status svg {
+  margin-left: 10px;
+}

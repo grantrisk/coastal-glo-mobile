@@ -76,6 +76,16 @@
   align-items: flex-end;
 }
 
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Ensures vertical alignment */
+}
+
+.status svg {
+  margin-right: 10px;
+}
+
 @media (max-width: 768px) {
   .footerContent {
     flex-direction: column;
