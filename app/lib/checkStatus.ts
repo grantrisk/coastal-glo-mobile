@@ -25,15 +25,22 @@ function checkStatus(currentTime: Date): string {
     const closingSoonTime = new Date(closingTime.getTime() - 30 * 60 * 1000); // 30 minutes before closing
 
     if (currentTime >= openingSoonTime && currentTime < openingTime) {
+      console.log("Opening Soon");
       return businessStatus.openingSoon;
     } else if (currentTime >= closingSoonTime && currentTime < closingTime) {
+      console.log("Closing Soon");
       return businessStatus.closingSoon;
     } else if (currentTime >= openingTime && currentTime < closingTime) {
+      console.log("Open");
       return businessStatus.open;
+    } else if (currentTime < openingTime || currentTime >= closingTime) {
+      console.log("Closed");
+      return businessStatus.closed;
     }
   }
 
-  return businessStatus.closed;
+  console.log("Error: No business hours found.");
+  return "";
 }
 
 export default checkStatus;
