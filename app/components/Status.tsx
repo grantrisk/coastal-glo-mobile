@@ -8,28 +8,47 @@ import {
   BsSunFill,
 } from "react-icons/bs";
 import styles from "../../styles/Status.module.css";
-import { businessStatus } from "../lib/businessStatus";
 import { FaPersonWalkingLuggage } from "react-icons/fa6";
 
 const Status: React.FC = () => {
-  const [status, setStatus] = useState("Loading...");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
-    fetch("/api/status")
+    console.log("Fetching status...");
+    // URL of the AWS Lambda API Gateway endpoint
+    const url =
+      "https://sz8mehug3g.execute-api.us-east-1.amazonaws.com/checkBusinessStatus";
+
+    fetch(url)
       .then((response) => {
+        console.log("Response:", JSON.stringify(response));
         if (!response.ok) {
           throw new Error(`HTTP status ${response.status}`);
         }
         return response.json();
       })
-      .then((data) => setStatus(data.status))
+      .then((data) => {
+        console.log("Data:", JSON.stringify(data));
+        setStatus(data.status);
+      })
       .catch((error) => {
         console.error("Failed to fetch status:", error);
-        setStatus("Error fetching status");
+        setStatus("");
       });
   }, []);
 
+  /*if (status === "" || status === "Loading...") {
+    return null;
+  }*/
+
   const iconSize = "1.5em";
+  const businessStatus = {
+    open: "Open",
+    openingSoon: "Opening Soon!",
+    closed: "Closed",
+    closingSoon: "Closing Soon",
+    vacation: "On Vacation",
+  };
 
   const getIcon = (currentStatus: string) => {
     switch (currentStatus) {
@@ -44,24 +63,24 @@ const Status: React.FC = () => {
       case businessStatus.vacation:
         return <FaPersonWalkingLuggage size={iconSize} />;
       default:
-        return null; // You might want to have a default icon or return null
+        return null;
     }
   };
 
   const getStatusColor = (currentStatus: string) => {
     switch (currentStatus) {
       case businessStatus.open:
-        return "#b6d7a8"; // A greenish color
+        return "#b6d7a8";
       case businessStatus.openingSoon:
-        return "#ffd966"; // A yellow color
+        return "#ffd966";
       case businessStatus.closed:
-        return "#ea9999"; // A reddish color
+        return "#ea9999";
       case businessStatus.closingSoon:
-        return "#f9cb9c"; // A lighter orange
+        return "#f9cb9c";
       case businessStatus.vacation:
-        return "#a3c6e6"; // A blue color
+        return "#a3c6e6";
       default:
-        return "#b6d7a8"; // Grey color for loading or error
+        return "#ccc";
     }
   };
 
@@ -69,11 +88,13 @@ const Status: React.FC = () => {
     backgroundColor: getStatusColor(status),
   };
 
-  return (
+  return status ? (
     <div className={styles.status} style={containerStyle}>
       <p>{status}</p>
       {getIcon(status)}
     </div>
+  ) : (
+    <div />
   );
 };
 
