@@ -37,10 +37,6 @@ const Status: React.FC = () => {
       });
   }, []);
 
-  /*if (status === "" || status === "Loading...") {
-    return null;
-  }*/
-
   const iconSize = "1.5em";
   const businessStatus = {
     open: "Open",
