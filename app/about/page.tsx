@@ -72,7 +72,6 @@ export default function About() {
           </section>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

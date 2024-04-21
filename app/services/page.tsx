@@ -97,7 +97,6 @@ export default function Services() {
           </p>
         </section>
       </main>
-      <Footer />
     </>
   );
 }
