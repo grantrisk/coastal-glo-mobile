@@ -84,10 +84,17 @@
   border-radius: 4px;
   margin: 10px;
   width: 350px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
   min-height: 100%;
+  transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+   background: #ffe3c0;
+  transition: 0.3s;
 }
 
 .container {

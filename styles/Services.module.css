@@ -80,7 +80,7 @@
   padding: 20px; /* Increased padding for spacious layout */
   /*max-width: 800px;*/
   width: 85%;
-  margin: 0 auto 50px; /* Added margin for spacing from other sections */
+  margin: 50px auto 50px; /* Added margin for spacing from other sections */
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
@@ -100,6 +100,26 @@
   font-size: 1rem; /* Appropriate font size for readability */
   color: var(--color-quaternary); /* Slightly lighter text for contrast */
   padding: 8px 0; /* Spacing between list items */
+}
+
+.productSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  padding: 50px 20px 30px;
+  /*background-color: #f9f9f9; !* Light grey background for subtle contrast *!*/
+  border-radius: 5px;
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* Soft shadow for depth *!*/
+  margin-bottom: 20px; /* Space between product sections */
+}
+
+.productCategory {
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 @media (max-width: 768px) {
