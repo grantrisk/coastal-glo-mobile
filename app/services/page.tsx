@@ -55,14 +55,14 @@ export default function Services() {
 
           <ServiceCard
             title="Coastal Glo Membership"
-            description="Become a member and enjoy 2 custom spray tans per month, with your choice of classic or rapid tan. Membership includes priority booking and discounted session rates."
-            price="$90/month"
+            description="Become a member and enjoy 2 custom spray tans per month, with your choice of classic or rapid tan. Membership includes priority booking and discounted products."
+            price="$80/month"
           />
 
           <ServiceCard
             title="Coastal Glo Premium Membership"
-            description="Upgrade to premium membership for 3 custom spray tans per month, with your choice of classic or rapid tan. Enjoy priority booking and even better discounted session rates."
-            price="$100/month"
+            description="Upgrade to premium membership for 3 custom spray tans per month, with your choice of classic or rapid tan. Enjoy priority booking and even better discounted products."
+            price="$115/month"
           />
         </section>
 
