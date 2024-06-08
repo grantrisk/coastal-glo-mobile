@@ -18,30 +18,23 @@ export default function Services() {
           </p>
         </section>
 
-        <section className={styles.bookingSection}>
-          <Link
-            href={"https://coastalglomobile.glossgenius.com/services"}
-            prefetch
-            target={"_blank"}
-          >
-            <p className={styles.bookNowButton}>Book Now</p>
-          </Link>
-        </section>
-
         <section className={styles.serviceSection}>
           <ServiceCard
+            service={true}
             title="Student Tan"
             description="High school and college students enjoy a special discount. Perfect for prom, special events, or just maintaining a summer glow!"
             price="$30"
           />
 
           <ServiceCard
+            service={true}
             title="Classic Mobile Tan"
             description="Enjoy a quick, customizable glow in the comfort of your home. No need to worry about what to wear or how you look."
             price="$40"
           />
 
           <ServiceCard
+            service={true}
             title="Rapid Mobile Tan"
             description="Need a last-minute glow? The rapid tan allows you to shower within 2-5 hours! Ideal if you don’t have time to wait the full 8-10 hours for a classic tan. For a light tan, shower after two hours; wait four to five hours for a deeper, darker tan. The color depth is entirely up to you."
             price="$50"
@@ -49,17 +42,20 @@ export default function Services() {
           />
 
           <ServiceCard
+            service={true}
             title="Tanning Parties / Group Rates"
             description="Host a glow party or get tan with your friends! Discounts available for groups of 3 or more. Please message for details."
           />
 
           <ServiceCard
+            service={true}
             title="Coastal Glo Membership"
             description="Become a member and enjoy 2 custom spray tans per month, with your choice of classic or rapid tan. Membership includes priority booking and discounted products."
             price="$80/month"
           />
 
           <ServiceCard
+            service={true}
             title="Coastal Glo Premium Membership"
             description="Upgrade to premium membership for 3 custom spray tans per month, with your choice of classic or rapid tan. Enjoy priority booking and even better discounted products."
             price="$115/month"
@@ -93,16 +89,19 @@ export default function Services() {
             Scent Drops (Add-Ons to Spray Tan)
           </h4>
           <ServiceCard
+            service={false}
             title="Coconut Scent Drops"
             description="Add a tropical escape to your spray tan."
             price="$7"
           />
           <ServiceCard
+            service={false}
             title="Pineapple Scent Drops"
             description="Infuse your spray tan with a refreshingly sweet aroma."
             price="$7"
           />
           <ServiceCard
+            service={false}
             title="Orange Ginger Scent Drops"
             description="Enhance your spray tan with a zesty and invigorating scent."
             price="$7"
@@ -112,6 +111,7 @@ export default function Services() {
         <section className={styles.productSection}>
           <h4 className={styles.productCategory}>Purchasable Products</h4>
           <ServiceCard
+            service={false}
             title="Tan Extending Lotion"
             description="Extend your tan with this moisturizing lotion. Purchase and use at home."
             price="$25"

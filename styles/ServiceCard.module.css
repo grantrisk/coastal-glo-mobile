@@ -92,8 +92,8 @@
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-   background: #ffe3c0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  background: #ffe3c0;
   transition: 0.3s;
 }
 
@@ -120,6 +120,12 @@
   margin-bottom: 20px;
 }
 
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .price {
   color: #333;
 }
@@ -131,13 +137,12 @@
   border: 1px solid #000000;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin: auto;
-  width: 100%;
+  transition: transform 0.3s;
   text-align: center;
   text-decoration: none;
 }
 
 .button:hover {
-  background-color: var(--color-secondary);
+  transition: transform 0.3s;
+  transform: scale(1.1);
 }
