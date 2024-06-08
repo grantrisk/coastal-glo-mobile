@@ -146,3 +146,46 @@
   transition: transform 0.3s;
   transform: scale(1.1);
 }
+
+.modal {
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.calendar {
+  border: none;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+    max-width: 600px;
+}
+
+.timePicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.timePicker label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.timeSelect {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+}
+
+/*TODO: update this for mobile*/
