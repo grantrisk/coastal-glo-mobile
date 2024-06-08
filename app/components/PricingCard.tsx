@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import styles from "../../styles/PricingCard.module.css";
-import Link from "next/link";
+import Modal from "./Modal"; // Assuming you have a Modal component
 
 interface PricingCardProps {
   title: string;
@@ -17,6 +19,16 @@ const PricingCard: React.FC<PricingCardProps> = ({
   recommended,
   service = false,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className={`${styles.card} ${recommended ? styles.recommended : ""}`}>
       {recommended && (
@@ -34,18 +46,19 @@ const PricingCard: React.FC<PricingCardProps> = ({
           <div className={styles.priceContainer}>
             <p className={styles.price}>{price}</p>
             {service && (
-              <Link
-                href={"https://coastalglomobile.glossgenius.com/services"}
-                prefetch
-                target={"_blank"}
-                className={styles.button}
-              >
+              <button onClick={openModal} className={styles.button}>
                 Book Now
-              </Link>
+              </button>
             )}
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </Modal>
+      )}
     </div>
   );
 };
