@@ -1,21 +1,21 @@
 import React from "react";
-import styles from "../../styles/ServiceCard.module.css";
+import styles from "../../styles/PricingCard.module.css";
 import Link from "next/link";
 
-interface ServiceCardProps {
-  service: boolean;
+interface PricingCardProps {
   title: string;
   description: string;
   price?: string;
   recommended?: boolean;
+  service?: boolean;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({
-  service,
+const PricingCard: React.FC<PricingCardProps> = ({
   title,
   description,
   price,
   recommended,
+  service = false,
 }) => {
   return (
     <div className={`${styles.card} ${recommended ? styles.recommended : ""}`}>
@@ -50,4 +50,4 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   );
 };
 
-export default ServiceCard;
+export default PricingCard;
