@@ -74,6 +74,22 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 onChange={handleDateChange}
                 value={selectedDate}
                 className={styles.calendar}
+                tileClassName={({ date, view }) => {
+                  const classes = [];
+                  if (view === "month") {
+                    const day = date.getDay();
+                    if (day === 0 || day === 6) {
+                      classes.push(styles.weekend);
+                    }
+                    if (
+                      selectedDate &&
+                      date.toDateString() === selectedDate.toDateString()
+                    ) {
+                      classes.push(styles.selectedDate);
+                    }
+                  }
+                  return classes.join(" ");
+                }}
                 maxDate={
                   new Date(new Date().setMonth(new Date().getMonth() + 1))
                 }
