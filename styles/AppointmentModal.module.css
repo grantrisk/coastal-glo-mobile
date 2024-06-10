@@ -1,7 +1,7 @@
 .modal {
   height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
@@ -66,6 +66,44 @@
 .selectedDate {
   background: #006edc;
   color: white;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.buttonContainerSingle {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.buttonLeft {
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.buttonRight {
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  text-align: center;
+  text-decoration: none;
 }
 
 /*TODO: update this for mobile*/
