@@ -133,4 +133,18 @@
   margin-left: auto; /* Align Next and Confirm buttons to the right */
 }
 
+.disabledButton {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 1px solid #999;
+}
+
+.buttonRight:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 1px solid #999;
+}
+
 /*TODO: update this for mobile*/

@@ -121,7 +121,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
               <div className={styles.buttonContainerSingle}>
                 <button
                   onClick={handleNextStep}
-                  className={styles.buttonRight}
+                  className={`${styles.buttonRight} ${!selectedDate || !selectedTime ? styles.disabledButton : ""}`}
                   disabled={!selectedDate || !selectedTime}
                 >
                   Next
@@ -184,7 +184,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 </button>
                 <button
                   onClick={handleNextStep}
-                  className={styles.buttonRight}
+                  className={`${styles.buttonRight} ${!clientName || !clientPhone || !clientEmail || !clientAddress ? styles.disabledButton : ""}`}
                   disabled={
                     !clientName ||
                     !clientPhone ||
