@@ -23,6 +23,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [clientPhone, setClientPhone] = useState<string>("");
   const [clientEmail, setClientEmail] = useState<string>("");
   const [clientAddress, setClientAddress] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
@@ -60,7 +62,56 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     setClientPhone("");
     setClientEmail("");
     setClientAddress("");
+    setPhoneError("");
+    setEmailError("");
     setStep(1);
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    if (!value) return value;
+    const phoneNumber = value.replace(/[^\d]/g, "");
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,
+      6,
+    )}-${phoneNumber.slice(6, 10)}`;
+  };
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhoneNumber = formatPhoneNumber(event.target.value);
+    setClientPhone(formattedPhoneNumber);
+  };
+
+  const validatePhoneNumber = (phone: string) => {
+    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const checkPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhoneNumber = formatPhoneNumber(event.target.value);
+    if (!validatePhoneNumber(formattedPhoneNumber)) {
+      setPhoneError("Invalid phone number");
+    } else {
+      setPhoneError("");
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const checkEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const email = event.target.value;
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+    } else {
+      setEmailError("");
+    }
   };
 
   return (
@@ -147,21 +198,25 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 <label htmlFor="clientPhone" className={styles.label}>
                   Phone:
                 </label>
+                {phoneError && <p className={styles.error}>{phoneError}</p>}
                 <input
-                  type="phone"
+                  type="text"
                   id="clientPhone"
                   value={clientPhone}
-                  onChange={(e) => setClientPhone(e.target.value)}
+                  onChange={handlePhoneChange}
+                  onBlur={checkPhone}
                   className={styles.input}
                 />
                 <label htmlFor="clientEmail" className={styles.label}>
                   Email:
                 </label>
+                {emailError && <p className={styles.error}>{emailError}</p>}
                 <input
                   type="email"
                   id="clientEmail"
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
+                  onBlur={checkEmail}
                   className={styles.input}
                 />
                 <label htmlFor="clientAddress" className={styles.label}>

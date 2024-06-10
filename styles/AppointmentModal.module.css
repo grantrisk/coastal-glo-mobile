@@ -147,4 +147,9 @@
   border: 1px solid #999;
 }
 
+.error {
+  color: red;
+  font-size: 12px;
+}
+
 /*TODO: update this for mobile*/
