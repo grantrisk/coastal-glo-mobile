@@ -22,7 +22,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [clientName, setClientName] = useState<string>("");
   const [clientPhone, setClientPhone] = useState<string>("");
   const [clientEmail, setClientEmail] = useState<string>("");
-  const [clientAddress, setClientAddress] = useState<string>("");
+  const [clientStreet, setClientStreet] = useState<string>("");
+  const [clientApt, setClientApt] = useState<string>("");
+  const [clientCity, setClientCity] = useState<string>("");
+  const [clientZip, setClientZip] = useState<string>("");
+  const [clientState, setClientState] = useState<string>("NC");
   const [emailError, setEmailError] = useState<string>("");
   const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
@@ -61,7 +65,10 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     setClientName("");
     setClientPhone("");
     setClientEmail("");
-    setClientAddress("");
+    setClientStreet("");
+    setClientApt("");
+    setClientCity("");
+    setClientZip("");
     setPhoneError("");
     setEmailError("");
     setStep(1);
@@ -194,6 +201,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   className={styles.input}
+                  placeholder={"Jane Doe"}
                 />
                 <label htmlFor="clientPhone" className={styles.label}>
                   Phone:
@@ -206,6 +214,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   onChange={handlePhoneChange}
                   onBlur={checkPhone}
                   className={styles.input}
+                  placeholder={"(555) 555-5555"}
                 />
                 <label htmlFor="clientEmail" className={styles.label}>
                   Email:
@@ -218,16 +227,51 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   onChange={(e) => setClientEmail(e.target.value)}
                   onBlur={checkEmail}
                   className={styles.input}
+                  placeholder={"email@provider.com"}
                 />
                 <label htmlFor="clientAddress" className={styles.label}>
                   Address:
                 </label>
                 <input
                   type="text"
-                  id="clientAddress"
-                  value={clientAddress}
-                  onChange={(e) => setClientAddress(e.target.value)}
-                  className={styles.input}
+                  id="clientStreet"
+                  value={clientStreet}
+                  onChange={(e) => setClientStreet(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Address (Street Number)"}
+                />
+                <input
+                  type="text"
+                  id="clientApt"
+                  value={clientApt}
+                  onChange={(e) => setClientApt(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Address 2 (Apt. / Suite #)"}
+                />
+                <input
+                  type="text"
+                  id="clientCity"
+                  value={clientCity}
+                  onChange={(e) => setClientCity(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"City"}
+                />
+                <input
+                  type="text"
+                  id="clientZip"
+                  value={clientZip}
+                  onChange={(e) => setClientZip(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Zip Code"}
+                />
+                <input
+                  type="text"
+                  id="clientState"
+                  value={clientState}
+                  onChange={(e) => setClientState(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"State"}
+                  disabled
                 />
               </div>
               <div className={styles.buttonContainer}>
@@ -239,12 +283,23 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 </button>
                 <button
                   onClick={handleNextStep}
-                  className={`${styles.buttonRight} ${!clientName || !clientPhone || !clientEmail || !clientAddress ? styles.disabledButton : ""}`}
+                  className={`${styles.buttonRight} ${
+                    !clientName ||
+                    !clientPhone ||
+                    !clientEmail ||
+                    !clientStreet ||
+                    !clientCity ||
+                    !clientZip
+                      ? styles.disabledButton
+                      : ""
+                  }`}
                   disabled={
                     !clientName ||
                     !clientPhone ||
                     !clientEmail ||
-                    !clientAddress
+                    !clientStreet ||
+                    !clientCity ||
+                    !clientZip
                   }
                 >
                   Next
@@ -276,7 +331,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   <strong>Email:</strong> {clientEmail}
                 </p>
                 <p>
-                  <strong>Address:</strong> {clientAddress}
+                  <strong>Address:</strong> {clientStreet}
+                  {clientApt && `, ${clientApt}`}, {clientCity}, NC {clientZip}
                 </p>
               </div>
               <div className={styles.buttonContainer}>
