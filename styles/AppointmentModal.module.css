@@ -51,14 +51,6 @@
   text-decoration: none;
 }
 
-.input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 8px;
-  font-size: 16px;
-}
-
 .weekend {
   color: black;
 }
@@ -68,11 +60,47 @@
   color: white;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.label {
+  width: 80%; /* Center the labels */
+  display: block;
+  font-weight: bold;
+  margin: 0 auto 5px;
+}
+
+.input {
+  display: block;
+  width: 80%; /* Reduced width for better spacing */
+  margin: 10px auto 30px; /* Centered the input fields */
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 80%;
+}
+
+.review > p {
+  margin: 10px 0;
+}
+
 .buttonContainer {
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  padding: 0 20px;
 }
 
 .buttonContainerSingle {
@@ -80,20 +108,10 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+  padding: 0 20px;
 }
 
-.buttonLeft {
-  padding: 10px 20px;
-  background-color: var(--color-primary);
-  color: black;
-  border: 1px solid #000000;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 0.3s;
-  text-align: center;
-  text-decoration: none;
-}
-
+.buttonLeft,
 .buttonRight {
   padding: 10px 20px;
   background-color: var(--color-primary);
@@ -104,6 +122,15 @@
   transition: transform 0.3s;
   text-align: center;
   text-decoration: none;
+  min-width: 80px;
+}
+
+.buttonLeft {
+  margin-right: auto; /* Align Back button to the left */
+}
+
+.buttonRight {
+  margin-left: auto; /* Align Next and Confirm buttons to the right */
 }
 
 /*TODO: update this for mobile*/

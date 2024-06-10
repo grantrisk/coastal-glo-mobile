@@ -132,39 +132,49 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
           {step === 2 && (
             <>
-              <h2>Enter Client Information</h2>
-              <label htmlFor="clientName">Name:</label>
-              <input
-                type="text"
-                id="clientName"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor="clientPhone">Phone:</label>
-              <input
-                type="phone"
-                id="clientPhone"
-                value={clientPhone}
-                onChange={(e) => setClientPhone(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor="clientEmail">Email:</label>
-              <input
-                type="email"
-                id="clientEmail"
-                value={clientEmail}
-                onChange={(e) => setClientEmail(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor="clientAddress">Address:</label>
-              <input
-                type="text"
-                id="clientAddress"
-                value={clientAddress}
-                onChange={(e) => setClientAddress(e.target.value)}
-                className={styles.input}
-              />
+              <h2>Enter Your Information</h2>
+              <div className={styles.form}>
+                <label htmlFor="clientName" className={styles.label}>
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  id="clientName"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                  className={styles.input}
+                />
+                <label htmlFor="clientPhone" className={styles.label}>
+                  Phone:
+                </label>
+                <input
+                  type="phone"
+                  id="clientPhone"
+                  value={clientPhone}
+                  onChange={(e) => setClientPhone(e.target.value)}
+                  className={styles.input}
+                />
+                <label htmlFor="clientEmail" className={styles.label}>
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  id="clientEmail"
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
+                  className={styles.input}
+                />
+                <label htmlFor="clientAddress" className={styles.label}>
+                  Address:
+                </label>
+                <input
+                  type="text"
+                  id="clientAddress"
+                  value={clientAddress}
+                  onChange={(e) => setClientAddress(e.target.value)}
+                  className={styles.input}
+                />
+              </div>
               <div className={styles.buttonContainer}>
                 <button
                   onClick={handlePreviousStep}
@@ -190,28 +200,30 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
           {step === 3 && (
             <>
-              <h2>Confirm Appointment</h2>
-              <p>
-                <strong>Service:</strong> {service}
-              </p>
-              <p>
-                <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
-              </p>
-              <p>
-                <strong>Time:</strong> {selectedTime}
-              </p>
-              <p>
-                <strong>Client Name:</strong> {clientName}
-              </p>
-              <p>
-                <strong>Phone:</strong> {clientPhone}
-              </p>
-              <p>
-                <strong>Email:</strong> {clientEmail}
-              </p>
-              <p>
-                <strong>Address:</strong> {clientAddress}
-              </p>
+              <h2>Submit Appointment</h2>
+              <div className={styles.review}>
+                <p>
+                  <strong>Service:</strong> {service}
+                </p>
+                <p>
+                  <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Time:</strong> {selectedTime}
+                </p>
+                <p>
+                  <strong>Client Name:</strong> {clientName}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {clientPhone}
+                </p>
+                <p>
+                  <strong>Email:</strong> {clientEmail}
+                </p>
+                <p>
+                  <strong>Address:</strong> {clientAddress}
+                </p>
+              </div>
               <div className={styles.buttonContainer}>
                 <button
                   onClick={handlePreviousStep}
@@ -220,7 +232,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   Back
                 </button>
                 <button onClick={handleSubmit} className={styles.buttonRight}>
-                  Confirm
+                  Submit
                 </button>
               </div>
             </>
