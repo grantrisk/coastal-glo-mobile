@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/Modal.module.css";
 
 interface ModalProps {
@@ -7,10 +9,35 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+    }, 300); // Match the duration of the animation
+  };
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
-    <div className={styles.modalBackdrop}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
+    <div
+      className={`${styles.modalBackdrop} ${isClosing ? styles.fadeOut : ""}`}
+    >
+      <div
+        className={`${styles.modalContent} ${isClosing ? styles.slideOut : ""}`}
+      >
+        <button className={styles.closeButton} onClick={handleClose}>
           &times;
         </button>
         {children}

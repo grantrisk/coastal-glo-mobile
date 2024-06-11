@@ -9,6 +9,11 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalBackdrop.fadeOut {
+  animation: fadeOut 0.3s ease-out;
 }
 
 .modalContent {
@@ -20,6 +25,11 @@
   height: 70%;
   width: 70%;
   max-width: 800px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modalContent.slideOut {
+  animation: slideOut 0.3s ease-out;
 }
 
 .closeButton {
@@ -31,4 +41,40 @@
   font-size: 2rem;
   cursor: pointer;
   width: 30px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
 }
