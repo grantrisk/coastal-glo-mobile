@@ -6,6 +6,17 @@
   flex-direction: column;
 }
 
+.dateTimeSection {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
 .calendar {
   border: none;
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
@@ -66,8 +77,8 @@
   align-items: center;
   padding: 20px;
   width: 100%;
+  max-width: 1000px;
   overflow-y: auto;
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
 }
 
 .label {
@@ -96,6 +107,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 80%;
+  max-width: 1000px;
 }
 
 .review > p {

@@ -127,55 +127,57 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         <div className={styles.modal}>
           {step === 1 && (
             <>
-              <h2>Select Appointment Date and Time</h2>
-              <Calendar
-                onChange={handleDateChange}
-                value={selectedDate}
-                className={styles.calendar}
-                tileClassName={({ date, view }) => {
-                  const classes = [];
-                  if (view === "month") {
-                    const day = date.getDay();
-                    if (day === 0 || day === 6) {
-                      classes.push(styles.weekend);
+              <h2>Appointment Date and Time</h2>
+              <div className={styles.dateTimeSection}>
+                <Calendar
+                  onChange={handleDateChange}
+                  value={selectedDate}
+                  className={styles.calendar}
+                  tileClassName={({ date, view }) => {
+                    const classes = [];
+                    if (view === "month") {
+                      const day = date.getDay();
+                      if (day === 0 || day === 6) {
+                        classes.push(styles.weekend);
+                      }
+                      if (
+                        selectedDate &&
+                        date.toDateString() === selectedDate.toDateString()
+                      ) {
+                        classes.push(styles.selectedDate);
+                      }
                     }
-                    if (
-                      selectedDate &&
-                      date.toDateString() === selectedDate.toDateString()
-                    ) {
-                      classes.push(styles.selectedDate);
-                    }
+                    return classes.join(" ");
+                  }}
+                  maxDate={
+                    new Date(new Date().setMonth(new Date().getMonth() + 1))
                   }
-                  return classes.join(" ");
-                }}
-                maxDate={
-                  new Date(new Date().setMonth(new Date().getMonth() + 1))
-                }
-                minDate={new Date()}
-              />
-              {selectedDate && (
-                <div className={styles.timePicker}>
-                  <label htmlFor="time">Select Time:</label>
-                  <select
-                    id="time"
-                    onChange={handleTimeChange}
-                    value={selectedTime || ""}
-                    className={styles.timeSelect}
-                  >
-                    <option value="">Select a time</option>
-                    <option value="08:00">08:00 AM</option>
-                    <option value="09:00">09:00 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="12:00">12:00 PM</option>
-                    <option value="13:00">01:00 PM</option>
-                    <option value="14:00">02:00 PM</option>
-                    <option value="15:00">03:00 PM</option>
-                    <option value="16:00">04:00 PM</option>
-                    <option value="17:00">05:00 PM</option>
-                  </select>
-                </div>
-              )}
+                  minDate={new Date()}
+                />
+                {selectedDate && (
+                  <div className={styles.timePicker}>
+                    <label htmlFor="time">Select Time:</label>
+                    <select
+                      id="time"
+                      onChange={handleTimeChange}
+                      value={selectedTime || ""}
+                      className={styles.timeSelect}
+                    >
+                      <option value="">Select a time</option>
+                      <option value="08:00">08:00 AM</option>
+                      <option value="09:00">09:00 AM</option>
+                      <option value="10:00">10:00 AM</option>
+                      <option value="11:00">11:00 AM</option>
+                      <option value="12:00">12:00 PM</option>
+                      <option value="13:00">01:00 PM</option>
+                      <option value="14:00">02:00 PM</option>
+                      <option value="15:00">03:00 PM</option>
+                      <option value="16:00">04:00 PM</option>
+                      <option value="17:00">05:00 PM</option>
+                    </select>
+                  </div>
+                )}
+              </div>
               <div className={styles.buttonContainerSingle}>
                 <button
                   onClick={handleNextStep}
