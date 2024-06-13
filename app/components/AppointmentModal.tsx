@@ -7,6 +7,8 @@ import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/AppointmentModal.module.css";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { db } from "../lib/firebase"; // Import Firestore instance
+import { collection, addDoc } from "firebase/firestore";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -78,16 +80,34 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         closeModal();
       }, 4000);*/
     } catch (error) {
-      console.error("Failed to submit appointment. Please try again.");
+      console.error("Error submitting appointment: ", error);
       setBtnDisabled(false);
     }
   };
 
-  const submitAppointment = async () => {
+  /*const submitAppointment = async () => {
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
     console.log("Appointment submitted successfully!");
     // await new Promise((resolve, reject) => setTimeout(reject, 3000));
     // console.log("Failed to submit appointment. Please try again.");
+  };*/
+  const submitAppointment = async () => {
+    const appointmentData = {
+      service,
+      selectedDate: selectedDate?.toISOString(),
+      selectedTime,
+      clientName,
+      clientPhone,
+      clientEmail,
+      clientStreet,
+      clientApt,
+      clientCity,
+      clientZip,
+      clientState,
+    };
+
+    // FIXME: add App Check
+    await addDoc(collection(db, "appointments"), appointmentData);
   };
 
   const closeModal = () => {
