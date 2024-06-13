@@ -32,6 +32,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [emailError, setEmailError] = useState<string>("");
   const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
+  const [btnDisabled, setBtnDisabled] = useState<boolean>(false);
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
     setSelectedDate(date as Date);
@@ -50,67 +51,48 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   };
 
   const handleSubmit = async () => {
-    await toast.promise(submitAppointment(), {
-      pending: {
-        render() {
-          return "Submitting appointment...";
+    try {
+      setBtnDisabled(true);
+      await toast.promise(submitAppointment(), {
+        pending: {
+          render() {
+            return "Submitting appointment...";
+          },
         },
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      },
-      success: {
-        render() {
-          return "Appointment submitted successfully!";
+        success: {
+          render() {
+            return "Appointment submitted successfully!";
+          },
         },
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      },
-      error: {
-        render() {
-          return "Failed to submit appointment. Please try again.";
+        error: {
+          render() {
+            return "Failed to submit appointment. Please try again.";
+          },
         },
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      },
-    });
-
-    // Handle the final submission logic
-    // TODO: for now reset logic and close modal
-    // FIXME: clicking the close button and the submit button don't have the same behavior
-    //  potentially move the modal closing animation to the pricing card area?
-    closeModal();
+      });
+      // TODO: Handle the final submission logic
+      //  for now reset logic and close modal
+      // FIXME: clicking the close button and the submit button don't have the same behavior
+      //  potentially move the modal closing animation to the pricing card area?
+      /*setTimeout(() => {
+        closeModal();
+      }, 4000);*/
+    } catch (error) {
+      console.error("Failed to submit appointment. Please try again.");
+      setBtnDisabled(false);
+    }
   };
 
   const submitAppointment = async () => {
-    // Simulate an async operation (e.g., API call)
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
     console.log("Appointment submitted successfully!");
+    // await new Promise((resolve, reject) => setTimeout(reject, 3000));
+    // console.log("Failed to submit appointment. Please try again.");
   };
 
   const closeModal = () => {
-    resetModal();
     onClose();
+    resetModal();
   };
 
   const resetModal = () => {
@@ -126,6 +108,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     setPhoneError("");
     setEmailError("");
     setStep(1);
+    setBtnDisabled(false);
   };
 
   const formatPhoneNumber = (value: string) => {
@@ -177,9 +160,20 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
   return (
     <>
-      <ToastContainer />
       {isOpen && (
         <Modal onClose={closeModal}>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
           <div className={styles.modal}>
             {step === 1 && (
               <>
@@ -401,7 +395,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   >
                     Back
                   </button>
-                  <button onClick={handleSubmit} className={styles.buttonRight}>
+                  <button
+                    onClick={handleSubmit}
+                    className={styles.buttonRight}
+                    disabled={btnDisabled}
+                  >
                     Submit
                   </button>
                 </div>
