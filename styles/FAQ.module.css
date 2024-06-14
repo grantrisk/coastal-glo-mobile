@@ -21,7 +21,8 @@
   margin: auto;
 }
 
-.faqSection > div {
+/* Two divs down because of Scroll Wrapper */
+.faqSection > div > div {
   border: 2px solid rgba(204, 142, 117, 0.47);
   padding: 20px;
   border-radius: 10px;
@@ -31,7 +32,7 @@
   transition: box-shadow 0.3s;
 }
 
-.faqSection > div:hover {
+.faqSection > div > div:hover {
   box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s;
 }
@@ -45,7 +46,7 @@
     padding: 0;
   }
 
-  .faqSection > div {
+  .faqSection > div > div {
     border: none;
     padding: 0;
     margin: 10px;
@@ -53,7 +54,7 @@
     transition: none;
   }
 
-  .faqSection > div:hover {
+  .faqSection > div > div:hover {
     box-shadow: none;
     transition: none;
   }
