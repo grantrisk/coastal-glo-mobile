@@ -40,8 +40,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     setSelectedDate(date as Date);
   };
 
-  const handleTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTime(event.target.value);
+  const handleTimeClick = (time: string) => {
+    setSelectedTime(time);
   };
 
   const handleNextStep = () => {
@@ -178,6 +178,19 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     }
   };
 
+  const availableTimes = [
+    "08:00 AM",
+    "09:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "01:00 PM",
+    "02:00 PM",
+    "03:00 PM",
+    "04:00 PM",
+    "05:00 PM",
+  ];
+
   return (
     <>
       {isOpen && (
@@ -207,6 +220,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                       const classes = [];
                       if (view === "month") {
                         const day = date.getDay();
+                        if (date.toDateString() === new Date().toDateString()) {
+                          classes.push(styles.today);
+                        }
                         if (day === 0 || day === 6) {
                           classes.push(styles.weekend);
                         }
@@ -225,26 +241,18 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     minDate={new Date()}
                   />
                   {selectedDate && (
-                    <div className={styles.timePicker}>
-                      <label htmlFor="time">Select Time:</label>
-                      <select
-                        id="time"
-                        onChange={handleTimeChange}
-                        value={selectedTime || ""}
-                        className={styles.timeSelect}
-                      >
-                        <option value="">Select a time</option>
-                        <option value="08:00">08:00 AM</option>
-                        <option value="09:00">09:00 AM</option>
-                        <option value="10:00">10:00 AM</option>
-                        <option value="11:00">11:00 AM</option>
-                        <option value="12:00">12:00 PM</option>
-                        <option value="13:00">01:00 PM</option>
-                        <option value="14:00">02:00 PM</option>
-                        <option value="15:00">03:00 PM</option>
-                        <option value="16:00">04:00 PM</option>
-                        <option value="17:00">05:00 PM</option>
-                      </select>
+                    <div className={styles.timeGrid}>
+                      {availableTimes.map((time) => (
+                        <div
+                          key={time}
+                          className={`${styles.timeSlot} ${
+                            selectedTime === time ? styles.selectedTimeSlot : ""
+                          }`}
+                          onClick={() => handleTimeClick(time)}
+                        >
+                          {time}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>

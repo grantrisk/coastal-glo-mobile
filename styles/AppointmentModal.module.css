@@ -17,7 +17,7 @@
 .dateTimeSection {
   height: 100%;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -36,27 +36,35 @@
   max-width: 600px;
 }
 
-.timePicker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   margin-top: 20px;
 }
 
-.timePicker label {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.timeSelect {
+.timeSlot {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  width: 100%;
-  max-width: 200px;
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s,
+  color 0.3s;
+}
+
+.timeSlot:hover {
+  background-color: #f0f0f0;
+}
+
+.selectedTimeSlot {
+  background-color: var(--color-tertiary);
+  color: white;
+}
+
+.selectedTimeSlot:hover {
+  background-color: var(--color-quaternary);
 }
 
 .button {
@@ -75,9 +83,25 @@
   color: black;
 }
 
-.selectedDate {
-  background: #006edc;
+/* Overwrite default styles for react-calendar */
+.today {
+  background: #5ba7f8;
   color: white;
+}
+
+.today:hover {
+  background: #007aff !important;
+}
+
+.selectedDate {
+  background: var(--color-tertiary) !important;
+  color: white;
+}
+
+.selectedDate:hover,
+.selectedDate:active,
+.selectedDate:focus {
+  background: var(--color-quaternary) !important;
 }
 
 .form {
@@ -187,5 +211,21 @@
   color: red;
   font-size: 12px;
 }
+
+/* Custom styles for react-calendar */
+/*.react-calendar__tile--now {
+  background: blue !important;
+  color: white !important;
+}
+
+.react-calendar__tile--active {
+  background: var(--color-tertiary) !important;
+  color: white !important;
+}
+
+!* ~~~ active day styles ~~~ *!
+.react-calendar__tile--range {
+  background: green !important;
+}*/
 
 /*TODO: update this for mobile*/
