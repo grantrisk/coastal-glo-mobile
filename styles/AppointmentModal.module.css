@@ -59,7 +59,7 @@
 }
 
 .selectedTimeSlot {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-quaternary);
   color: white;
 }
 
@@ -85,16 +85,16 @@
 
 /* Overwrite default styles for react-calendar */
 .today {
-  background: #5ba7f8;
+  background: var(--color-secondary);
   color: white;
 }
 
 .today:hover {
-  background: #007aff !important;
+  background: #e8a58b !important;
 }
 
 .selectedDate {
-  background: var(--color-tertiary) !important;
+  background: var(--color-quaternary) !important;
   color: white;
 }
 
