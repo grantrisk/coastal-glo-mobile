@@ -115,6 +115,7 @@
 }
 
 .label {
+  color: var(--color-quaternary);
   width: 80%;
   display: block;
   font-weight: bold;
@@ -131,6 +132,11 @@
   border-radius: 4px;
 }
 
+.input:focus {
+  outline: none;
+  border-color: var(--color-tertiary);
+}
+
 .address {
   margin: 10px auto;
 }
@@ -138,21 +144,37 @@
 .review {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 80%;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
   max-width: 1000px;
   overflow-y: auto;
 }
 
-.review > p {
-  margin: 10px 0;
+.reviewSection {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
 }
 
-.buttonContainerSingle {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  padding: 20px;
+.reviewSection h3 {
+  margin-bottom: 10px;
+  color: var(--color-quaternary);
+  font-size: 18px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 5px;
+}
+
+.reviewSection p {
+  margin: 5px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.reviewSection p strong {
+  color: var(--color-secondary);
 }
 
 .buttonContainer {
@@ -211,21 +233,5 @@
   color: red;
   font-size: 12px;
 }
-
-/* Custom styles for react-calendar */
-/*.react-calendar__tile--now {
-  background: blue !important;
-  color: white !important;
-}
-
-.react-calendar__tile--active {
-  background: var(--color-tertiary) !important;
-  color: white !important;
-}
-
-!* ~~~ active day styles ~~~ *!
-.react-calendar__tile--range {
-  background: green !important;
-}*/
 
 /*TODO: update this for mobile*/

@@ -390,31 +390,53 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
             {step === 3 && (
               <>
-                <h2>Submit Appointment</h2>
+                <h2>Review Your Appointment</h2>
                 <div className={styles.review}>
-                  <p>
-                    <strong>Service:</strong> {service}
-                  </p>
-                  <p>
-                    <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {selectedTime}
-                  </p>
-                  <p>
-                    <strong>Client Name:</strong> {clientName}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {clientPhone}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {clientEmail}
-                  </p>
-                  <p>
-                    <strong>Address:</strong> {clientStreet}
-                    {clientApt && `, ${clientApt}`}, {clientCity}, NC{" "}
-                    {clientZip}
-                  </p>
+                  <div className={styles.reviewSection}>
+                    <h3>Service Information</h3>
+                    <p>
+                      <strong>Service:</strong> {service}
+                    </p>
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {selectedDate?.toLocaleDateString()}
+                    </p>
+                    <p>
+                      <strong>Time:</strong> {selectedTime}
+                    </p>
+                  </div>
+                  <div className={styles.reviewSection}>
+                    <h3>Client Information</h3>
+                    <p>
+                      <strong>Name:</strong> {clientName}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {clientPhone}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {clientEmail}
+                    </p>
+                  </div>
+                  <div className={styles.reviewSection}>
+                    <h3>Address Information</h3>
+                    <p>
+                      <strong>Street:</strong> {clientStreet}
+                    </p>
+                    {clientApt && (
+                      <p>
+                        <strong>Unit:</strong> {clientApt}
+                      </p>
+                    )}
+                    <p>
+                      <strong>City:</strong> {clientCity}
+                    </p>
+                    <p>
+                      <strong>State:</strong> {clientState}
+                    </p>
+                    <p>
+                      <strong>Zip:</strong> {clientZip}
+                    </p>
+                  </div>
                 </div>
                 <div className={styles.buttonContainer}>
                   <button
