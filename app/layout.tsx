@@ -3,6 +3,7 @@ import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
 import Footer from "./components/Footer";
 import React from "react";
+import { ToastContainer } from "react-toastify";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -64,6 +65,18 @@ export default function RootLayout({
       className={`${montserrat.variable} ${playfairDisplay.variable}`}
     >
       <body>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
         {children}
         <Footer />
       </body>

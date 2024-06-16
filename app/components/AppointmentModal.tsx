@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/AppointmentModal.module.css";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
 import { collection, addDoc } from "firebase/firestore";
@@ -76,8 +76,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
       //  for now reset logic and close modal
       // FIXME: clicking the close button and the submit button don't have the same behavior
       //  potentially move the modal closing animation to the pricing card area?
+      closeModal();
       /*setTimeout(() => {
-        closeModal();
       }, 4000);*/
     } catch (error) {
       console.error("Error submitting appointment: ", error);
@@ -85,13 +85,13 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     }
   };
 
-  /*const submitAppointment = async () => {
+  const submitAppointment = async () => {
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
     console.log("Appointment submitted successfully!");
     // await new Promise((resolve, reject) => setTimeout(reject, 3000));
     // console.log("Failed to submit appointment. Please try again.");
-  };*/
-  const submitAppointment = async () => {
+  };
+  /*const submitAppointment = async () => {
     const appointmentData = {
       service,
       selectedDate: selectedDate?.toISOString(),
@@ -108,7 +108,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
     // FIXME: add App Check
     await addDoc(collection(db, "appointments"), appointmentData);
-  };
+  };*/
 
   const closeModal = () => {
     onClose();
@@ -195,18 +195,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     <>
       {isOpen && (
         <Modal onClose={closeModal}>
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
           <div className={styles.modal}>
             {step === 1 && (
               <>
