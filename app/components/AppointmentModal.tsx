@@ -11,13 +11,11 @@ import { db } from "../lib/firebase"; // Import Firestore instance
 import { collection, addDoc } from "firebase/firestore";
 
 interface AppointmentModalProps {
-  isOpen: boolean;
   onClose: () => void;
   service: string;
 }
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({
-  isOpen,
   onClose,
   service,
 }) => {
@@ -35,6 +33,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
     setSelectedDate(date as Date);
@@ -76,7 +75,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
       //  for now reset logic and close modal
       // FIXME: clicking the close button and the submit button don't have the same behavior
       //  potentially move the modal closing animation to the pricing card area?
-      closeModal();
+      startClosingAnimation();
       /*setTimeout(() => {
       }, 4000);*/
     } catch (error) {
@@ -109,6 +108,13 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     // FIXME: add App Check
     await addDoc(collection(db, "appointments"), appointmentData);
   };*/
+
+  const startClosingAnimation = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      closeModal();
+    }, 300);
+  };
 
   const closeModal = () => {
     onClose();
@@ -193,259 +199,256 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
   return (
     <>
-      {isOpen && (
-        <Modal onClose={closeModal}>
-          <div className={styles.modal}>
-            {step === 1 && (
-              <>
-                <h2>Appointment Date and Time</h2>
-                <div className={styles.dateTimeSection}>
-                  <Calendar
-                    onChange={handleDateChange}
-                    value={selectedDate}
-                    className={styles.calendar}
-                    tileClassName={({ date, view }) => {
-                      const classes = [];
-                      if (view === "month") {
-                        const day = date.getDay();
-                        if (date.toDateString() === new Date().toDateString()) {
-                          classes.push(styles.today);
-                        }
-                        if (day === 0 || day === 6) {
-                          classes.push(styles.weekend);
-                        }
-                        if (
-                          selectedDate &&
-                          date.toDateString() === selectedDate.toDateString()
-                        ) {
-                          classes.push(styles.selectedDate);
-                        }
+      <Modal onClose={startClosingAnimation} isClosing={isClosing}>
+        <div className={styles.modal}>
+          {step === 1 && (
+            <>
+              <h2>Appointment Date and Time</h2>
+              <div className={styles.dateTimeSection}>
+                <Calendar
+                  onChange={handleDateChange}
+                  value={selectedDate}
+                  className={styles.calendar}
+                  tileClassName={({ date, view }) => {
+                    const classes = [];
+                    if (view === "month") {
+                      const day = date.getDay();
+                      if (date.toDateString() === new Date().toDateString()) {
+                        classes.push(styles.today);
                       }
-                      return classes.join(" ");
-                    }}
-                    maxDate={
-                      new Date(new Date().setMonth(new Date().getMonth() + 1))
+                      if (day === 0 || day === 6) {
+                        classes.push(styles.weekend);
+                      }
+                      if (
+                        selectedDate &&
+                        date.toDateString() === selectedDate.toDateString()
+                      ) {
+                        classes.push(styles.selectedDate);
+                      }
                     }
-                    minDate={new Date()}
-                  />
-                  {selectedDate && (
-                    <div className={styles.timeGrid}>
-                      {availableTimes.map((time) => (
-                        <div
-                          key={time}
-                          className={`${styles.timeSlot} ${
-                            selectedTime === time ? styles.selectedTimeSlot : ""
-                          }`}
-                          onClick={() => handleTimeClick(time)}
-                        >
-                          {time}
-                        </div>
-                      ))}
-                    </div>
+                    return classes.join(" ");
+                  }}
+                  maxDate={
+                    new Date(new Date().setMonth(new Date().getMonth() + 1))
+                  }
+                  minDate={new Date()}
+                />
+                {selectedDate && (
+                  <div className={styles.timeGrid}>
+                    {availableTimes.map((time) => (
+                      <div
+                        key={time}
+                        className={`${styles.timeSlot} ${
+                          selectedTime === time ? styles.selectedTimeSlot : ""
+                        }`}
+                        onClick={() => handleTimeClick(time)}
+                      >
+                        {time}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className={styles.buttonContainerSingle}>
+                <button
+                  onClick={handleNextStep}
+                  className={`${styles.buttonRight} ${!selectedDate || !selectedTime ? styles.disabledButton : ""}`}
+                  disabled={!selectedDate || !selectedTime}
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <h2>Enter Your Information</h2>
+              <div className={styles.form}>
+                <label htmlFor="clientName" className={styles.label}>
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  id="clientName"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                  className={styles.input}
+                  placeholder={"Jane Doe"}
+                />
+                <label htmlFor="clientPhone" className={styles.label}>
+                  Phone:
+                </label>
+                {phoneError && <p className={styles.error}>{phoneError}</p>}
+                <input
+                  type="text"
+                  id="clientPhone"
+                  value={clientPhone}
+                  onChange={handlePhoneChange}
+                  onBlur={checkPhone}
+                  className={styles.input}
+                  placeholder={"(555) 555-5555"}
+                />
+                <label htmlFor="clientEmail" className={styles.label}>
+                  Email:
+                </label>
+                {emailError && <p className={styles.error}>{emailError}</p>}
+                <input
+                  type="email"
+                  id="clientEmail"
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
+                  onBlur={checkEmail}
+                  className={styles.input}
+                  placeholder={"email@provider.com"}
+                />
+                <label htmlFor="clientAddress" className={styles.label}>
+                  Address:
+                </label>
+                <input
+                  type="text"
+                  id="clientStreet"
+                  value={clientStreet}
+                  onChange={(e) => setClientStreet(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Address (Street Number)"}
+                />
+                <input
+                  type="text"
+                  id="clientApt"
+                  value={clientApt}
+                  onChange={(e) => setClientApt(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Address 2 (Apt. / Suite #)"}
+                />
+                <input
+                  type="text"
+                  id="clientCity"
+                  value={clientCity}
+                  onChange={(e) => setClientCity(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"City"}
+                />
+                <input
+                  type="text"
+                  id="clientZip"
+                  value={clientZip}
+                  onChange={(e) => setClientZip(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"Zip Code"}
+                />
+                <input
+                  type="text"
+                  id="clientState"
+                  value={clientState}
+                  onChange={(e) => setClientState(e.target.value)}
+                  className={`${styles.input} ${styles.address}`}
+                  placeholder={"State"}
+                  disabled
+                />
+              </div>
+              <div className={styles.buttonContainer}>
+                <button
+                  onClick={handlePreviousStep}
+                  className={styles.buttonLeft}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleNextStep}
+                  className={`${styles.buttonRight} ${
+                    !clientName ||
+                    !clientPhone ||
+                    !clientEmail ||
+                    !clientStreet ||
+                    !clientCity ||
+                    !clientZip
+                      ? styles.disabledButton
+                      : ""
+                  }`}
+                  disabled={
+                    !clientName ||
+                    !clientPhone ||
+                    !clientEmail ||
+                    !clientStreet ||
+                    !clientCity ||
+                    !clientZip
+                  }
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <h2>Review Your Appointment</h2>
+              <div className={styles.review}>
+                <div className={styles.reviewSection}>
+                  <h3>Service Information</h3>
+                  <p>
+                    <strong>Service:</strong> {service}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong>Time:</strong> {selectedTime}
+                  </p>
+                </div>
+                <div className={styles.reviewSection}>
+                  <h3>Client Information</h3>
+                  <p>
+                    <strong>Name:</strong> {clientName}
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> {clientPhone}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {clientEmail}
+                  </p>
+                </div>
+                <div className={styles.reviewSection}>
+                  <h3>Address Information</h3>
+                  <p>
+                    <strong>Street:</strong> {clientStreet}
+                  </p>
+                  {clientApt && (
+                    <p>
+                      <strong>Unit:</strong> {clientApt}
+                    </p>
                   )}
+                  <p>
+                    <strong>City:</strong> {clientCity}
+                  </p>
+                  <p>
+                    <strong>State:</strong> {clientState}
+                  </p>
+                  <p>
+                    <strong>Zip:</strong> {clientZip}
+                  </p>
                 </div>
-                <div className={styles.buttonContainerSingle}>
-                  <button
-                    onClick={handleNextStep}
-                    className={`${styles.buttonRight} ${!selectedDate || !selectedTime ? styles.disabledButton : ""}`}
-                    disabled={!selectedDate || !selectedTime}
-                  >
-                    Next
-                  </button>
-                </div>
-              </>
-            )}
-
-            {step === 2 && (
-              <>
-                <h2>Enter Your Information</h2>
-                <div className={styles.form}>
-                  <label htmlFor="clientName" className={styles.label}>
-                    Name:
-                  </label>
-                  <input
-                    type="text"
-                    id="clientName"
-                    value={clientName}
-                    onChange={(e) => setClientName(e.target.value)}
-                    className={styles.input}
-                    placeholder={"Jane Doe"}
-                  />
-                  <label htmlFor="clientPhone" className={styles.label}>
-                    Phone:
-                  </label>
-                  {phoneError && <p className={styles.error}>{phoneError}</p>}
-                  <input
-                    type="text"
-                    id="clientPhone"
-                    value={clientPhone}
-                    onChange={handlePhoneChange}
-                    onBlur={checkPhone}
-                    className={styles.input}
-                    placeholder={"(555) 555-5555"}
-                  />
-                  <label htmlFor="clientEmail" className={styles.label}>
-                    Email:
-                  </label>
-                  {emailError && <p className={styles.error}>{emailError}</p>}
-                  <input
-                    type="email"
-                    id="clientEmail"
-                    value={clientEmail}
-                    onChange={(e) => setClientEmail(e.target.value)}
-                    onBlur={checkEmail}
-                    className={styles.input}
-                    placeholder={"email@provider.com"}
-                  />
-                  <label htmlFor="clientAddress" className={styles.label}>
-                    Address:
-                  </label>
-                  <input
-                    type="text"
-                    id="clientStreet"
-                    value={clientStreet}
-                    onChange={(e) => setClientStreet(e.target.value)}
-                    className={`${styles.input} ${styles.address}`}
-                    placeholder={"Address (Street Number)"}
-                  />
-                  <input
-                    type="text"
-                    id="clientApt"
-                    value={clientApt}
-                    onChange={(e) => setClientApt(e.target.value)}
-                    className={`${styles.input} ${styles.address}`}
-                    placeholder={"Address 2 (Apt. / Suite #)"}
-                  />
-                  <input
-                    type="text"
-                    id="clientCity"
-                    value={clientCity}
-                    onChange={(e) => setClientCity(e.target.value)}
-                    className={`${styles.input} ${styles.address}`}
-                    placeholder={"City"}
-                  />
-                  <input
-                    type="text"
-                    id="clientZip"
-                    value={clientZip}
-                    onChange={(e) => setClientZip(e.target.value)}
-                    className={`${styles.input} ${styles.address}`}
-                    placeholder={"Zip Code"}
-                  />
-                  <input
-                    type="text"
-                    id="clientState"
-                    value={clientState}
-                    onChange={(e) => setClientState(e.target.value)}
-                    className={`${styles.input} ${styles.address}`}
-                    placeholder={"State"}
-                    disabled
-                  />
-                </div>
-                <div className={styles.buttonContainer}>
-                  <button
-                    onClick={handlePreviousStep}
-                    className={styles.buttonLeft}
-                  >
-                    Back
-                  </button>
-                  <button
-                    onClick={handleNextStep}
-                    className={`${styles.buttonRight} ${
-                      !clientName ||
-                      !clientPhone ||
-                      !clientEmail ||
-                      !clientStreet ||
-                      !clientCity ||
-                      !clientZip
-                        ? styles.disabledButton
-                        : ""
-                    }`}
-                    disabled={
-                      !clientName ||
-                      !clientPhone ||
-                      !clientEmail ||
-                      !clientStreet ||
-                      !clientCity ||
-                      !clientZip
-                    }
-                  >
-                    Next
-                  </button>
-                </div>
-              </>
-            )}
-
-            {step === 3 && (
-              <>
-                <h2>Review Your Appointment</h2>
-                <div className={styles.review}>
-                  <div className={styles.reviewSection}>
-                    <h3>Service Information</h3>
-                    <p>
-                      <strong>Service:</strong> {service}
-                    </p>
-                    <p>
-                      <strong>Date:</strong>{" "}
-                      {selectedDate?.toLocaleDateString()}
-                    </p>
-                    <p>
-                      <strong>Time:</strong> {selectedTime}
-                    </p>
-                  </div>
-                  <div className={styles.reviewSection}>
-                    <h3>Client Information</h3>
-                    <p>
-                      <strong>Name:</strong> {clientName}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {clientPhone}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {clientEmail}
-                    </p>
-                  </div>
-                  <div className={styles.reviewSection}>
-                    <h3>Address Information</h3>
-                    <p>
-                      <strong>Street:</strong> {clientStreet}
-                    </p>
-                    {clientApt && (
-                      <p>
-                        <strong>Unit:</strong> {clientApt}
-                      </p>
-                    )}
-                    <p>
-                      <strong>City:</strong> {clientCity}
-                    </p>
-                    <p>
-                      <strong>State:</strong> {clientState}
-                    </p>
-                    <p>
-                      <strong>Zip:</strong> {clientZip}
-                    </p>
-                  </div>
-                </div>
-                <div className={styles.buttonContainer}>
-                  <button
-                    onClick={handlePreviousStep}
-                    className={styles.buttonLeft}
-                  >
-                    Back
-                  </button>
-                  <button
-                    onClick={handleSubmit}
-                    className={styles.buttonRight}
-                    disabled={btnDisabled}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </Modal>
-      )}
+              </div>
+              <div className={styles.buttonContainer}>
+                <button
+                  onClick={handlePreviousStep}
+                  className={styles.buttonLeft}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  className={styles.buttonRight}
+                  disabled={btnDisabled}
+                >
+                  Submit
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
     </>
   );
 };

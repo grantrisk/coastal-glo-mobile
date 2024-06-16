@@ -53,11 +53,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
           </div>
         </div>
       </div>
-      <AppointmentModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        service={title}
-      />
+      {isModalOpen && <AppointmentModal onClose={closeModal} service={title} />}
     </div>
   );
 };
