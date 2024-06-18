@@ -36,11 +36,7 @@ export default function Home() {
           {/* This adds a dark tink to the background image */}
           <div className={styles.imageTint}></div>
 
-          <Link
-            href={"https://coastalglomobile.glossgenius.com/services"}
-            prefetch
-            target={"_blank"}
-          >
+          <Link href={"/services"} prefetch>
             <p className={styles.bookNowButton}>Book Now</p>
           </Link>
 
