@@ -8,11 +8,13 @@ import styles from "../../styles/AppointmentModal.module.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
-import { collection, addDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
+import { appointmentSchema, serviceSchema } from "../lib/schemas";
+import { z } from "zod";
 
 interface AppointmentModalProps {
   onClose: () => void;
-  service: string;
+  service: z.infer<typeof serviceSchema>;
 }
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({
@@ -55,29 +57,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     try {
       setBtnDisabled(true);
       await toast.promise(submitAppointment(), {
-        pending: {
-          render() {
-            return "Submitting appointment...";
-          },
-        },
-        success: {
-          render() {
-            return "Appointment submitted successfully!";
-          },
-        },
-        error: {
-          render() {
-            return "Failed to submit appointment. Please try again.";
-          },
-        },
+        pending: "Submitting appointment...",
+        success: "Appointment submitted successfully!",
+        error: "Failed to submit appointment. Please try again.",
       });
-      // TODO: Handle the final submission logic
-      //  for now reset logic and close modal
-      // FIXME: clicking the close button and the submit button don't have the same behavior
-      //  potentially move the modal closing animation to the pricing card area?
       startClosingAnimation();
-      /*setTimeout(() => {
-      }, 4000);*/
     } catch (error) {
       console.error("Error submitting appointment: ", error);
       setBtnDisabled(false);
@@ -85,29 +69,40 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   };
 
   const submitAppointment = async () => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-    console.log("Appointment submitted successfully!");
-    // await new Promise((resolve, reject) => setTimeout(reject, 3000));
-    // console.log("Failed to submit appointment. Please try again.");
-  };
-  /*const submitAppointment = async () => {
-    const appointmentData = {
-      service,
-      selectedDate: selectedDate?.toISOString(),
-      selectedTime,
-      clientName,
-      clientPhone,
-      clientEmail,
-      clientStreet,
-      clientApt,
-      clientCity,
-      clientZip,
-      clientState,
+    // create datetime based on selectedDate and selectedTime
+    const timeParts = selectedTime?.split(":");
+    const hours = parseInt(timeParts?.[0] || "0", 10);
+    const minutes = parseInt(timeParts?.[1] || "0", 10);
+    const selectedDateCopy = new Date(selectedDate as Date);
+    selectedDateCopy.setHours(hours, minutes);
+
+    const appointmentData: z.infer<typeof appointmentSchema> = {
+      userId: null, //FIXME: Assuming guest user for now
+      guestInfo: {
+        firstName: clientName.split(" ")[0],
+        lastName: clientName.split(" ").slice(-1)[0],
+        phone: clientPhone,
+        email: clientEmail,
+        address: {
+          street1: clientStreet,
+          street2: clientApt,
+          city: clientCity,
+          state: clientState,
+          zipCode: clientZip,
+        },
+      },
+      service: service,
+      appointmentDate: selectedDateCopy,
+      status: "scheduled",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
+    const parsedAppointment = appointmentSchema.parse(appointmentData);
+
     // FIXME: add App Check
-    await addDoc(collection(db, "appointments"), appointmentData);
-  };*/
+    await addDoc(collection(db, "appointments"), parsedAppointment);
+  };
 
   const startClosingAnimation = () => {
     setIsClosing(true);
@@ -252,7 +247,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
               <div className={styles.buttonContainerSingle}>
                 <button
                   onClick={handleNextStep}
-                  className={`${styles.buttonRight} ${!selectedDate || !selectedTime ? styles.disabledButton : ""}`}
+                  className={`${styles.buttonRight} ${
+                    !selectedDate || !selectedTime ? styles.disabledButton : ""
+                  }`}
                   disabled={!selectedDate || !selectedTime}
                 >
                   Next
@@ -388,7 +385,13 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 <div className={styles.reviewSection}>
                   <h3>Service Information</h3>
                   <p>
-                    <strong>Service:</strong> {service}
+                    <strong>Service:</strong> {service.name}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> ${service.price}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> {service.duration} minutes
                   </p>
                   <p>
                     <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
