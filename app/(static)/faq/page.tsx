@@ -1,7 +1,7 @@
-import styles from "../../styles/FAQ.module.css";
-import Nav from "../components/Nav";
-import FAQCard from "../components/FAQCard";
-import ScrollAnimationWrapper from "../components/ScrollAnimationWrapper";
+import styles from "../../../styles/FAQ.module.css";
+import Nav from "../../components/Nav";
+import FAQCard from "../../components/FAQCard";
+import ScrollAnimationWrapper from "../../components/ScrollAnimationWrapper";
 
 export default function FAQ() {
   return (

@@ -101,7 +101,12 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     const parsedAppointment = appointmentSchema.parse(appointmentData);
 
     // FIXME: add App Check
-    await addDoc(collection(db, "appointments"), parsedAppointment);
+    try {
+      await addDoc(collection(db, "appointments"), parsedAppointment);
+    } catch (error) {
+      console.error("Failed to save appointment:", error);
+      throw new Error("Failed to save appointment");
+    }
   };
 
   const startClosingAnimation = () => {

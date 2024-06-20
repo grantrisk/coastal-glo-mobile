@@ -1,6 +1,6 @@
-import styles from "../../styles/Services.module.css";
-import Nav from "../components/Nav";
-import PricingCard from "../components/PricingCard";
+import styles from "../../../styles/Services.module.css";
+import Nav from "../../components/Nav";
+import PricingCard from "../../components/PricingCard";
 import React from "react";
 
 export default function Services() {
