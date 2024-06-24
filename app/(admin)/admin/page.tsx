@@ -1,7 +1,10 @@
 "use client";
 
 import styles from "../../../styles/AdminDashboard.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "../../lib/firebase"; // Adjust the path according to your project structure
+import { onAuthStateChanged, User } from "firebase/auth";
 
 interface WorkingHours {
   [key: string]: string;
@@ -28,6 +31,9 @@ interface Service {
 }
 
 export default function Dashboard() {
+  const navigation = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const [appointments] = useState<Appointment[]>([
     {
       id: 1,
@@ -42,7 +48,6 @@ export default function Dashboard() {
       service: "Partial Spray",
     },
   ]);
-
   const [workingHours] = useState<WorkingHours>({
     Monday: "9:00 AM - 5:00 PM",
     Tuesday: "9:00 AM - 5:00 PM",
@@ -52,18 +57,34 @@ export default function Dashboard() {
     Saturday: "10:00 AM - 4:00 PM",
     Sunday: "Closed",
   });
-
   const [clients] = useState<Client[]>([
     { id: 1, name: "Jane Doe", email: "jane@example.com" },
     { id: 2, name: "John Smith", email: "john@example.com" },
   ]);
-
   const [services] = useState<Service[]>([
     { id: 1, name: "Full Body Spray", duration: "30 mins", price: "$40" },
     { id: 2, name: "Partial Spray", duration: "20 mins", price: "$25" },
   ]);
 
-  return (
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        navigation.push("/login");
+      } else {
+        setUser(currentUser);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigation]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // Only render if user is authenticated
+  return user ? (
     <main className={styles.dashboardMain}>
       <section className={styles.dashboardHeader}>
         <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
@@ -131,5 +152,5 @@ export default function Dashboard() {
         </div>
       </section>
     </main>
-  );
+  ) : null; // Or you can render a loading indicator or a redirect message
 }
