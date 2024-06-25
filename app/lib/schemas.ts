@@ -24,6 +24,7 @@ export const subscriptionSchema = z.object({
 });
 
 export const userSchema = personSchema.extend({
+  id: z.string(),
   subscription: subscriptionSchema.optional(),
 });
 
@@ -36,6 +37,7 @@ export const serviceSchema = z.object({
 });
 
 export const appointmentSchema = z.object({
+  appointmentId: z.string(),
   userId: z.string().nullable(),
   guestInfo: personSchema.optional(),
   service: serviceSchema,
@@ -50,6 +52,16 @@ export const productSchema = z.object({
   name: z.string(),
   description: z.string(),
   price: z.number(),
+});
+
+export const workingHoursSchema = z.object({
+  sunday: z.string(),
+  monday: z.string(),
+  tuesday: z.string(),
+  wednesday: z.string(),
+  thursday: z.string(),
+  friday: z.string(),
+  saturday: z.string(),
 });
 
 export const notificationSchema = z.object({

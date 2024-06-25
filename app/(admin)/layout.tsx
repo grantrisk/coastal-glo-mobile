@@ -1,0 +1,78 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/AdminDashboard.module.css";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+export default function AdminLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const navigation = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        navigation.push("/login");
+      } else {
+        setUser(currentUser);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigation]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigation.push("/login");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+  };
+
+  if (loading) {
+    return <p style={{ color: "gold" }}>Loading...</p>;
+  }
+
+  return user ? (
+    <>
+      <main className={styles.dashboardMain}>
+        <section className={styles.dashboardHeader}>
+          <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
+          <button onClick={handleSignOut} className={styles.button}>
+            Sign Out
+          </button>
+        </section>
+
+        <nav className={styles.dashboardNav}>
+          <ul>
+            <Link href={"/admin"} prefetch>
+              <li>Dashboard</li>
+            </Link>
+            <Link href={"/admin/workinghours"} prefetch>
+              <li>Working Hours</li>
+            </Link>
+            <Link href={"/admin/appointments"} prefetch>
+              <li>Manage Appointments</li>
+            </Link>
+            <Link href={"/admin/clients"} prefetch>
+              <li>Clients</li>
+            </Link>
+            <Link href={"/admin/services"} prefetch>
+              <li>Services</li>
+            </Link>
+          </ul>
+        </nav>
+        <section className={styles.dashboardContent}>{children}</section>
+      </main>
+    </>
+  ) : null;
+}
