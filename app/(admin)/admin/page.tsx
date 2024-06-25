@@ -3,8 +3,8 @@
 import styles from "../../../styles/AdminDashboard.module.css";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../../lib/firebase"; // Adjust the path according to your project structure
-import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../../lib/firebase";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 
 interface WorkingHours {
   [key: string]: string;
@@ -79,6 +79,15 @@ export default function Dashboard() {
     return () => unsubscribe();
   }, [navigation]);
 
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigation.push("/login");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -88,6 +97,9 @@ export default function Dashboard() {
     <main className={styles.dashboardMain}>
       <section className={styles.dashboardHeader}>
         <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
+        <button onClick={handleSignOut} className={styles.button}>
+          Sign Out
+        </button>
       </section>
 
       <nav className={styles.dashboardNav}>
