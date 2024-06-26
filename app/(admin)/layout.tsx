@@ -45,23 +45,17 @@ export default function AdminLayout({
   return user ? (
     <>
       <main className={styles.dashboardMain}>
-        <section className={styles.dashboardHeader}>
-          <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
-          <button onClick={handleSignOut} className={styles.button}>
-            Sign Out
-          </button>
-        </section>
-
         <nav className={styles.dashboardNav}>
+          <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
           <ul>
             <Link href={"/admin"} prefetch>
               <li>Dashboard</li>
             </Link>
-            <Link href={"/admin/workinghours"} prefetch>
-              <li>Working Hours</li>
-            </Link>
             <Link href={"/admin/appointments"} prefetch>
               <li>Manage Appointments</li>
+            </Link>
+            <Link href={"/admin/workinghours"} prefetch>
+              <li>Working Hours</li>
             </Link>
             <Link href={"/admin/clients"} prefetch>
               <li>Clients</li>
@@ -70,6 +64,9 @@ export default function AdminLayout({
               <li>Services</li>
             </Link>
           </ul>
+          <button onClick={handleSignOut} className={styles.button}>
+            Sign Out
+          </button>
         </nav>
         <section className={styles.dashboardContent}>{children}</section>
       </main>

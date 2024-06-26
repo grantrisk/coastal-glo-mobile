@@ -1,55 +1,56 @@
 .dashboardMain {
+  display: flex;
   min-height: 100vh;
   font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: var(--dark-espresso);
-}
-
-.dashboardHeader {
-  background-color: var(--color-tertiary);
-  padding: 20px;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-}
-
-.dashboardTitle {
-  margin: 0;
-  font-size: 2em;
 }
 
 .dashboardNav {
+  width: 250px;
+  background-color: var(--dark-espresso);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+}
+
+.dashboardTitle {
   margin: 20px 0;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.5em;
 }
 
 .dashboardNav ul {
   list-style: none;
   padding: 0;
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
 }
 
 .dashboardNav li {
-  cursor: pointer;
   padding: 10px 20px;
   font-weight: bold;
-  color: var(--dark-espresso);
+  color: white;
+  cursor: pointer;
+  text-align: left;
 }
 
 .dashboardNav li:hover {
   background-color: var(--color-secondary);
+  color: var(--dark-espresso);
   border-radius: 4px;
 }
 
+.dashboardNav button {
+  padding: 10px 20px;
+  margin-top: auto;
+}
+
 .dashboardContent {
-  background-color: white;
+  margin-left: 250px; /* To account for the fixed nav */
+  flex-grow: 1;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8;
 }
 
 .section {
