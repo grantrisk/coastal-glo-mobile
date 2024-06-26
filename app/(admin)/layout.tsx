@@ -6,6 +6,15 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTachometerAlt,
+  faCalendarAlt,
+  faClock,
+  faUsers,
+  faConciergeBell,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminLayout({
   children,
@@ -49,23 +58,33 @@ export default function AdminLayout({
           <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
           <ul>
             <Link href={"/admin"} prefetch>
-              <li>Dashboard</li>
+              <li>
+                <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
+              </li>
             </Link>
             <Link href={"/admin/appointments"} prefetch>
-              <li>Manage Appointments</li>
+              <li>
+                <FontAwesomeIcon icon={faCalendarAlt} /> Manage Appointments
+              </li>
             </Link>
             <Link href={"/admin/workinghours"} prefetch>
-              <li>Working Hours</li>
+              <li>
+                <FontAwesomeIcon icon={faClock} /> Working Hours
+              </li>
             </Link>
             <Link href={"/admin/clients"} prefetch>
-              <li>Clients</li>
+              <li>
+                <FontAwesomeIcon icon={faUsers} /> Clients
+              </li>
             </Link>
             <Link href={"/admin/services"} prefetch>
-              <li>Services</li>
+              <li>
+                <FontAwesomeIcon icon={faConciergeBell} /> Services
+              </li>
             </Link>
           </ul>
           <button onClick={handleSignOut} className={styles.button}>
-            Sign Out
+            <FontAwesomeIcon icon={faSignOutAlt} /> Sign Out
           </button>
         </nav>
         <section className={styles.dashboardContent}>{children}</section>

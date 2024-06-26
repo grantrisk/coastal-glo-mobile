@@ -33,6 +33,8 @@
   color: white;
   cursor: pointer;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .dashboardNav li:hover {
@@ -41,9 +43,19 @@
   border-radius: 4px;
 }
 
+.dashboardNav li svg {
+  margin-right: 10px;
+}
+
 .dashboardNav button {
   padding: 10px 20px;
   margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.dashboardNav button svg {
+  margin-right: 10px;
 }
 
 .dashboardContent {
