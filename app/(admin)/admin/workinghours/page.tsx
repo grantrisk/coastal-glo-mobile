@@ -40,23 +40,25 @@ export default function WorkingHoursPage() {
           {Object.entries(workingHours).map(([day, hours]) => (
             <li key={day} className={styles.listItem}>
               {day.charAt(0).toUpperCase() + day.slice(1)}: {hours}
-              <button
-                onClick={() =>
-                  updateWorkingHours(
-                    day as keyof WorkingHours,
-                    "8:00 AM - 4:00 PM",
-                  )
-                }
-                style={{ marginLeft: "10px" }}
-              >
-                Update
-              </button>
-              <button
-                onClick={() => deleteWorkingHours(day as keyof WorkingHours)}
-                style={{ marginLeft: "10px" }}
-              >
-                Delete
-              </button>
+              <div className={styles.buttonGroup}>
+                <button
+                  onClick={() =>
+                    updateWorkingHours(
+                      day as keyof WorkingHours,
+                      "8:00 AM - 4:00 PM",
+                    )
+                  }
+                  className={styles.button}
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => deleteWorkingHours(day as keyof WorkingHours)}
+                  className={styles.button}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
