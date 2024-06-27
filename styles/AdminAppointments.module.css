@@ -1,60 +1,73 @@
 .section {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .section h2 {
-    border-bottom: 2px solid var(--dark-espresso);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+  border-bottom: 2px solid var(--dark-espresso);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .listItem {
-    background-color: var(--color-primary);
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--color-primary);
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .appointmentHeader {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .appointmentDate {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .appointmentStatus {
-    font-style: italic;
-    color: gray;
+  font-style: italic;
+  color: gray;
 }
 
 .appointmentDetails {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .buttonGroup {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .button {
-    padding: 5px 10px;
-    border: none;
-    background-color: var(--color-tertiary);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  background-color: var(--color-tertiary);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .button:hover {
-    background-color: var(--rich-brown);
+  background-color: var(--rich-brown);
+}
+
+.sortContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sortSelect {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid var(--dark-espresso);
+  border-radius: 4px;
 }

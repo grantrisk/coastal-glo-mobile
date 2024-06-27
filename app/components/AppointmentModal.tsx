@@ -8,7 +8,7 @@ import styles from "../../styles/AppointmentModal.module.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { appointmentSchema, serviceSchema } from "../lib/schemas";
 import { z } from "zod";
 
@@ -77,6 +77,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     selectedDateCopy.setHours(hours, minutes);
 
     const appointmentData: z.infer<typeof appointmentSchema> = {
+      appointmentId: "", // Will be set after document is added
       userId: null, //FIXME: Assuming guest user for now
       guestInfo: {
         firstName: clientName.split(" ")[0],
@@ -102,7 +103,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
     // FIXME: add App Check
     try {
-      await addDoc(collection(db, "appointments"), parsedAppointment);
+      const docRef = await addDoc(
+        collection(db, "appointments"),
+        parsedAppointment,
+      );
+      await updateDoc(docRef, { appointmentId: docRef.id }); // Update the document with the generated ID
     } catch (error) {
       console.error("Failed to save appointment:", error);
       throw new Error("Failed to save appointment");

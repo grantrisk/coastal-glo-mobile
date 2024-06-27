@@ -17,53 +17,6 @@ import { db } from "../../../lib/firebase"; // Ensure you have Firebase initiali
 // Type inference from schema
 type Appointment = z.infer<typeof appointmentSchema>;
 
-const defaultAppointments: Appointment[] = [
-  {
-    appointmentId: "apt1",
-    userId: "usr1",
-    guestInfo: undefined,
-    service: {
-      serviceId: "srv1",
-      name: "Full Body Spray",
-      description: "A full body tan spray for an even and natural look.",
-      price: 50,
-      duration: 30,
-    },
-    appointmentDate: new Date("2024-06-30T14:00:00Z"),
-    status: "scheduled",
-    createdAt: new Date("2024-06-01T09:00:00Z"),
-    updatedAt: new Date("2024-06-01T09:00:00Z"),
-  },
-  {
-    appointmentId: "apt2",
-    userId: "usr2",
-    guestInfo: {
-      firstName: "Mike",
-      lastName: "Ross",
-      phone: "555-9021",
-      email: "mike.ross@example.com",
-      address: {
-        street1: "789 Pine St",
-        street2: undefined,
-        city: "Springfield",
-        state: "SP",
-        zipCode: "98765",
-      },
-    },
-    service: {
-      serviceId: "srv3",
-      name: "Face Tan",
-      description: "Gentle face tanning for a sun-kissed glow.",
-      price: 25,
-      duration: 10,
-    },
-    appointmentDate: new Date("2024-07-05T10:30:00Z"),
-    status: "scheduled",
-    createdAt: new Date("2024-06-20T15:30:00Z"),
-    updatedAt: new Date("2024-06-20T15:30:00Z"),
-  },
-];
-
 function convertTimestamp(timestamp: any): Date {
   return new Date(timestamp.seconds * 1000);
 }
@@ -73,6 +26,7 @@ export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortOption, setSortOption] = useState<string>("date");
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -80,9 +34,7 @@ export default function AppointmentsPage() {
         const querySnapshot = await getDocs(collection(db, "appointments"));
         if (querySnapshot.empty) {
           console.log("No such document!");
-          setError(
-            "No appointments found. Please create default appointments.",
-          );
+          setError("No appointments found.");
         } else {
           const fetchedAppointments = querySnapshot.docs.map((doc) => {
             const data = doc.data() as Appointment;
@@ -93,7 +45,6 @@ export default function AppointmentsPage() {
               updatedAt: convertTimestamp(data.updatedAt),
             };
           });
-          console.log("fetchedAppointments:", fetchedAppointments);
           setAppointments(fetchedAppointments);
         }
       } catch (error) {
@@ -107,23 +58,10 @@ export default function AppointmentsPage() {
     fetchAppointments();
   }, []);
 
-  const createDefaultAppointments = async () => {
-    try {
-      for (const appointment of defaultAppointments) {
-        await setDoc(
-          doc(db, "appointments", appointment.appointmentId),
-          appointment,
-        );
-      }
-      setAppointments(defaultAppointments);
-      setError(null);
-    } catch (error) {
-      console.error("Error creating default appointments:", error);
-      setError(
-        "Failed to create default appointments. Please try again later.",
-      );
-    }
-  };
+  useEffect(() => {
+    const sortedAppointments = sortAppointments(appointments, sortOption);
+    setAppointments(sortedAppointments);
+  }, [sortOption]);
 
   const updateAppointmentStatus = async (
     appointmentId: string,
@@ -151,6 +89,35 @@ export default function AppointmentsPage() {
     await deleteDoc(docRef);
   };
 
+  function sortAppointments(
+    appointments: Appointment[],
+    sortOption: string,
+  ): Appointment[] {
+    let sortedAppointments = [...appointments]; // Create a copy to avoid mutating the original array
+
+    switch (sortOption) {
+      case "date":
+        sortedAppointments.sort(
+          (a, b) => a.appointmentDate.getTime() - b.appointmentDate.getTime(),
+        );
+        break;
+      case "service":
+        sortedAppointments.sort((a, b) =>
+          a.service.name.localeCompare(b.service.name),
+        );
+        break;
+      case "status":
+        sortedAppointments.sort((a, b) => a.status.localeCompare(b.status));
+        break;
+      default:
+        break;
+    }
+
+    console.log(sortedAppointments);
+
+    return sortedAppointments;
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -159,9 +126,6 @@ export default function AppointmentsPage() {
     return (
       <div className={styles.section}>
         <p>{error}</p>
-        <button onClick={createDefaultAppointments} className={styles.button}>
-          Create Default Appointments
-        </button>
       </div>
     );
   }
@@ -170,6 +134,19 @@ export default function AppointmentsPage() {
     <>
       <div className={styles.section}>
         <h2>Manage Appointments</h2>
+        <div className={styles.sortContainer}>
+          <label htmlFor="sort">Sort by:</label>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className={styles.sortSelect}
+          >
+            <option value="date">Appointment Date</option>
+            <option value="service">Service Name</option>
+            <option value="status">Status</option>
+          </select>
+        </div>
         <ul className={styles.list}>
           {appointments.map((appointment) => (
             <li key={appointment.appointmentId} className={styles.listItem}>
