@@ -47,6 +47,12 @@
   margin-right: 10px;
 }
 
+.dashboardNav .activeLink {
+  background-color: var(--color-secondary);
+  color: var(--dark-espresso);
+  border-radius: 4px;
+}
+
 .dashboardNav button {
   padding: 10px 20px;
   margin-top: auto;

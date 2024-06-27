@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../../styles/AdminDashboard.module.css";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "../lib/firebase";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +22,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   const navigation = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -58,27 +59,43 @@ export default function AdminLayout({
           <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
           <ul>
             <Link href={"/admin"} prefetch>
-              <li>
+              <li className={pathname === "/admin" ? styles.activeLink : ""}>
                 <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
               </li>
             </Link>
             <Link href={"/admin/appointments"} prefetch>
-              <li>
+              <li
+                className={
+                  pathname === "/admin/appointments" ? styles.activeLink : ""
+                }
+              >
                 <FontAwesomeIcon icon={faCalendarAlt} /> Manage Appointments
               </li>
             </Link>
             <Link href={"/admin/workinghours"} prefetch>
-              <li>
+              <li
+                className={
+                  pathname === "/admin/workinghours" ? styles.activeLink : ""
+                }
+              >
                 <FontAwesomeIcon icon={faClock} /> Working Hours
               </li>
             </Link>
             <Link href={"/admin/clients"} prefetch>
-              <li>
+              <li
+                className={
+                  pathname === "/admin/clients" ? styles.activeLink : ""
+                }
+              >
                 <FontAwesomeIcon icon={faUsers} /> Clients
               </li>
             </Link>
             <Link href={"/admin/services"} prefetch>
-              <li>
+              <li
+                className={
+                  pathname === "/admin/services" ? styles.activeLink : ""
+                }
+              >
                 <FontAwesomeIcon icon={faConciergeBell} /> Services
               </li>
             </Link>
