@@ -20,6 +20,16 @@ const defaultWorkingHours: WorkingHours = {
   sunday: "Closed",
 };
 
+const dayOrder = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
+
 // Admin Dashboard Component for Managing Working Hours
 export default function WorkingHoursPage() {
   const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
@@ -103,38 +113,45 @@ export default function WorkingHoursPage() {
     );
   }
 
+  const orderedWorkingHours = dayOrder
+    .filter(
+      (day) =>
+        workingHours && workingHours[day as keyof WorkingHours] !== undefined,
+    )
+    .map(
+      (day) =>
+        [day, workingHours![day as keyof WorkingHours]] as [string, string],
+    );
+
   return (
     <>
       <div className={styles.section}>
         <h2>Working Hours</h2>
         <ul className={styles.list}>
-          {workingHours &&
-            Object.entries(workingHours).map(([day, hours]) => (
-              <li key={day} className={styles.listItem}>
-                {day.charAt(0).toUpperCase() + day.slice(1)}: {hours}
-                <div className={styles.buttonGroup}>
-                  <button
-                    onClick={() =>
-                      updateWorkingHours(
-                        day as keyof WorkingHours,
-                        "8:00 AM - 4:00 PM",
-                      )
-                    }
-                    className={styles.button}
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() =>
-                      deleteWorkingHours(day as keyof WorkingHours)
-                    }
-                    className={styles.button}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
+          {orderedWorkingHours.map(([day, hours]) => (
+            <li key={day} className={styles.listItem}>
+              {day.charAt(0).toUpperCase() + day.slice(1)}: {hours}
+              <div className={styles.buttonGroup}>
+                <button
+                  onClick={() =>
+                    updateWorkingHours(
+                      day as keyof WorkingHours,
+                      "8:00 AM - 4:00 PM",
+                    )
+                  }
+                  className={styles.button}
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => deleteWorkingHours(day as keyof WorkingHours)}
+                  className={styles.button}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </>
