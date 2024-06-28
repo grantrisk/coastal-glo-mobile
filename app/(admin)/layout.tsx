@@ -49,7 +49,7 @@ export default function AdminLayout({
   };
 
   if (loading) {
-    return <p style={{ color: "gold" }}>Loading...</p>;
+    return <p className={styles.loadingText}>Loading...</p>;
   }
 
   return user ? (

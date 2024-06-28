@@ -1,3 +1,10 @@
+.loadingText {
+  color: var(--color-secondary);
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
 .dashboardMain {
   display: flex;
   min-height: 100vh;
