@@ -12,14 +12,11 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../../../lib/firebase"; // Ensure you have Firebase initialized in this file
+import { db } from "../../../lib/firebase";
+import { convertTimestamp } from "../../../lib/utils";
 
 // Type inference from schema
 type Appointment = z.infer<typeof appointmentSchema>;
-
-function convertTimestamp(timestamp: any): Date {
-  return new Date(timestamp.seconds * 1000);
-}
 
 // Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {
