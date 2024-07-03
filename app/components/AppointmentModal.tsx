@@ -9,12 +9,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
 import { addDoc, collection, updateDoc } from "firebase/firestore";
-import { appointmentSchema, serviceSchema } from "../lib/schemas";
-import { z } from "zod";
+import { Appointment, Service, appointmentSchema } from "../lib/schemas";
 
 interface AppointmentModalProps {
   onClose: () => void;
-  service: z.infer<typeof serviceSchema>;
+  service: Service;
 }
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({
@@ -76,7 +75,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     const selectedDateCopy = new Date(selectedDate as Date);
     selectedDateCopy.setHours(hours, minutes);
 
-    const appointmentData: z.infer<typeof appointmentSchema> = {
+    const appointmentData: Appointment = {
       appointmentId: "", // Will be set after document is added
       userId: null, //FIXME: Assuming guest user for now
       guestInfo: {

@@ -73,3 +73,12 @@ export const notificationSchema = z.object({
   sentAt: z.date(),
   status: z.enum(["sent", "failed"]),
 });
+
+export type User = z.infer<typeof userSchema>;
+export type Address = z.infer<typeof addressSchema>;
+export type Subscription = z.infer<typeof subscriptionSchema>;
+export type Service = z.infer<typeof serviceSchema>;
+export type Appointment = z.infer<typeof appointmentSchema>;
+export type Product = z.infer<typeof productSchema>;
+export type WorkingHours = z.infer<typeof workingHoursSchema>;
+export type Notification = z.infer<typeof notificationSchema>;

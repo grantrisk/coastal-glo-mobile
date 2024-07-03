@@ -3,17 +3,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/ClientFormModal.module.css";
 import Modal from "./Modal";
-import { z } from "zod";
-import { userSchema } from "../lib/schemas";
-import { convertTimestamp } from "../lib/utils";
-
-// Type inference from schema
-type User = z.infer<typeof userSchema>;
+import { User } from "../lib/schemas";
+import clientService from "../services/clientService";
 
 interface ClientFormModalProps {
   client?: User | null;
   onClose: () => void;
-  onSave: (clientData: Omit<User, "id">) => void;
   isClosing: boolean;
 }
 
@@ -27,7 +22,6 @@ const defaultSubscription = {
 const ClientFormModal: React.FC<ClientFormModalProps> = ({
   client,
   onClose,
-  onSave,
   isClosing,
 }) => {
   const [formData, setFormData] = useState<Omit<User, "id">>({
@@ -50,7 +44,6 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
     if (client) {
       setFormData({
         ...client,
-        lastSprayDate: convertTimestamp(client.lastSprayDate),
         subscription: client.subscription || defaultSubscription,
       });
     }
@@ -58,48 +51,43 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("====", name, value);
-    // convert date to date object
-    if (name === "lastSprayDate") {
-      setFormData({
-        ...formData,
-        lastSprayDate: new Date(value),
-      });
-      return;
-    }
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]:
+        name === "lastSprayDate" || name === "nextBillingDate"
+          ? createDateObject(value)
+          : value,
+    }));
+  };
+
+  const createDateObject = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       address: {
-        ...formData.address,
+        ...prevFormData.address,
         [name]: value,
       },
-    });
+    }));
   };
 
-  const handleSubscriptionChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      subscription: {
-        ...formData.subscription,
-        [name]: value,
-      },
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    try {
+      if (client) {
+        await clientService.modifyClient(client.id, formData);
+      } else {
+        await clientService.createClient(formData);
+      }
+      onClose();
+    } catch (error) {
+      console.error("Error saving client data: ", error);
+    }
   };
 
   return (
@@ -197,7 +185,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               required
             />
           </label>
-          <label>
+          {/*<label>
             Subscription Type:
             <input
               type="text"
@@ -229,18 +217,22 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               required
             />
           </label>
-          {/*<label>
+          <label>
             Next Billing Date:
             <input
               type="date"
               name="nextBillingDate"
               value={
-                convertTimestamp(formData.subscription.nextBillingDate)
-                  .toISOString()
-                  .split("T")[0]
+                formData.subscription.nextBillingDate
+                  ? format(
+                      parseISO(
+                        formData.subscription.nextBillingDate.toISOString(),
+                      ),
+                      "yyyy-MM-dd",
+                    )
+                  : ""
               }
-              onChange={handleSubscriptionChange}
-              required
+              onChange={handleChange}
             />
           </label>*/}
           <label>
@@ -249,23 +241,10 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               type="date"
               name="lastSprayDate"
               value={
-                formData.lastSprayDate !== null
+                formData.lastSprayDate
                   ? formData.lastSprayDate.toISOString().split("T")[0]
                   : ""
               }
-              /*value={
-                              formData.lastSprayDate !== null
-                                ? convertTimestamp(formData.lastSprayDate)
-                                    .toISOString()
-                                    .split("T")[0]
-                                : ""
-                            }*/
-              /*value={
-                              formData.lastSprayDate instanceof Date &&
-                              !isNaN(formData.lastSprayDate.getTime())
-                                ? formData.lastSprayDate.toISOString().split("T")[0]
-                                : ""
-                            }*/
               onChange={handleChange}
             />
           </label>

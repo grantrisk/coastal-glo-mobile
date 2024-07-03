@@ -2,19 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "../../../styles/AdminDashboard.module.css";
-import { z } from "zod";
-import {
-  serviceSchema,
-  userSchema,
-  appointmentSchema,
-  workingHoursSchema,
-} from "../../lib/schemas";
-
-// Type aliases for zod inferred types
-type Service = z.infer<typeof serviceSchema>;
-type User = z.infer<typeof userSchema>;
-type Appointment = z.infer<typeof appointmentSchema>;
-type WorkingHours = z.infer<typeof workingHoursSchema>;
+import { Service, User, Appointment, WorkingHours } from "../../lib/schemas";
 
 // Helper to manage form inputs for editing and creating
 const useFormInput = (initialValue: any) => {
@@ -89,6 +77,7 @@ export default function Dashboard() {
       lastName: "Doe",
       phone: "555-1234",
       email: "jane.doe@example.com",
+      lastSprayDate: new Date("2024-06-25"),
       address: {
         street1: "123 Elm St",
         street2: undefined,
@@ -109,6 +98,7 @@ export default function Dashboard() {
       lastName: "Smith",
       phone: "555-5678",
       email: "john.smith@example.com",
+      lastSprayDate: new Date("2024-06-20"),
       address: {
         street1: "456 Oak St",
         street2: "Apt 9",

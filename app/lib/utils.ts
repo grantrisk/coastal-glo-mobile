@@ -1,7 +1,8 @@
-export function convertTimestamp(timestamp: any): Date {
-  /*if (!timestamp) {
-      return null;
-    }*/
+export function convertTimestamp(timestamp: any): Date | null {
+  if (!timestamp) {
+    return null;
+  }
+
   console.log(timestamp);
   console.log(new Date(timestamp.seconds * 1000));
   console.log(new Date(timestamp.seconds * 1000).toISOString());

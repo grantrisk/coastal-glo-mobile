@@ -2,11 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
-import { z } from "zod";
-import { serviceSchema } from "../../../lib/schemas";
-
-// Type inference from schema
-type Service = z.infer<typeof serviceSchema>;
+import { Service } from "../../../lib/schemas";
 
 // Admin Dashboard Component for Managing Services
 export default function ServicesPage() {

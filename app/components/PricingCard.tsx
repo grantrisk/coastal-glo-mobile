@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/PricingCard.module.css";
 import AppointmentModal from "./AppointmentModal";
-import { z } from "zod";
-import { serviceSchema, productSchema } from "../lib/schemas";
+import { Service, Product, serviceSchema, productSchema } from "../lib/schemas";
 
 interface PricingCardProps {
   title: string;
@@ -31,7 +30,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const service: z.infer<typeof serviceSchema> = {
+  const service: Service = {
     serviceId: serviceId || "",
     name: title,
     description,
@@ -39,7 +38,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
     duration: duration || 0,
   };
 
-  const product: z.infer<typeof productSchema> = {
+  const product: Product = {
     productId: productId || "",
     name: title,
     description,

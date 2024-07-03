@@ -2,13 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
-import { z } from "zod";
-import { workingHoursSchema } from "../../../lib/schemas";
+import { WorkingHours } from "../../../lib/schemas";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase"; // Ensure you have Firebase initialized in this file
-
-// Type inference from schema
-type WorkingHours = z.infer<typeof workingHoursSchema>;
 
 const defaultWorkingHours: WorkingHours = {
   monday: "9:00 AM - 5:00 PM",

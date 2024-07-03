@@ -2,24 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminClients.module.css";
-import { z } from "zod";
-import { userSchema } from "../../../lib/schemas";
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
-import { db } from "../../../lib/firebase"; // Ensure you have Firebase initialized in this file
+import { User } from "../../../lib/schemas";
+import clientService from "../../../services/clientService";
 import ClientFormModal from "../../../components/ClientFormModal";
 
-// Type inference from schema
-type User = z.infer<typeof userSchema>;
-
 // Admin Dashboard Component for Managing Clients
-export default function ClientsPage() {
+const ClientsPage: React.FC = () => {
   const [clients, setClients] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,59 +16,29 @@ export default function ClientsPage() {
   const [currentClient, setCurrentClient] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "clients"));
-        const fetchedClients = querySnapshot.docs.map((doc) => {
-          const data = doc.data() as User;
-          return { ...data, id: doc.id };
-        });
-        setClients(fetchedClients);
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-        setError("Failed to fetch clients. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchClients();
   }, []);
 
-  const updateClient = async (id: string, updatedClient: Partial<User>) => {
+  const fetchClients = async () => {
     try {
-      const clientRef = doc(db, "clients", id);
-      await updateDoc(clientRef, updatedClient);
-      setClients(
-        clients.map((client) =>
-          client.id === id ? { ...client, ...updatedClient } : client,
-        ),
-      );
+      const fetchedClients = await clientService.fetchAllClients();
+      console.log(fetchedClients);
+      setClients(fetchedClients);
     } catch (error) {
-      console.error("Error updating client:", error);
-      setError("Failed to update client. Please try again later.");
+      console.error("Error fetching clients:", error);
+      setError("Failed to fetch clients. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteClient = async (id: string) => {
     try {
-      const clientRef = doc(db, "clients", id);
-      await deleteDoc(clientRef);
+      await clientService.removeClient(id);
       setClients(clients.filter((client) => client.id !== id));
     } catch (error) {
       console.error("Error deleting client:", error);
       setError("Failed to delete client. Please try again later.");
-    }
-  };
-
-  const createClient = async (clientData: Omit<User, "id">) => {
-    try {
-      const docRef = await addDoc(collection(db, "clients"), clientData);
-      await updateDoc(docRef, { id: docRef.id }); // Update the document with the generated ID
-      setClients([...clients, { ...clientData, id: docRef.id }]);
-    } catch (error) {
-      console.error("Error creating client:", error);
-      setError("Failed to create client. Please try again later.");
     }
   };
 
@@ -96,15 +54,7 @@ export default function ClientsPage() {
       setIsClosing(false);
       setCurrentClient(null);
     }, 300);
-  };
-
-  const handleSaveClient = (clientData: Omit<User, "id">) => {
-    if (currentClient) {
-      updateClient(currentClient.id, clientData);
-    } else {
-      createClient(clientData);
-    }
-    handleCloseModal();
+    fetchClients();
   };
 
   if (loading) {
@@ -122,8 +72,7 @@ export default function ClientsPage() {
   return (
     <>
       <div className={styles.section}>
-        {/*TODO: come back and fix date issues with client form modal*/}
-        {/*<div className={styles.header}>
+        <div className={styles.header}>
           <h2>Clients</h2>
           <button
             onClick={() => handleOpenModal()}
@@ -131,7 +80,7 @@ export default function ClientsPage() {
           >
             Add Client
           </button>
-        </div>*/}
+        </div>
         {clients.length === 0 ? (
           <p>No clients found.</p>
         ) : (
@@ -153,7 +102,7 @@ export default function ClientsPage() {
                     {client.address.city}, {client.address.state}{" "}
                     {client.address.zipCode}
                   </p>
-                  {client.subscription && (
+                  {/*{client.subscription && (
                     <>
                       <p>
                         <strong>Subscription:</strong>{" "}
@@ -166,27 +115,26 @@ export default function ClientsPage() {
                       </p>
                       <p>
                         <strong>Next Billing Date:</strong>{" "}
-                        {new Date(
-                          client.subscription.nextBillingDate,
-                        ).toLocaleDateString()}
+                        {client.subscription.nextBillingDate
+                          ? client.subscription.nextBillingDate.toDateString()
+                          : "N/A"}
                       </p>
                     </>
-                  )}
+                  )}*/}
                   <p>
                     <strong>Last Spray Date:</strong>{" "}
                     {client.lastSprayDate
-                      ? new Date(client.lastSprayDate).toLocaleDateString()
+                      ? client.lastSprayDate.toDateString()
                       : "N/A"}
                   </p>
                 </div>
                 <div className={styles.buttonGroup}>
-                  {/*TODO come back and fix date issue*/}
-                  {/*<button
+                  <button
                     onClick={() => handleOpenModal(client)}
                     className={styles.button}
                   >
                     Update
-                  </button>*/}
+                  </button>
                   <button
                     onClick={() => deleteClient(client.id)}
                     className={styles.button}
@@ -203,10 +151,11 @@ export default function ClientsPage() {
         <ClientFormModal
           client={currentClient}
           onClose={handleCloseModal}
-          onSave={handleSaveClient}
           isClosing={isClosing}
         />
       )}
     </>
   );
-}
+};
+
+export default ClientsPage;

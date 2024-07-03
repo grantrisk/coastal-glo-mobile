@@ -2,21 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminAppointments.module.css";
-import { z } from "zod";
-import { appointmentSchema } from "../../../lib/schemas";
+import { Appointment } from "../../../lib/schemas";
 import {
   collection,
   getDocs,
-  setDoc,
   doc,
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { convertTimestamp } from "../../../lib/utils";
-
-// Type inference from schema
-type Appointment = z.infer<typeof appointmentSchema>;
 
 // Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {
@@ -37,9 +32,9 @@ export default function AppointmentsPage() {
             const data = doc.data() as Appointment;
             return {
               ...data,
-              appointmentDate: convertTimestamp(data.appointmentDate), // Convert Firestore timestamp to Date
-              createdAt: convertTimestamp(data.createdAt),
-              updatedAt: convertTimestamp(data.updatedAt),
+              appointmentDate: convertTimestamp(data.appointmentDate) as Date, // Convert Firestore timestamp to Date
+              createdAt: convertTimestamp(data.createdAt) as Date,
+              updatedAt: convertTimestamp(data.updatedAt) as Date,
             };
           });
           setAppointments(fetchedAppointments);
