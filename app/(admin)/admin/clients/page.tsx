@@ -57,6 +57,71 @@ const ClientsPage: React.FC = () => {
     fetchClients();
   };
 
+  const getAddressLink = (address: any) => {
+    const street2 = address.street2 ? `, ${address.street2}` : "";
+    const encodedAddress = encodeURIComponent(
+      `${address.street1}${street2}, ${address.city}, ${address.state} ${address.zipCode}`,
+    );
+
+    const isIOS = /iPad|iPhone|iPod|Mac/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    if (isIOS) {
+      return {
+        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+        appleMaps: `http://maps.apple.com/?q=${encodedAddress}`,
+      };
+    } else if (isAndroid) {
+      return {
+        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+      };
+    } else {
+      return {
+        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+      };
+    }
+  };
+
+  const renderAddressLink = (address: any) => {
+    const addressLinks = getAddressLink(address);
+
+    return (
+      <>
+        <a
+          href={addressLinks.googleMaps}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {address.street1}
+          {address.street2 && `, ${address.street2}`}, {address.city},{" "}
+          {address.state} {address.zipCode}
+        </a>
+        {addressLinks.appleMaps && (
+          <>
+            {" | "}
+            <a
+              href={addressLinks.appleMaps}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open in Apple Maps
+            </a>
+          </>
+        )}
+      </>
+    );
+  };
+
+  //TODO Convert to utility (also found in appointment modal)
+  const formatPhoneNumber = (phoneNumber: string) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+    return phoneNumber;
+  };
+
   if (loading) {
     return <p className={styles.loadingText}>Loading...</p>;
   }
@@ -92,35 +157,19 @@ const ClientsPage: React.FC = () => {
                     {client.firstName} {client.lastName}
                   </h3>
                   <p>
-                    <strong>Email:</strong> {client.email}
+                    <strong>Email:</strong>{" "}
+                    <a href={`mailto:${client.email}`}>{client.email}</a>
                   </p>
                   <p>
-                    <strong>Phone:</strong> {client.phone}
+                    <strong>Phone:</strong>{" "}
+                    <a href={`tel:${client.phone}`}>
+                      {formatPhoneNumber(client.phone)}
+                    </a>
                   </p>
                   <p>
-                    <strong>Address:</strong> {client.address.street1},{" "}
-                    {client.address.city}, {client.address.state}{" "}
-                    {client.address.zipCode}
+                    <strong>Address:</strong>{" "}
+                    {renderAddressLink(client.address)}
                   </p>
-                  {/*{client.subscription && (
-                    <>
-                      <p>
-                        <strong>Subscription:</strong>{" "}
-                        {client.subscription.type} (
-                        {client.subscription.isActive ? "Active" : "Inactive"})
-                      </p>
-                      <p>
-                        <strong>Remaining Sprays:</strong>{" "}
-                        {client.subscription.remainingSprays}
-                      </p>
-                      <p>
-                        <strong>Next Billing Date:</strong>{" "}
-                        {client.subscription.nextBillingDate
-                          ? client.subscription.nextBillingDate.toDateString()
-                          : "N/A"}
-                      </p>
-                    </>
-                  )}*/}
                   <p>
                     <strong>Last Spray Date:</strong>{" "}
                     {client.lastSprayDate
