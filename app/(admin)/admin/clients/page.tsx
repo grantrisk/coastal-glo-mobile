@@ -91,6 +91,7 @@ const ClientsPage: React.FC = () => {
           href={addressLinks.googleMaps}
           target="_blank"
           rel="noopener noreferrer"
+          className={styles.link}
         >
           {address.street1}
           {address.street2 && `, ${address.street2}`}, {address.city},{" "}
@@ -103,6 +104,7 @@ const ClientsPage: React.FC = () => {
               href={addressLinks.appleMaps}
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.link}
             >
               Open in Apple Maps
             </a>
@@ -158,11 +160,13 @@ const ClientsPage: React.FC = () => {
                   </h3>
                   <p>
                     <strong>Email:</strong>{" "}
-                    <a href={`mailto:${client.email}`}>{client.email}</a>
+                    <a href={`mailto:${client.email}`} className={styles.link}>
+                      {client.email}
+                    </a>
                   </p>
                   <p>
                     <strong>Phone:</strong>{" "}
-                    <a href={`tel:${client.phone}`}>
+                    <a href={`tel:${client.phone}`} className={styles.link}>
                       {formatPhoneNumber(client.phone)}
                     </a>
                   </p>
