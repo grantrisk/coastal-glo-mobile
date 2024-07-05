@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
 import { WorkingHours } from "../../../lib/schemas";
 import workingHoursService from "../../../services/workingHoursService";
+import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
 
 const dayOrder = [
   "sunday",
@@ -20,6 +21,10 @@ const WorkingHoursPage: React.FC = () => {
   const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [currentDay, setCurrentDay] = useState<keyof WorkingHours | null>(null);
+  const [currentHours, setCurrentHours] = useState<string>("");
 
   useEffect(() => {
     fetchWorkingHours();
@@ -31,7 +36,7 @@ const WorkingHoursPage: React.FC = () => {
       setWorkingHours(fetchedWorkingHours);
     } catch (error) {
       console.error("Error fetching working hours:", error);
-      setError("No working hours found. Please create default working hours.");
+      setError("Failed to fetch working hours. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -63,6 +68,22 @@ const WorkingHoursPage: React.FC = () => {
       console.error("Error updating working hours:", error);
       setError("Failed to update working hours. Please try again later.");
     }
+  };
+
+  const handleOpenModal = (day: keyof WorkingHours, hours: string) => {
+    setCurrentDay(day);
+    setCurrentHours(hours);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setIsClosing(false);
+      setCurrentDay(null);
+      setCurrentHours("");
+    }, 300);
   };
 
   if (loading) {
@@ -101,10 +122,7 @@ const WorkingHoursPage: React.FC = () => {
               <div className={styles.buttonGroup}>
                 <button
                   onClick={() =>
-                    updateWorkingHours(
-                      day as keyof WorkingHours,
-                      "8:00 AM - 4:00 PM",
-                    )
+                    handleOpenModal(day as keyof WorkingHours, hours)
                   }
                   className={styles.button}
                 >
@@ -123,6 +141,15 @@ const WorkingHoursPage: React.FC = () => {
           ))}
         </ul>
       </div>
+      {isModalOpen && currentDay && (
+        <WorkingHoursFormModal
+          day={currentDay}
+          currentHours={currentHours}
+          onClose={handleCloseModal}
+          onSave={updateWorkingHours}
+          isClosing={isClosing}
+        />
+      )}
     </>
   );
 };
