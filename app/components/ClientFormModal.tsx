@@ -5,6 +5,7 @@ import styles from "../../styles/ClientFormModal.module.css";
 import Modal from "./Modal";
 import { User } from "../lib/schemas";
 import clientService from "../services/clientService";
+import { formatPhoneNumber } from "../lib/utils";
 
 interface ClientFormModalProps {
   client?: User | null;
@@ -40,6 +41,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
       state: "NC",
       zipCode: "",
     },
+    lastSolutionUsed: null,
     lastSprayDate: null,
     subscription: client?.subscription ? client.subscription : null,
   });
@@ -57,6 +59,16 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
+
+    if (name === "phone") {
+      const formattedPhone = formatPhoneNumber(value);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        phone: formattedPhone,
+      }));
+      return;
+    }
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: name === "lastSprayDate" ? createDateObject(value) : value,
@@ -229,6 +241,15 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               value={formData.address.zipCode}
               onChange={handleAddressChange}
               required
+            />
+          </label>
+          <label>
+            Last Solution Used:
+            <input
+              type="text"
+              name="lastSolutionUsed"
+              value={formData.lastSolutionUsed || ""}
+              onChange={handleChange}
             />
           </label>
           <label>

@@ -5,6 +5,7 @@ import styles from "../../../../styles/AdminClients.module.css";
 import { User } from "../../../lib/schemas";
 import clientService from "../../../services/clientService";
 import ClientFormModal from "../../../components/ClientFormModal";
+import { formatPhoneNumber } from "../../../lib/utils";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
@@ -138,15 +139,6 @@ const ClientsPage: React.FC = () => {
     }
   };
 
-  const formatPhoneNumber = (phoneNumber: string) => {
-    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-    return phoneNumber;
-  };
-
   if (loading) {
     return <p className={styles.loadingText}>Loading...</p>;
   }
@@ -158,6 +150,10 @@ const ClientsPage: React.FC = () => {
       </div>
     );
   }
+
+  // TODO: add search functionality
+  // TODO: add default email prompt
+  // TODO: confirm modal for deleting clients
 
   return (
     <>
@@ -198,6 +194,10 @@ const ClientsPage: React.FC = () => {
                     {renderAddressLink(client.address)}
                   </p>
                   <p>
+                    <strong>Last Solution Used:</strong>{" "}
+                    {client.lastSolutionUsed || "N/A"}
+                  </p>
+                  <p>
                     <strong>Last Spray Date:</strong>{" "}
                     {client.lastSprayDate
                       ? client.lastSprayDate.toDateString()
@@ -207,7 +207,7 @@ const ClientsPage: React.FC = () => {
                     <strong>Subscription:</strong>{" "}
                     {client.subscription
                       ? renderSubscription(client.subscription)
-                      : "No subscription available"}
+                      : "No subscription selected"}
                   </p>
                 </div>
                 <div className={styles.buttonGroup}>

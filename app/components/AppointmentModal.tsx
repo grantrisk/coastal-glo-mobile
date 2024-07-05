@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { Appointment, Service, appointmentSchema } from "../lib/schemas";
+import { formatPhoneNumber } from "../lib/utils";
 
 interface AppointmentModalProps {
   onClose: () => void;
@@ -139,20 +140,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     setEmailError("");
     setStep(1);
     setBtnDisabled(false);
-  };
-
-  const formatPhoneNumber = (value: string) => {
-    if (!value) return value;
-    const phoneNumber = value.replace(/[^\d]/g, "");
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,
-      6,
-    )}-${phoneNumber.slice(6, 10)}`;
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -26,6 +26,7 @@ export const subscriptionSchema = z.object({
 export const userSchema = personSchema.extend({
   id: z.string(),
   lastSprayDate: z.date().nullable(),
+  lastSolutionUsed: z.string().nullable(),
   subscription: subscriptionSchema.nullable(),
 });
 
