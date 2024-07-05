@@ -3,18 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
 import { WorkingHours } from "../../../lib/schemas";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../lib/firebase"; // Ensure you have Firebase initialized in this file
-
-const defaultWorkingHours: WorkingHours = {
-  monday: "9:00 AM - 5:00 PM",
-  tuesday: "9:00 AM - 5:00 PM",
-  wednesday: "9:00 AM - 5:00 PM",
-  thursday: "9:00 AM - 5:00 PM",
-  friday: "9:00 AM - 5:00 PM",
-  saturday: "10:00 AM - 4:00 PM",
-  sunday: "Closed",
-};
+import workingHoursService from "../../../services/workingHoursService";
 
 const dayOrder = [
   "sunday",
@@ -27,41 +16,31 @@ const dayOrder = [
 ];
 
 // Admin Dashboard Component for Managing Working Hours
-export default function WorkingHoursPage() {
+const WorkingHoursPage: React.FC = () => {
   const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchWorkingHours = async () => {
-      try {
-        const docRef = doc(db, "workingHours", "default");
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setWorkingHours(docSnap.data() as WorkingHours);
-        } else {
-          console.log("No such document!");
-          setError(
-            "No working hours found. Please create default working hours.",
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching working hours:", error);
-        setError("Failed to fetch working hours. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchWorkingHours();
   }, []);
 
+  const fetchWorkingHours = async () => {
+    try {
+      const fetchedWorkingHours = await workingHoursService.fetchWorkingHours();
+      setWorkingHours(fetchedWorkingHours);
+    } catch (error) {
+      console.error("Error fetching working hours:", error);
+      setError("No working hours found. Please create default working hours.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createDefaultWorkingHours = async () => {
     try {
-      const docRef = doc(db, "workingHours", "default");
-      await setDoc(docRef, defaultWorkingHours);
-      setWorkingHours(defaultWorkingHours);
+      await workingHoursService.createDefaultWorkingHours();
+      await fetchWorkingHours();
       setError(null);
     } catch (error) {
       console.error("Error creating default working hours:", error);
@@ -77,21 +56,13 @@ export default function WorkingHoursPage() {
   ) => {
     if (!workingHours) return;
 
-    const updatedData = { ...workingHours, [day]: updatedHours };
-    setWorkingHours(updatedData);
-
-    const docRef = doc(db, "workingHours", "default");
-    await updateDoc(docRef, { [day]: updatedHours });
-  };
-
-  const deleteWorkingHours = async (day: keyof WorkingHours) => {
-    if (!workingHours) return;
-
-    const { [day]: _, ...remainingHours } = workingHours;
-    setWorkingHours(remainingHours as WorkingHours);
-
-    const docRef = doc(db, "workingHours", "default");
-    await updateDoc(docRef, { [day]: "" });
+    try {
+      await workingHoursService.updateWorkingHours(day, updatedHours);
+      setWorkingHours({ ...workingHours, [day]: updatedHours });
+    } catch (error) {
+      console.error("Error updating working hours:", error);
+      setError("Failed to update working hours. Please try again later.");
+    }
   };
 
   if (loading) {
@@ -140,10 +111,12 @@ export default function WorkingHoursPage() {
                   Update
                 </button>
                 <button
-                  onClick={() => deleteWorkingHours(day as keyof WorkingHours)}
+                  onClick={() =>
+                    updateWorkingHours(day as keyof WorkingHours, "Closed")
+                  }
                   className={styles.button}
                 >
-                  Delete
+                  Set Closed
                 </button>
               </div>
             </li>
@@ -152,4 +125,6 @@ export default function WorkingHoursPage() {
       </div>
     </>
   );
-}
+};
+
+export default WorkingHoursPage;
