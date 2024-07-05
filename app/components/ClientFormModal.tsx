@@ -16,7 +16,11 @@ const defaultSubscription = {
   isActive: false,
   type: "None",
   remainingSprays: 0,
-  nextBillingDate: new Date(),
+  nextBillingDate: new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() + 1,
+    new Date().getDate(),
+  ),
 };
 
 const ClientFormModal: React.FC<ClientFormModalProps> = ({
@@ -37,30 +41,45 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
       zipCode: "",
     },
     lastSprayDate: null,
-    subscription: defaultSubscription,
+    subscription: client?.subscription ? client.subscription : null,
   });
 
   useEffect(() => {
     if (client) {
       setFormData({
         ...client,
-        subscription: client.subscription || defaultSubscription,
+        subscription: client.subscription || null,
       });
     }
   }, [client]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]:
-        name === "lastSprayDate" || name === "nextBillingDate"
-          ? createDateObject(value)
-          : value,
+      [name]: name === "lastSprayDate" ? createDateObject(value) : value,
+    }));
+  };
+
+  const handleSubscriptionDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      subscription: {
+        ...prevFormData.subscription!,
+        [name]: createDateObject(value),
+      },
     }));
   };
 
   const createDateObject = (dateString: string) => {
+    if (!dateString) {
+      return null;
+    }
     const [year, month, day] = dateString.split("-");
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   };
@@ -72,6 +91,19 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
       address: {
         ...prevFormData.address,
         [name]: value,
+      },
+    }));
+  };
+
+  const handleSubscriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      subscription: {
+        ...prevFormData.subscription!,
+        [name]: name === "isActive" ? value === "true" : value,
       },
     }));
   };
@@ -88,6 +120,20 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
     } catch (error) {
       console.error("Error saving client data: ", error);
     }
+  };
+
+  const addSubscription = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      subscription: defaultSubscription,
+    }));
+  };
+
+  const removeSubscription = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      subscription: null,
+    }));
   };
 
   return (
@@ -185,56 +231,6 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               required
             />
           </label>
-          {/*<label>
-            Subscription Type:
-            <input
-              type="text"
-              name="type"
-              value={formData.subscription.type}
-              onChange={handleSubscriptionChange}
-              required
-            />
-          </label>
-          <label>
-            Subscription Status:
-            <select
-              name="isActive"
-              value={formData.subscription.isActive ? "true" : "false"}
-              onChange={handleSubscriptionChange}
-              required
-            >
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
-            </select>
-          </label>
-          <label>
-            Remaining Sprays:
-            <input
-              type="number"
-              name="remainingSprays"
-              value={formData.subscription.remainingSprays}
-              onChange={handleSubscriptionChange}
-              required
-            />
-          </label>
-          <label>
-            Next Billing Date:
-            <input
-              type="date"
-              name="nextBillingDate"
-              value={
-                formData.subscription.nextBillingDate
-                  ? format(
-                      parseISO(
-                        formData.subscription.nextBillingDate.toISOString(),
-                      ),
-                      "yyyy-MM-dd",
-                    )
-                  : ""
-              }
-              onChange={handleChange}
-            />
-          </label>*/}
           <label>
             Last Spray Date:
             <input
@@ -248,6 +244,73 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               onChange={handleChange}
             />
           </label>
+          {formData.subscription ? (
+            <>
+              <label>
+                Subscription Type:
+                <input
+                  type="text"
+                  name="type"
+                  value={formData.subscription.type}
+                  onChange={handleSubscriptionChange}
+                  required
+                />
+              </label>
+              <label>
+                Subscription Status:
+                <select
+                  name="isActive"
+                  value={formData.subscription.isActive ? "true" : "false"}
+                  onChange={handleSubscriptionChange}
+                  required
+                >
+                  <option value="true">Active</option>
+                  <option value="false">Inactive</option>
+                </select>
+              </label>
+              <label>
+                Remaining Sprays:
+                <input
+                  type="number"
+                  name="remainingSprays"
+                  value={formData.subscription.remainingSprays}
+                  onChange={handleSubscriptionChange}
+                  required
+                />
+              </label>
+              <label>
+                Next Billing Date:
+                <input
+                  type="date"
+                  name="nextBillingDate"
+                  value={
+                    formData.subscription.nextBillingDate
+                      ? formData.subscription.nextBillingDate
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                  onChange={handleSubscriptionDateChange}
+                  required
+                />
+              </label>
+              <button
+                type="button"
+                className={styles.removeButton}
+                onClick={removeSubscription}
+              >
+                Remove Subscription
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              className={styles.addButton}
+              onClick={addSubscription}
+            >
+              Add Subscription
+            </button>
+          )}
           <button type="submit" className={styles.saveButton}>
             Save
           </button>

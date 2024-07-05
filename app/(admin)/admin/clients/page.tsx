@@ -114,7 +114,30 @@ const ClientsPage: React.FC = () => {
     );
   };
 
-  //TODO Convert to utility (also found in appointment modal)
+  const renderSubscription = (subscription: any) => {
+    if (subscription) {
+      return (
+        <div className={styles.subscriptionInfo}>
+          <p>
+            <strong>Subscription Type:</strong> {subscription.type}
+          </p>
+          <p>
+            <strong>Active:</strong> {subscription.isActive ? "Yes" : "No"}
+          </p>
+          <p>
+            <strong>Remaining Sprays:</strong> {subscription.remainingSprays}
+          </p>
+          <p>
+            <strong>Next Billing Date:</strong>{" "}
+            {subscription.nextBillingDate.toDateString()}
+          </p>
+        </div>
+      );
+    } else {
+      return <p>No subscription available.</p>;
+    }
+  };
+
   const formatPhoneNumber = (phoneNumber: string) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
@@ -179,6 +202,12 @@ const ClientsPage: React.FC = () => {
                     {client.lastSprayDate
                       ? client.lastSprayDate.toDateString()
                       : "N/A"}
+                  </p>
+                  <p>
+                    <strong>Subscription:</strong>{" "}
+                    {client.subscription
+                      ? renderSubscription(client.subscription)
+                      : "No subscription available"}
                   </p>
                 </div>
                 <div className={styles.buttonGroup}>
