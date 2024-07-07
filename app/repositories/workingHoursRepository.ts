@@ -1,19 +1,27 @@
 import { db } from "../lib/firebase";
 import { WorkingHours } from "../lib/schemas";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  CollectionReference,
+  doc,
+  DocumentReference,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { IWorkingHoursRepository } from "./IWorkingHoursRepository";
 
-const defaultWorkingHours: WorkingHours = {
-  monday: "9:00 AM - 5:00 PM",
-  tuesday: "9:00 AM - 5:00 PM",
-  wednesday: "9:00 AM - 5:00 PM",
-  thursday: "9:00 AM - 5:00 PM",
-  friday: "9:00 AM - 5:00 PM",
-  saturday: "10:00 AM - 4:00 PM",
-  sunday: "Closed",
-};
+// FIXME: update the AWS API
+// FIXME: update google company account hours
 
-class WorkingHoursRepository {
-  private docRef = doc(db, "workingHours", "default");
+class WorkingHoursRepository implements IWorkingHoursRepository {
+  private readonly collection: CollectionReference;
+  private readonly docRef: DocumentReference;
+
+  constructor(collectionName: string) {
+    this.collection = collection(db, collectionName);
+    this.docRef = doc(this.collection, "default");
+  }
 
   async getWorkingHours(): Promise<WorkingHours> {
     try {
@@ -24,17 +32,29 @@ class WorkingHoursRepository {
         throw new Error("No working hours found");
       }
     } catch (error) {
-      console.error("Error fetching working hours:", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch working hours: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching working hours.",
+        );
+      }
     }
   }
 
-  async createDefaultWorkingHours(): Promise<void> {
+  async createWorkingHours(workingHours: WorkingHours): Promise<void> {
     try {
-      await setDoc(this.docRef, defaultWorkingHours);
+      await setDoc(this.docRef, workingHours);
     } catch (error) {
-      console.error("Error creating default working hours:", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(
+          `Failed to create default working hours: ${error.message}`,
+        );
+      } else {
+        throw new Error(
+          "An unknown error occurred while creating default working hours.",
+        );
+      }
     }
   }
 
@@ -45,10 +65,15 @@ class WorkingHoursRepository {
     try {
       await updateDoc(this.docRef, { [day]: updatedHours });
     } catch (error) {
-      console.error("Error updating working hours:", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to update working hours: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while updating working hours.",
+        );
+      }
     }
   }
 }
 
-export default new WorkingHoursRepository();
+export default WorkingHoursRepository;

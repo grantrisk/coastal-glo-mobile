@@ -11,7 +11,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
-import { convertTimestamp } from "../../../lib/utils";
+import { convertTimestamp } from "../../../utils";
 
 // Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {

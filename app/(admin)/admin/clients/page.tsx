@@ -5,7 +5,7 @@ import styles from "../../../../styles/AdminClients.module.css";
 import { User } from "../../../lib/schemas";
 import { clientService } from "../../../lib/dependencyInjector";
 import ClientFormModal from "../../../components/ClientFormModal";
-import { formatPhoneNumber } from "../../../lib/utils";
+import { formatPhoneNumber } from "../../../utils";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {

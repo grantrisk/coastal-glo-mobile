@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
 import { WorkingHours } from "../../../lib/schemas";
-import workingHoursService from "../../../services/workingHoursService";
+import { workingHoursService } from "../../../lib/dependencyInjector";
 import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
 
 const dayOrder = [
@@ -36,7 +36,7 @@ const WorkingHoursPage: React.FC = () => {
       setWorkingHours(fetchedWorkingHours);
     } catch (error) {
       console.error("Error fetching working hours:", error);
-      setError("Failed to fetch working hours. Please try again later.");
+      setError("Creating default working hours...");
     } finally {
       setLoading(false);
     }

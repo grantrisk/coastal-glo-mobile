@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { db } from "../lib/firebase"; // Import Firestore instance
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { Appointment, Service, appointmentSchema } from "../lib/schemas";
-import { formatPhoneNumber } from "../lib/utils";
+import { formatPhoneNumber } from "../utils";
 
 interface AppointmentModalProps {
   onClose: () => void;
@@ -258,6 +258,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
             <>
               <h2>Enter Your Information</h2>
               <div className={styles.form}>
+                {/*FIXME this needs to be first name and then another input for last name and be accessible with 1password*/}
                 <label htmlFor="clientName" className={styles.label}>
                   Name:
                 </label>

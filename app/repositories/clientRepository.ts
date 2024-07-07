@@ -30,7 +30,7 @@ function convertFirestoreDateTimeToDateObject(
 }
 
 class ClientRepository implements IClientRepository {
-  private collection: CollectionReference;
+  private readonly collection: CollectionReference;
 
   constructor(collectionName: string) {
     this.collection = collection(db, collectionName);

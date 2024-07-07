@@ -5,7 +5,7 @@ import styles from "../../styles/ClientFormModal.module.css";
 import Modal from "./Modal";
 import { User } from "../lib/schemas";
 import { clientService } from "../lib/dependencyInjector";
-import { formatPhoneNumber } from "../lib/utils";
+import { formatPhoneNumber } from "../utils";
 
 interface ClientFormModalProps {
   client?: User | null;

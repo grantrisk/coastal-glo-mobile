@@ -1,17 +1,57 @@
+"use client";
+
 import styles from "../../styles/Footer.module.css";
 import Image from "next/image";
 import NextLink from "next/link";
 import { FaArrowUpFromBracket } from "react-icons/fa6";
 import Status from "./Status";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiCornerDownRight } from "react-icons/fi";
+import { workingHoursService } from "../lib/dependencyInjector";
+import { WorkingHours } from "../lib/schemas";
+import { groupWorkingHours } from "../utils";
 
 export default function Footer() {
+  const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchWorkingHours = async () => {
+      try {
+        const hours = await workingHoursService.fetchWorkingHours();
+        setWorkingHours(hours);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred while fetching working hours.");
+        }
+      }
+    };
+
+    fetchWorkingHours();
+  }, []);
+
+  const renderWorkingHours = () => {
+    if (!workingHours) {
+      return <p>Loading...</p>;
+    }
+
+    const groupedHours = groupWorkingHours(workingHours);
+
+    return groupedHours.map((group, index) => (
+      <p key={index}>
+        {group.days}: {group.hours}
+        <br />
+      </p>
+    ));
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.footerLeft}>
-          <h3>Costal Glo Mobile</h3>
+          <h3>Coastal Glo Mobile</h3>
           <h4>Wilmington, NC</h4>
           <div className={styles.emergency}>
             <p>After Hours Emergency Number:</p>
@@ -31,13 +71,7 @@ export default function Footer() {
           </div>
           <div className={styles.hours}>
             <h5>Hours of Operation:</h5>
-            <p>
-              Monday - Thursday: 6:00pm - 9:00pm
-              <br />
-              Friday - Saturday: 8:00am - 8:00pm
-              <br />
-              Sunday: 2:00pm - 6:00pm
-            </p>
+            {error ? <p>{error}</p> : renderWorkingHours()}
             <br />
             <div className={styles.status}>
               <FiCornerDownRight />
