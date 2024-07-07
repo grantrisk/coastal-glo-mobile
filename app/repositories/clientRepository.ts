@@ -11,6 +11,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { IClientRepository } from "./IClientRepository";
 
 function convertFirestoreDateTimeToDateObject(
   data: DocumentData,
@@ -28,7 +29,7 @@ function convertFirestoreDateTimeToDateObject(
   return data;
 }
 
-class ClientRepository {
+class ClientRepository implements IClientRepository {
   private collection: CollectionReference;
 
   constructor(collectionName: string) {
@@ -42,12 +43,14 @@ class ClientRepository {
         let data: DocumentData = convertFirestoreDateTimeToDateObject(
           doc.data(),
         );
-        console.log(data);
         return { id: doc.id, ...data } as User;
       });
     } catch (error) {
-      console.error("Error fetching clients: ", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch clients: ${error.message}`);
+      } else {
+        throw new Error("An unknown error occurred while fetching clients.");
+      }
     }
   }
 
@@ -62,8 +65,11 @@ class ClientRepository {
       );
       return { id: clientDoc.id, ...data } as User;
     } catch (error) {
-      console.error("Error fetching client: ", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch client: ${error.message}`);
+      } else {
+        throw new Error("An unknown error occurred while fetching client.");
+      }
     }
   }
 
@@ -73,21 +79,27 @@ class ClientRepository {
       await updateDoc(docRef, { id: docRef.id });
       return { id: docRef.id, ...clientData } as User;
     } catch (error) {
-      console.error("Error adding client: ", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to create client: ${error.message}`);
+      } else {
+        throw new Error("An unknown error occurred while creating client.");
+      }
     }
   }
 
   async updateClient(
     clientId: string,
-    clientData: Partial<Omit<User, "id">> | User,
+    clientData: Partial<Omit<User, "id">>,
   ): Promise<void> {
     try {
       const clientRef = doc(this.collection, clientId);
       await updateDoc(clientRef, clientData);
     } catch (error) {
-      console.error("Error updating client: ", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to update client: ${error.message}`);
+      } else {
+        throw new Error("An unknown error occurred while updating client.");
+      }
     }
   }
 
@@ -96,10 +108,13 @@ class ClientRepository {
       const clientRef = doc(this.collection, clientId);
       await deleteDoc(clientRef);
     } catch (error) {
-      console.error("Error deleting client: ", error);
-      throw error;
+      if (error instanceof Error) {
+        throw new Error(`Failed to delete client: ${error.message}`);
+      } else {
+        throw new Error("An unknown error occurred while deleting client.");
+      }
     }
   }
 }
 
-export default new ClientRepository("clients");
+export default ClientRepository;

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/ClientFormModal.module.css";
 import Modal from "./Modal";
 import { User } from "../lib/schemas";
-import clientService from "../services/clientService";
+import { clientService } from "../lib/dependencyInjector";
 import { formatPhoneNumber } from "../lib/utils";
 
 interface ClientFormModalProps {

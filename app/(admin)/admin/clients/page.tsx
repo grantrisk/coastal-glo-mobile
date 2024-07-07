@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminClients.module.css";
 import { User } from "../../../lib/schemas";
-import clientService from "../../../services/clientService";
+import { clientService } from "../../../lib/dependencyInjector";
 import ClientFormModal from "../../../components/ClientFormModal";
 import { formatPhoneNumber } from "../../../lib/utils";
 
