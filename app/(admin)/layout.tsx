@@ -72,15 +72,6 @@ export default function AdminLayout({
                 <FontAwesomeIcon icon={faCalendarAlt} /> Manage Appointments
               </li>
             </Link>
-            <Link href={"/admin/workinghours"} prefetch>
-              <li
-                className={
-                  pathname === "/admin/workinghours" ? styles.activeLink : ""
-                }
-              >
-                <FontAwesomeIcon icon={faClock} /> Working Hours
-              </li>
-            </Link>
             <Link href={"/admin/clients"} prefetch>
               <li
                 className={
@@ -97,6 +88,15 @@ export default function AdminLayout({
                 }
               >
                 <FontAwesomeIcon icon={faConciergeBell} /> Services
+              </li>
+            </Link>
+            <Link href={"/admin/workinghours"} prefetch>
+              <li
+                className={
+                  pathname === "/admin/workinghours" ? styles.activeLink : ""
+                }
+              >
+                <FontAwesomeIcon icon={faClock} /> Working Hours
               </li>
             </Link>
           </ul>
