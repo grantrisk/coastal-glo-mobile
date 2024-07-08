@@ -3,15 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminAppointments.module.css";
 import { Appointment } from "../../../lib/schemas";
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import { db } from "../../../lib/firebase";
-import { convertTimestamp } from "../../../utils";
+import { appointmentService } from "../../../lib/dependencyInjector";
 
 // Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {
@@ -21,34 +13,21 @@ export default function AppointmentsPage() {
   const [sortOption, setSortOption] = useState<string>("date");
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "appointments"));
-        if (querySnapshot.empty) {
-          console.log("No such document!");
-          setError("No appointments found.");
-        } else {
-          const fetchedAppointments = querySnapshot.docs.map((doc) => {
-            const data = doc.data() as Appointment;
-            return {
-              ...data,
-              appointmentDate: convertTimestamp(data.appointmentDate) as Date, // Convert Firestore timestamp to Date
-              createdAt: convertTimestamp(data.createdAt) as Date,
-              updatedAt: convertTimestamp(data.updatedAt) as Date,
-            };
-          });
-          setAppointments(fetchedAppointments);
-        }
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
-        setError("Failed to fetch appointments. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAppointments();
   }, []);
+
+  const fetchAppointments = async () => {
+    try {
+      let fetchedAppointments = await appointmentService.fetchAllAppointments();
+      fetchedAppointments = sortAppointments(fetchedAppointments, sortOption);
+      setAppointments(fetchedAppointments);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+      setError("Failed to fetch appointments. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const sortedAppointments = sortAppointments(appointments, sortOption);
@@ -59,26 +38,34 @@ export default function AppointmentsPage() {
     appointmentId: string,
     status: Appointment["status"],
   ) => {
-    const updatedData = appointments.map((appointment) =>
-      appointment.appointmentId === appointmentId
-        ? { ...appointment, status }
-        : appointment,
-    );
-    setAppointments(updatedData);
-
-    const docRef = doc(db, "appointments", appointmentId);
-    await updateDoc(docRef, { status });
+    try {
+      // FIXME: the lastUpdate field is not being updated
+      await appointmentService.updateAppointmentStatus(appointmentId, status);
+      setAppointments(
+        appointments.map((appointment) =>
+          appointment.appointmentId === appointmentId
+            ? { ...appointment, status }
+            : appointment,
+        ),
+      );
+    } catch (error) {
+      console.error("Error updating appointment status:", error);
+      setError("Failed to update appointment status. Please try again later.");
+    }
   };
 
   const deleteAppointment = async (appointmentId: string) => {
-    setAppointments(
-      appointments.filter(
-        (appointment) => appointment.appointmentId !== appointmentId,
-      ),
-    );
-
-    const docRef = doc(db, "appointments", appointmentId);
-    await deleteDoc(docRef);
+    try {
+      await appointmentService.deleteAppointment(appointmentId);
+      setAppointments(
+        appointments.filter(
+          (appointment) => appointment.appointmentId !== appointmentId,
+        ),
+      );
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+      setError("Failed to delete appointment. Please try again later.");
+    }
   };
 
   function sortAppointments(
@@ -104,8 +91,6 @@ export default function AppointmentsPage() {
       default:
         break;
     }
-
-    console.log(sortedAppointments);
 
     return sortedAppointments;
   }

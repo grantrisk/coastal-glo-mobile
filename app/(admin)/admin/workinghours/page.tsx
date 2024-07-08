@@ -36,7 +36,7 @@ const WorkingHoursPage: React.FC = () => {
       setWorkingHours(fetchedWorkingHours);
     } catch (error) {
       console.error("Error fetching working hours:", error);
-      setError("Creating default working hours...");
+      setError(" ");
     } finally {
       setLoading(false);
     }

@@ -7,10 +7,9 @@ import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/AppointmentModal.module.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { db } from "../lib/firebase"; // Import Firestore instance
-import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { Appointment, Service, appointmentSchema } from "../lib/schemas";
 import { formatPhoneNumber } from "../utils";
+import { appointmentService } from "../lib/dependencyInjector";
 
 interface AppointmentModalProps {
   onClose: () => void;
@@ -73,14 +72,16 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     const timeParts = selectedTime?.split(":");
     const hours = parseInt(timeParts?.[0] || "0", 10);
     const minutes = parseInt(timeParts?.[1] || "0", 10);
+    const seconds = 0;
+    const milliseconds = 0;
     const selectedDateCopy = new Date(selectedDate as Date);
-    selectedDateCopy.setHours(hours, minutes);
+    selectedDateCopy.setHours(hours, minutes, seconds, milliseconds);
 
     const appointmentData: Appointment = {
       appointmentId: "", // Will be set after document is added
       userId: null, //FIXME: Assuming guest user for now
       guestInfo: {
-        firstName: clientName.split(" ")[0],
+        firstName: clientName.split(" ")[0], // FIXME: this assumes they input first name followed by last name
         lastName: clientName.split(" ").slice(-1)[0],
         phone: clientPhone,
         email: clientEmail,
@@ -103,11 +104,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
     // FIXME: add App Check
     try {
-      const docRef = await addDoc(
-        collection(db, "appointments"),
-        parsedAppointment,
-      );
-      await updateDoc(docRef, { appointmentId: docRef.id }); // Update the document with the generated ID
+      await appointmentService.createAppointment(parsedAppointment);
     } catch (error) {
       console.error("Failed to save appointment:", error);
       throw new Error("Failed to save appointment");
