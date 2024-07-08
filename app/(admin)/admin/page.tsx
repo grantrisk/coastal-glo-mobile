@@ -78,6 +78,7 @@ export default function Dashboard() {
       phone: "555-1234",
       email: "jane.doe@example.com",
       lastSprayDate: new Date("2024-06-25"),
+      lastSolutionUsed: "Medium",
       address: {
         street1: "123 Elm St",
         street2: undefined,
@@ -99,6 +100,7 @@ export default function Dashboard() {
       phone: "555-5678",
       email: "john.smith@example.com",
       lastSprayDate: new Date("2024-06-20"),
+      lastSolutionUsed: "Medium",
       address: {
         street1: "456 Oak St",
         street2: "Apt 9",
