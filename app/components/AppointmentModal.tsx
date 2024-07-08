@@ -69,11 +69,21 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
   const submitAppointment = async () => {
     // create datetime based on selectedDate and selectedTime
-    const timeParts = selectedTime?.split(":");
-    const hours = parseInt(timeParts?.[0] || "0", 10);
-    const minutes = parseInt(timeParts?.[1] || "0", 10);
+    const timeParts = selectedTime?.split(" ");
+    const timeValue = timeParts?.[0].split(":");
+    let hours = parseInt(timeValue?.[0] || "0", 10);
+    const minutes = parseInt(timeValue?.[1] || "0", 10);
     const seconds = 0;
     const milliseconds = 0;
+
+    // Adjust for PM times
+    if (timeParts?.[1] === "PM" && hours < 12) {
+      hours += 12;
+    }
+    if (timeParts?.[1] === "AM" && hours === 12) {
+      hours = 0;
+    }
+
     const selectedDateCopy = new Date(selectedDate as Date);
     selectedDateCopy.setHours(hours, minutes, seconds, milliseconds);
 
