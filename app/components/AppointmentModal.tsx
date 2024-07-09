@@ -22,7 +22,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [clientName, setClientName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [clientPhone, setClientPhone] = useState<string>("");
   const [clientEmail, setClientEmail] = useState<string>("");
   const [clientStreet, setClientStreet] = useState<string>("");
@@ -91,8 +92,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
       appointmentId: "", // Will be set after document is added
       userId: null, //FIXME: Assuming guest user for now
       guestInfo: {
-        firstName: clientName.split(" ")[0], // FIXME: this assumes they input first name followed by last name
-        lastName: clientName.split(" ").slice(-1)[0],
+        firstName,
+        lastName,
         phone: clientPhone,
         email: clientEmail,
         address: {
@@ -136,7 +137,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const resetModal = () => {
     setSelectedDate(null);
     setSelectedTime(null);
-    setClientName("");
+    setFirstName("");
+    setLastName("");
     setClientPhone("");
     setClientEmail("");
     setClientStreet("");
@@ -265,17 +267,29 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
             <>
               <h2>Enter Your Information</h2>
               <div className={styles.form}>
-                {/*FIXME this needs to be first name and then another input for last name and be accessible with 1password*/}
-                <label htmlFor="clientName" className={styles.label}>
-                  Name:
+                <label htmlFor="firstName" className={styles.label}>
+                  First Name:
                 </label>
                 <input
                   type="text"
-                  id="clientName"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
+                  id="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   className={styles.input}
-                  placeholder={"Jane Doe"}
+                  placeholder="First Name"
+                  autoComplete="given-name"
+                />
+                <label htmlFor="lastName" className={styles.label}>
+                  Last Name:
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className={styles.input}
+                  placeholder="Last Name"
+                  autoComplete="family-name"
                 />
                 <label htmlFor="clientPhone" className={styles.label}>
                   Phone:
@@ -288,7 +302,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   onChange={handlePhoneChange}
                   onBlur={checkPhone}
                   className={styles.input}
-                  placeholder={"(555) 555-5555"}
+                  placeholder="(555) 555-5555"
+                  autoComplete="tel"
                 />
                 <label htmlFor="clientEmail" className={styles.label}>
                   Email:
@@ -301,7 +316,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   onChange={(e) => setClientEmail(e.target.value)}
                   onBlur={checkEmail}
                   className={styles.input}
-                  placeholder={"email@provider.com"}
+                  placeholder="email@provider.com"
+                  autoComplete="email"
                 />
                 <label htmlFor="clientAddress" className={styles.label}>
                   Address:
@@ -312,7 +328,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientStreet}
                   onChange={(e) => setClientStreet(e.target.value)}
                   className={`${styles.input} ${styles.address}`}
-                  placeholder={"Address (Street Number)"}
+                  placeholder="Address (Street Number)"
+                  autoComplete="address-line1"
                 />
                 <input
                   type="text"
@@ -320,7 +337,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientApt}
                   onChange={(e) => setClientApt(e.target.value)}
                   className={`${styles.input} ${styles.address}`}
-                  placeholder={"Address 2 (Apt. / Suite #)"}
+                  placeholder="Address 2 (Apt. / Suite #)"
+                  autoComplete="address-line2"
                 />
                 <input
                   type="text"
@@ -328,7 +346,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientCity}
                   onChange={(e) => setClientCity(e.target.value)}
                   className={`${styles.input} ${styles.address}`}
-                  placeholder={"City"}
+                  placeholder="City"
+                  autoComplete="address-level2"
                 />
                 <input
                   type="text"
@@ -336,7 +355,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientZip}
                   onChange={(e) => setClientZip(e.target.value)}
                   className={`${styles.input} ${styles.address}`}
-                  placeholder={"Zip Code"}
+                  placeholder="Zip Code"
+                  autoComplete="postal-code"
                 />
                 <input
                   type="text"
@@ -344,8 +364,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   value={clientState}
                   onChange={(e) => setClientState(e.target.value)}
                   className={`${styles.input} ${styles.address}`}
-                  placeholder={"State"}
+                  placeholder="State"
                   disabled
+                  autoComplete="address-level1"
                 />
               </div>
               <div className={styles.buttonContainer}>
@@ -358,7 +379,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 <button
                   onClick={handleNextStep}
                   className={`${styles.buttonRight} ${
-                    !clientName ||
+                    !firstName ||
+                    !lastName ||
                     !clientPhone ||
                     !clientEmail ||
                     !clientStreet ||
@@ -368,7 +390,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                       : ""
                   }`}
                   disabled={
-                    !clientName ||
+                    !firstName ||
+                    !lastName ||
                     !clientPhone ||
                     !clientEmail ||
                     !clientStreet ||
@@ -407,7 +430,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 <div className={styles.reviewSection}>
                   <h3>Client Information</h3>
                   <p>
-                    <strong>Name:</strong> {clientName}
+                    <strong>Name:</strong> {firstName} {lastName}
                   </p>
                   <p>
                     <strong>Phone:</strong> {clientPhone}
