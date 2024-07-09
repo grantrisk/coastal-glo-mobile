@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
-import Footer from "./components/Footer";
 import React from "react";
 import { ToastContainer } from "react-toastify";
+import ReCaptchaContainer from "./components/ReCaptchaContainer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -77,6 +77,7 @@ export default function RootLayout({
           pauseOnHover
           theme="colored"
         />
+        <ReCaptchaContainer />
         {children}
       </body>
     </html>

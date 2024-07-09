@@ -113,7 +113,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
     const parsedAppointment = appointmentSchema.parse(appointmentData);
 
-    // FIXME: add App Check
     try {
       await appointmentService.createAppointment(parsedAppointment);
     } catch (error) {
