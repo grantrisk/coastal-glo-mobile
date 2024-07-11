@@ -7,6 +7,9 @@ import { IWorkingHoursRepository } from "../repositories/IWorkingHoursRepository
 import AppointmentRepository from "../repositories/appointmentRepository";
 import AppointmentService from "../services/appointmentService";
 import { IAppointmentRepository } from "../repositories/IAppointmentRepository";
+import ServiceRepository from "../repositories/serviceRepository";
+import ServiceService from "../services/serviceService";
+import { IServiceRepository } from "../repositories/IServiceRepository";
 
 // Dependency Injection Setup
 const clientRepository: IClientRepository = new ClientRepository("clients");
@@ -21,4 +24,12 @@ const appointmentRepository: IAppointmentRepository = new AppointmentRepository(
 );
 const appointmentService = new AppointmentService(appointmentRepository);
 
-export { clientService, workingHoursService, appointmentService };
+const serviceRepository: IServiceRepository = new ServiceRepository("services");
+const serviceService = new ServiceService(serviceRepository);
+
+export {
+  clientService,
+  workingHoursService,
+  appointmentService,
+  serviceService,
+};

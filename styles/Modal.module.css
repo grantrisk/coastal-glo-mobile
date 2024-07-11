@@ -1,3 +1,7 @@
+.modalOpen {
+    overflow: hidden;
+}
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -21,10 +25,10 @@
   border-radius: 5px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
-  height: 90%;
-  width: 90%;
-  max-width: 1200px;
+    max-height: 90%;
+    max-width: 90%;
   animation: slideIn 0.3s ease-out;
+    overflow-y: auto;
 }
 
 .modalContent.slideOut {

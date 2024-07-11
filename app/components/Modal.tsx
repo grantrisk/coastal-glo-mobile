@@ -16,9 +16,16 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, isClosing }) => {
         onClose();
       }
     };
+
     document.addEventListener("keydown", handleEscape);
+
+    // Add class to body to prevent scrolling when modal is open
+    document.body.classList.add(styles.modalOpen);
+
     return () => {
       document.removeEventListener("keydown", handleEscape);
+      // Remove class from body when modal is closed
+      document.body.classList.remove(styles.modalOpen);
     };
   }, [isClosing, onClose]);
 

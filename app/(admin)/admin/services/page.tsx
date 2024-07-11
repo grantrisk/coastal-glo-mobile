@@ -1,81 +1,126 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "../../../../styles/AdminDashboard.module.css";
+import React, { useEffect, useState } from "react";
+import styles from "../../../../styles/AdminServicesPage.module.css";
 import { Service } from "../../../lib/schemas";
+import { serviceService } from "../../../lib/dependencyInjector";
+import ServiceFormModal from "../../../components/ServiceFormModal";
 
 // Admin Dashboard Component for Managing Services
-export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>([
-    {
-      serviceId: "srv1",
-      name: "Full Body Spray",
-      description: "A full body tan spray for an even and natural look.",
-      price: 50,
-      duration: 30, // duration in minutes
-    },
-    {
-      serviceId: "srv2",
-      name: "Partial Body Spray",
-      description: "Partial body spray for legs or arms.",
-      price: 30,
-      duration: 15,
-    },
-    {
-      serviceId: "srv3",
-      name: "Face Tan",
-      description: "Gentle face tanning for a sun-kissed glow.",
-      price: 25,
-      duration: 10,
-    },
-  ]);
+const ServicesPage: React.FC = () => {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [currentService, setCurrentService] = useState<Service | null>(null);
 
-  const addService = (newService: Service) => {
-    setServices([...services, newService]);
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const fetchedServices = await serviceService.fetchServices();
+      setServices(fetchedServices);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      setError("Failed to fetch services. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const updateService = (id: string, updatedService: Partial<Service>) => {
-    setServices(
-      services.map((service) =>
-        service.serviceId === id ? { ...service, ...updatedService } : service,
-      ),
+  const deleteService = async (id: string) => {
+    try {
+      await serviceService.deleteService(id);
+      setServices(services.filter((service) => service.serviceId !== id));
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      setError("Failed to delete service. Please try again later.");
+    }
+  };
+
+  const handleOpenModal = (service?: Service) => {
+    setCurrentService(service || null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setIsClosing(false);
+      setCurrentService(null);
+    }, 300);
+    fetchServices();
+  };
+
+  if (loading) {
+    return <p className={styles.loadingText}>Loading...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.section}>
+        <p>{error}</p>
+      </div>
     );
-  };
-
-  const deleteService = (serviceId: string) => {
-    setServices(services.filter((service) => service.serviceId !== serviceId));
-  };
+  }
 
   return (
     <>
       <div className={styles.section}>
-        <h2>Services</h2>
-        <ul className={styles.list}>
-          {services.map((service) => (
-            <li key={service.serviceId} className={styles.listItem}>
-              {service.name} - {service.duration} mins - ${service.price}
-              <div className={styles.buttonGroup}>
-                <button
-                  onClick={() =>
-                    updateService(service.serviceId, {
-                      price: service.price + 5,
-                    })
-                  }
-                  className={styles.button}
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => deleteService(service.serviceId)}
-                  className={styles.button}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.header}>
+          <h1>Services</h1>
+          <button
+            onClick={() => handleOpenModal()}
+            className={styles.createButton}
+          >
+            Add Service
+          </button>
+        </div>
+        {services.length === 0 ? (
+          <p>No services found.</p>
+        ) : (
+          <ul className={styles.list}>
+            {services.map((service) => (
+              <li key={service.serviceId} className={styles.listItem}>
+                <div className={styles.serviceInfo}>
+                  <h3>{service.name}</h3>
+                  <p>{service.description}</p>
+                  <p>Duration: {service.duration} mins</p>
+                  <p>Price: ${service.price}</p>
+                </div>
+                <div className={styles.buttonGroup}>
+                  <button
+                    onClick={() => handleOpenModal(service)}
+                    className={styles.button}
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => deleteService(service.serviceId)}
+                    className={styles.button}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
+      {isModalOpen && (
+        <ServiceFormModal
+          service={currentService}
+          onClose={handleCloseModal}
+          isClosing={isClosing}
+        />
+      )}
     </>
   );
-}
+};
+
+export default ServicesPage;

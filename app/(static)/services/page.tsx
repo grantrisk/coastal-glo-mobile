@@ -3,6 +3,9 @@ import Nav from "../../components/Nav";
 import PricingCard from "../../components/PricingCard";
 import React from "react";
 
+// TODO: pull this data from a database.
+//  Also need to add a field called recommended to the schema
+
 export default function Services() {
   return (
     <>
