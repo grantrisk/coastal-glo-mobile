@@ -92,6 +92,10 @@ const ServicesPage: React.FC = () => {
                   <p>{service.description}</p>
                   <p>Duration: {service.duration} mins</p>
                   <p>Price: ${service.price}</p>
+                  <p>
+                    Recommended: {service.recommended ? "true" : "false"}
+                  </p>{" "}
+                  <p>Monthly Charge: {service.isMonthly ? "true" : "false"}</p>{" "}
                 </div>
                 <div className={styles.buttonGroup}>
                   <button

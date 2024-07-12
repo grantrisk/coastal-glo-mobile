@@ -1,10 +1,8 @@
+import React from "react";
 import styles from "../../../styles/Services.module.css";
 import Nav from "../../components/Nav";
+import ServiceFetcher from "../../components/ServiceFetcher";
 import PricingCard from "../../components/PricingCard";
-import React from "react";
-
-// TODO: pull this data from a database.
-//  Also need to add a field called recommended to the schema
 
 export default function Services() {
   return (
@@ -20,56 +18,9 @@ export default function Services() {
           </p>
         </section>
 
-        <section className={styles.serviceSection}>
-          <PricingCard
-            title="Student Tan"
-            description="High school and college students enjoy a special discount. Perfect for prom, special events, or just maintaining a summer glow!"
-            price={30}
-            duration={30}
-            isService
-          />
-
-          <PricingCard
-            title="Classic Mobile Tan"
-            description="Enjoy a quick, customizable glow in the comfort of your home. No need to worry about what to wear or how you look."
-            price={40}
-            duration={30}
-            isService
-          />
-
-          <PricingCard
-            title="Rapid Mobile Tan"
-            description="Need a last-minute glow? The rapid tan allows you to shower within 2-5 hours! Ideal if you don’t have time to wait the full 8-10 hours for a classic tan. For a light tan, shower after two hours; wait four to five hours for a deeper, darker tan. The color depth is entirely up to you."
-            price={50}
-            duration={30}
-            recommended={true}
-            isService
-          />
-
-          <PricingCard
-            title="Tanning Parties / Group Rates"
-            description="Host a glow party or get tan with your friends! Discounts available for groups of 3 or more. Please message for details."
-            isService
-          />
-
-          <PricingCard
-            title="Coastal Glo Membership"
-            description="Become a member and enjoy 2 custom spray tans per month, with your choice of classic or rapid tan. Membership includes priority booking and discounted products."
-            price={80}
-            duration={30}
-            isService
-            isMonthly
-          />
-
-          <PricingCard
-            title="Coastal Glo Premium Membership"
-            description="Upgrade to premium membership for 3 custom spray tans per month, with your choice of classic or rapid tan. Enjoy priority booking and even better discounted products."
-            price={115}
-            duration={30}
-            isService
-            isMonthly
-          />
-        </section>
+        {/*TODO: update this to render temporary boxes so its not so jarring with the loading*/}
+        {/*TODO: need to account for the different types of services she will display*/}
+        <ServiceFetcher />
 
         <section className={styles.feeSection}>
           <h4>Travel Fees:</h4>

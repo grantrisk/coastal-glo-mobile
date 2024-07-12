@@ -36,6 +36,8 @@ const PricingCard: React.FC<PricingCardProps> = ({
     description,
     price: price || 0,
     duration: duration || 0,
+    recommended: recommended || false,
+    isMonthly: isMonthly || false,
   };
 
   const product: Product = {

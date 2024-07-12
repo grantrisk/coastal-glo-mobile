@@ -12,7 +12,7 @@ class ServiceService {
     return await this.serviceRepository.getServices();
   }
 
-  async addService(service: Service): Promise<void> {
+  async addService(service: Omit<Service, "serviceId">): Promise<void> {
     await this.serviceRepository.createService(service);
   }
 
