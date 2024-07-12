@@ -29,9 +29,16 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, isClosing }) => {
     };
   }, [isClosing, onClose]);
 
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget && !isClosing) {
+      onClose();
+    }
+  };
+
   return (
     <div
       className={`${styles.modalBackdrop} ${isClosing ? styles.fadeOut : ""}`}
+      onClick={handleBackdropClick}
     >
       <div
         className={`${styles.modalContent} ${isClosing ? styles.slideOut : ""}`}
