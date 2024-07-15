@@ -95,17 +95,17 @@ export default function Services() {
           <ServiceCard
             title="Coconut Scent Drops"
             description="Add a tropical escape to your spray tan."
-            price="$7"
+            price="$5"
           />
           <ServiceCard
             title="Pineapple Scent Drops"
             description="Infuse your spray tan with a refreshingly sweet aroma."
-            price="$7"
+            price="$5"
           />
           <ServiceCard
             title="Orange Ginger Scent Drops"
             description="Enhance your spray tan with a zesty and invigorating scent."
-            price="$7"
+            price="$5"
           />
         </section>
 
