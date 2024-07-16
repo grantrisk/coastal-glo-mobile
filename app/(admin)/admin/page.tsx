@@ -26,6 +26,8 @@ export default function Dashboard() {
         description: "A full body tan spray for an even and natural look.",
         price: 50,
         duration: 30,
+        recommended: false,
+        isMonthly: false,
       },
       appointmentDate: new Date("2024-06-30T14:00:00Z"),
       status: "scheduled",
@@ -54,6 +56,8 @@ export default function Dashboard() {
         description: "Gentle face tanning for a sun-kissed glow.",
         price: 25,
         duration: 10,
+        recommended: false,
+        isMonthly: false,
       },
       appointmentDate: new Date("2024-07-05T10:30:00Z"),
       status: "scheduled",
@@ -123,6 +127,8 @@ export default function Dashboard() {
       description: "A full body tan spray for an even and natural look.",
       price: 50,
       duration: 30, // duration in minutes
+      recommended: false,
+      isMonthly: false,
     },
     {
       serviceId: "srv2",
@@ -130,6 +136,8 @@ export default function Dashboard() {
       description: "Partial body spray for legs or arms.",
       price: 30,
       duration: 15,
+      recommended: false,
+      isMonthly: false,
     },
     {
       serviceId: "srv3",
@@ -137,6 +145,8 @@ export default function Dashboard() {
       description: "Gentle face tanning for a sun-kissed glow.",
       price: 25,
       duration: 10,
+      recommended: false,
+      isMonthly: false,
     },
   ]);
 

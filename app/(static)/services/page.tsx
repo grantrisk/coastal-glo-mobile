@@ -18,9 +18,10 @@ export default function Services() {
           </p>
         </section>
 
-        {/*TODO: update this to render temporary boxes so its not so jarring with the loading*/}
         {/*TODO: need to account for the different types of services she will display*/}
-        <ServiceFetcher />
+        <section className={styles.serviceSection}>
+          <ServiceFetcher />
+        </section>
 
         <section className={styles.feeSection}>
           <h4>Travel Fees:</h4>

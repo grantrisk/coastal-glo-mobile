@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/Services.module.css";
 import { serviceService } from "../lib/dependencyInjector";
 import { Service } from "../lib/schemas";
 import PricingCard from "./PricingCard";
+import SkeletonPricingCard from "./SkeletonPricingCard";
 
 const ServiceFetcher: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -28,33 +28,34 @@ const ServiceFetcher: React.FC = () => {
     fetchServices();
   }, []);
 
-  if (loading) {
-    return <p className={styles.loadingText}>Loading...</p>;
-  }
-
   if (error) {
     return (
-      <div className={styles.section}>
+      <div>
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <section className={styles.serviceSection}>
-      {services.map((service) => (
-        <PricingCard
-          key={service.serviceId}
-          title={service.name}
-          description={service.description}
-          price={service.price}
-          duration={service.duration}
-          recommended={service.recommended}
-          isService
-          isMonthly={service.isMonthly}
-        />
-      ))}
-    </section>
+    <>
+      {loading
+        ? // Display skeleton cards while loading
+          Array.from({ length: 2 }).map((_, index) => (
+            <SkeletonPricingCard key={index} />
+          ))
+        : services.map((service) => (
+            <PricingCard
+              key={service.serviceId}
+              title={service.name}
+              description={service.description}
+              price={service.price}
+              duration={service.duration}
+              recommended={service.recommended}
+              isService
+              isMonthly={service.isMonthly}
+            />
+          ))}
+    </>
   );
 };
 
