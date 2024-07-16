@@ -12,6 +12,7 @@ interface PricingCardProps {
   recommended?: boolean;
   isService?: boolean;
   isMonthly?: boolean;
+  listOrder?: number;
   serviceId?: string; // Optional, only for services
   duration?: number; // Optional, only for services
   productId?: string; // Optional, only for products
@@ -27,6 +28,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
   serviceId,
   duration,
   productId,
+  listOrder,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -36,6 +38,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
     description,
     price: price || 0,
     duration: duration || 0,
+    listOrder: listOrder || 0,
     recommended: recommended || false,
     isMonthly: isMonthly || false,
   };

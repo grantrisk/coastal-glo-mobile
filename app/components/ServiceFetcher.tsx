@@ -15,7 +15,11 @@ const ServiceFetcher: React.FC = () => {
     const fetchServices = async () => {
       try {
         const fetchedServices = await serviceService.fetchServices();
-        setServices(fetchedServices);
+        // Sort services by listOrder before setting them in the state
+        const sortedServices = fetchedServices.sort(
+          (a, b) => a.listOrder - b.listOrder,
+        );
+        setServices(sortedServices);
         setError(null);
       } catch (error) {
         console.error("Error fetching services:", error);

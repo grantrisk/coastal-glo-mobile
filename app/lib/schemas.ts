@@ -36,6 +36,7 @@ export const serviceSchema = z.object({
   description: z.string(),
   price: z.number(),
   duration: z.number(), // duration in minutes
+  listOrder: z.number(),
   recommended: z.boolean(),
   isMonthly: z.boolean(),
 });

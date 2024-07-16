@@ -22,7 +22,11 @@ const ServicesPage: React.FC = () => {
   const fetchServices = async () => {
     try {
       const fetchedServices = await serviceService.fetchServices();
-      setServices(fetchedServices);
+      // Sort services by listOrder before setting them in the state
+      const sortedServices = fetchedServices.sort(
+        (a, b) => a.listOrder - b.listOrder,
+      );
+      setServices(sortedServices);
       setError(null);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -91,6 +95,7 @@ const ServicesPage: React.FC = () => {
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
                   <p>Duration: {service.duration} mins</p>
+                  <p>Display Order: {service.listOrder}</p>
                   <p>Price: ${service.price}</p>
                   <p>
                     Recommended: {service.recommended ? "true" : "false"}

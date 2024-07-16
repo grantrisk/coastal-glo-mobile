@@ -22,6 +22,7 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
     description: "",
     price: 0,
     duration: 0,
+    listOrder: 0,
     recommended: false,
     isMonthly: false,
   });
@@ -33,6 +34,7 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
         description: service.description,
         price: service.price,
         duration: service.duration,
+        listOrder: service.listOrder,
         recommended: service.recommended,
         isMonthly: service.isMonthly,
       });
@@ -53,7 +55,9 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]:
-          name === "price" || name === "duration" ? parseFloat(value) : value,
+          name === "price" || name === "duration" || name === "listOrder"
+            ? parseFloat(value)
+            : value,
       }));
     }
   };
@@ -122,6 +126,16 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
               type="number"
               name="duration"
               value={formData.duration}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label>
+            Display Order:
+            <input
+              type="number"
+              name="listOrder"
+              value={formData.listOrder}
               onChange={handleChange}
               required
             />
