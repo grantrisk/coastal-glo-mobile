@@ -1,36 +1,45 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { serviceService } from "../lib/dependencyInjector";
+import { usePrefetch } from "../providers/PrefetchProvider";
 import { Service } from "../lib/schemas";
 import PricingCard from "./PricingCard";
 import SkeletonPricingCard from "./SkeletonPricingCard";
+import { serviceService } from "../lib/dependencyInjector";
 
 const ServiceFetcher: React.FC = () => {
-  const [services, setServices] = useState<Service[]>([]);
+  const { services: prefetchedServices, setServices } = usePrefetch();
+  const [services, setLocalServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const fetchedServices = await serviceService.fetchServices();
-        // Sort services by listOrder before setting them in the state
-        const sortedServices = fetchedServices.sort(
-          (a, b) => a.listOrder - b.listOrder,
-        );
-        setServices(sortedServices);
-        setError(null);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-        setError("Failed to fetch services. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (prefetchedServices.length > 0) {
+      console.log("Using prefetched services");
+      setLocalServices(prefetchedServices);
+      setLoading(false);
+    } else {
+      console.log("Fetching services");
+      const fetchServices = async () => {
+        try {
+          const fetchedServices = await serviceService.fetchServices();
+          const sortedServices = fetchedServices.sort(
+            (a, b) => a.listOrder - b.listOrder,
+          );
+          setLocalServices(sortedServices); // Update local state with fetched services
+          setServices(sortedServices); // Update global state with fetched services
+          setError(null);
+        } catch (error) {
+          console.error("Error fetching services:", error);
+          setError("Failed to fetch services. Please try again later.");
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchServices();
-  }, []);
+      fetchServices();
+    }
+  }, [prefetchedServices, setServices]);
 
   if (error) {
     return (
