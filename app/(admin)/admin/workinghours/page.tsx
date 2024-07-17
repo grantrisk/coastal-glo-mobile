@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminDashboard.module.css";
-import { WorkingHours } from "../../../lib/schemas";
-import { workingHoursService } from "../../../lib/dependencyInjector";
+import { WorkingHours, SpecialClosure } from "../../../lib/schemas";
+import {
+  workingHoursService,
+  specialClosureService,
+} from "../../../lib/dependencyInjector";
 import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
+import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal";
 import useModal from "../../../hooks/useModal";
 
 const dayOrder = [
@@ -17,18 +21,24 @@ const dayOrder = [
   "saturday",
 ];
 
-// Admin Dashboard Component for Managing Working Hours
+// Admin Dashboard Component for Managing Working Hours and Special Closures
 const WorkingHoursPage: React.FC = () => {
   const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
+  const [specialClosures, setSpecialClosures] = useState<SpecialClosure[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentDay, setCurrentDay] = useState<keyof WorkingHours | null>(null);
   const [currentHours, setCurrentHours] = useState<string>("");
+  const [currentClosure, setCurrentClosure] = useState<SpecialClosure | null>(
+    null,
+  );
 
   const workingHoursFormModal = useModal();
+  const specialClosureFormModal = useModal();
 
   useEffect(() => {
     fetchWorkingHours();
+    fetchSpecialClosures();
   }, []);
 
   const fetchWorkingHours = async () => {
@@ -37,9 +47,20 @@ const WorkingHoursPage: React.FC = () => {
       setWorkingHours(fetchedWorkingHours);
     } catch (error) {
       console.error("Error fetching working hours:", error);
-      setError(" ");
+      setError("Failed to fetch working hours. Please try again later.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSpecialClosures = async () => {
+    try {
+      const fetchedSpecialClosures =
+        await specialClosureService.fetchSpecialClosures();
+      setSpecialClosures(fetchedSpecialClosures);
+    } catch (error) {
+      console.error("Error fetching special closures:", error);
+      setError("Failed to fetch special closures. Please try again later.");
     }
   };
 
@@ -71,16 +92,57 @@ const WorkingHoursPage: React.FC = () => {
     }
   };
 
-  const handleOpenModal = (day: keyof WorkingHours, hours: string) => {
+  const addOrUpdateSpecialClosure = async (closure: SpecialClosure) => {
+    try {
+      if (closure.id) {
+        await specialClosureService.updateSpecialClosure(closure.id, closure);
+      } else {
+        await specialClosureService.createSpecialClosure(closure);
+      }
+      await fetchSpecialClosures();
+      specialClosureFormModal.closeModal();
+    } catch (error) {
+      console.error("Error saving special closure:", error);
+      setError("Failed to save special closure. Please try again later.");
+    }
+  };
+
+  const deleteSpecialClosure = async (id: string) => {
+    try {
+      await specialClosureService.removeSpecialClosure(id);
+      setSpecialClosures(
+        specialClosures.filter((closure) => closure.id !== id),
+      );
+    } catch (error) {
+      console.error("Error deleting special closure:", error);
+      setError("Failed to delete special closure. Please try again later.");
+    }
+  };
+
+  const handleOpenWorkingHoursModal = (
+    day: keyof WorkingHours,
+    hours: string,
+  ) => {
     setCurrentDay(day);
     setCurrentHours(hours);
     workingHoursFormModal.openModal();
   };
 
-  const handleCloseModal = () => {
+  const handleOpenSpecialClosureModal = (closure?: SpecialClosure) => {
+    setCurrentClosure(closure || null);
+    specialClosureFormModal.openModal();
+  };
+
+  const handleCloseWorkingHoursModal = () => {
     workingHoursFormModal.closeModal(() => {
       setCurrentDay(null);
       setCurrentHours("");
+    });
+  };
+
+  const handleCloseSpecialClosureModal = () => {
+    specialClosureFormModal.closeModal(() => {
+      setCurrentClosure(null);
     });
   };
 
@@ -120,7 +182,10 @@ const WorkingHoursPage: React.FC = () => {
               <div className={styles.buttonGroup}>
                 <button
                   onClick={() =>
-                    handleOpenModal(day as keyof WorkingHours, hours)
+                    handleOpenWorkingHoursModal(
+                      day as keyof WorkingHours,
+                      hours,
+                    )
                   }
                   className={styles.button}
                 >
@@ -139,15 +204,59 @@ const WorkingHoursPage: React.FC = () => {
           ))}
         </ul>
       </div>
+      <div className={styles.section}>
+        <h2>Special Closures</h2>
+        <button
+          onClick={() => handleOpenSpecialClosureModal()}
+          className={styles.createButton}
+        >
+          Add Special Closure
+        </button>
+        {specialClosures.length === 0 ? (
+          <p>No special closures found.</p>
+        ) : (
+          <ul className={styles.list}>
+            {specialClosures.map((closure) => (
+              <li key={closure.id} className={styles.listItem}>
+                {closure.date.toDateString()}: {closure.startTime} -{" "}
+                {closure.endTime}
+                <div className={styles.buttonGroup}>
+                  <button
+                    onClick={() => handleOpenSpecialClosureModal(closure)}
+                    className={styles.button}
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => deleteSpecialClosure(closure.id)}
+                    className={styles.button}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       {workingHoursFormModal.isOpen && currentDay && (
         <WorkingHoursFormModal
           day={currentDay}
           currentHours={currentHours}
-          onClose={handleCloseModal}
+          onClose={handleCloseWorkingHoursModal}
           onSave={updateWorkingHours}
           isClosing={workingHoursFormModal.isClosing}
         />
       )}
+      {specialClosureFormModal.isOpen && (
+        <SpecialClosureFormModal
+          closure={currentClosure}
+          onClose={handleCloseSpecialClosureModal}
+          onSave={addOrUpdateSpecialClosure}
+          isClosing={specialClosureFormModal.isClosing}
+        />
+      )}
+      {/*  TODO: add delete confirmation*/}
     </>
   );
 };

@@ -69,6 +69,13 @@ export const workingHoursSchema = z.object({
   saturday: z.string(),
 });
 
+export const specialClosureSchema = z.object({
+  id: z.string(),
+  date: z.date(),
+  startTime: z.string(),
+  endTime: z.string(),
+});
+
 export const notificationSchema = z.object({
   userId: z.string().nullable(),
   appointmentId: z.string(),
@@ -85,4 +92,5 @@ export type Service = z.infer<typeof serviceSchema>;
 export type Appointment = z.infer<typeof appointmentSchema>;
 export type Product = z.infer<typeof productSchema>;
 export type WorkingHours = z.infer<typeof workingHoursSchema>;
+export type SpecialClosure = z.infer<typeof specialClosureSchema>;
 export type Notification = z.infer<typeof notificationSchema>;
