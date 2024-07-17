@@ -52,17 +52,6 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
         [name]: checked,
       }));
     } else {
-      /*setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]:
-          name === "price"
-            ? value === ""
-              ? null
-              : parseFloat(value)
-            : name === "duration" || name === "listOrder"
-              ? parseFloat(value)
-              : value,
-      }));*/
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]:

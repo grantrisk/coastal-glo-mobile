@@ -5,6 +5,7 @@ import styles from "../../../../styles/AdminServicesPage.module.css";
 import { Service } from "../../../lib/schemas";
 import { serviceService } from "../../../lib/dependencyInjector";
 import ServiceFormModal from "../../../components/ServiceFormModal";
+import ConfirmationModal from "../../../components/ConfirmationModal";
 
 // Admin Dashboard Component for Managing Services
 const ServicesPage: React.FC = () => {
@@ -14,6 +15,8 @@ const ServicesPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [currentService, setCurrentService] = useState<Service | null>(null);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState<Service | null>(null);
 
   useEffect(() => {
     fetchServices();
@@ -59,6 +62,27 @@ const ServicesPage: React.FC = () => {
       setCurrentService(null);
     }, 300);
     fetchServices();
+  };
+
+  const handleOpenConfirmation = (service: Service) => {
+    setServiceToDelete(service);
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsConfirmationOpen(false);
+      setIsClosing(false);
+      setServiceToDelete(null);
+    }, 300);
+  };
+
+  const handleConfirmDelete = () => {
+    if (serviceToDelete) {
+      deleteService(serviceToDelete.serviceId);
+      handleCloseConfirmation();
+    }
   };
 
   if (loading) {
@@ -116,7 +140,7 @@ const ServicesPage: React.FC = () => {
                     Update
                   </button>
                   <button
-                    onClick={() => deleteService(service.serviceId)}
+                    onClick={() => handleOpenConfirmation(service)}
                     className={styles.button}
                   >
                     Delete
@@ -131,6 +155,14 @@ const ServicesPage: React.FC = () => {
         <ServiceFormModal
           service={currentService}
           onClose={handleCloseModal}
+          isClosing={isClosing}
+        />
+      )}
+      {isConfirmationOpen && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this service?"
+          onConfirm={handleConfirmDelete}
+          onClose={handleCloseConfirmation}
           isClosing={isClosing}
         />
       )}
