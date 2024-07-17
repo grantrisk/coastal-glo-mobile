@@ -6,17 +6,18 @@ import { Service } from "../../../lib/schemas";
 import { serviceService } from "../../../lib/dependencyInjector";
 import ServiceFormModal from "../../../components/ServiceFormModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
+import useModal from "../../../hooks/useModal";
 
 // Admin Dashboard Component for Managing Services
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
   const [currentService, setCurrentService] = useState<Service | null>(null);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState<Service | null>(null);
+
+  const serviceFormModal = useModal();
+  const confirmationModal = useModal();
 
   useEffect(() => {
     fetchServices();
@@ -51,38 +52,26 @@ const ServicesPage: React.FC = () => {
 
   const handleOpenModal = (service?: Service) => {
     setCurrentService(service || null);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setIsClosing(false);
-      setCurrentService(null);
-    }, 300);
-    fetchServices();
+    serviceFormModal.openModal();
   };
 
   const handleOpenConfirmation = (service: Service) => {
     setServiceToDelete(service);
-    setIsConfirmationOpen(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsConfirmationOpen(false);
-      setIsClosing(false);
-      setServiceToDelete(null);
-    }, 300);
+    confirmationModal.openModal();
   };
 
   const handleConfirmDelete = () => {
     if (serviceToDelete) {
       deleteService(serviceToDelete.serviceId);
-      handleCloseConfirmation();
+      confirmationModal.closeModal();
     }
+  };
+
+  const handleCloseServiceFormModal = () => {
+    serviceFormModal.closeModal(() => {
+      setCurrentService(null);
+      fetchServices();
+    });
   };
 
   if (loading) {
@@ -151,19 +140,19 @@ const ServicesPage: React.FC = () => {
           </ul>
         )}
       </div>
-      {isModalOpen && (
+      {serviceFormModal.isOpen && (
         <ServiceFormModal
           service={currentService}
-          onClose={handleCloseModal}
-          isClosing={isClosing}
+          onClose={handleCloseServiceFormModal}
+          isClosing={serviceFormModal.isClosing}
         />
       )}
-      {isConfirmationOpen && (
+      {confirmationModal.isOpen && (
         <ConfirmationModal
           message="Are you sure you want to delete this service?"
           onConfirm={handleConfirmDelete}
-          onClose={handleCloseConfirmation}
-          isClosing={isClosing}
+          onClose={() => confirmationModal.closeModal()}
+          isClosing={confirmationModal.isClosing}
         />
       )}
     </>
