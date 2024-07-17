@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import styles from "../../styles/PricingCard.module.css";
 import AppointmentModal from "./AppointmentModal";
 import { Service, Product, serviceSchema, productSchema } from "../lib/schemas";
+import useModal from "../hooks/useModal";
 
 interface PricingCardProps {
   title: string;
@@ -30,7 +31,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
   productId,
   listOrder,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const appointmentModal = useModal();
 
   const service: Service = {
     serviceId: serviceId || "",
@@ -62,11 +63,11 @@ const PricingCard: React.FC<PricingCardProps> = ({
         throw new Error("Invalid product data");
       }
     }
-    setIsModalOpen(true);
+    appointmentModal.openModal();
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    appointmentModal.closeModal();
   };
 
   return (
@@ -100,8 +101,12 @@ const PricingCard: React.FC<PricingCardProps> = ({
           </div>
         </div>
       </div>
-      {isModalOpen && isService && (
-        <AppointmentModal onClose={closeModal} service={service} />
+      {appointmentModal.isOpen && isService && (
+        <AppointmentModal
+          onClose={closeModal}
+          service={service}
+          isClosing={appointmentModal.isClosing}
+        />
       )}
     </div>
   );

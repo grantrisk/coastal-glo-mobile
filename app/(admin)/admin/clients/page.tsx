@@ -6,15 +6,16 @@ import { User } from "../../../lib/schemas";
 import { clientService } from "../../../lib/dependencyInjector";
 import ClientFormModal from "../../../components/ClientFormModal";
 import { formatPhoneNumber } from "../../../utils";
+import useModal from "../../../hooks/useModal";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
   const [clients, setClients] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
   const [currentClient, setCurrentClient] = useState<User | null>(null);
+
+  const clientFormModal = useModal();
 
   useEffect(() => {
     fetchClients();
@@ -45,16 +46,13 @@ const ClientsPage: React.FC = () => {
 
   const handleOpenModal = (client?: User) => {
     setCurrentClient(client || null);
-    setIsModalOpen(true);
+    clientFormModal.openModal();
   };
 
   const handleCloseModal = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setIsClosing(false);
+    clientFormModal.closeModal(() => {
       setCurrentClient(null);
-    }, 300);
+    });
     fetchClients();
   };
 
@@ -229,11 +227,11 @@ const ClientsPage: React.FC = () => {
           </ul>
         )}
       </div>
-      {isModalOpen && (
+      {clientFormModal.isOpen && (
         <ClientFormModal
           client={currentClient}
           onClose={handleCloseModal}
-          isClosing={isClosing}
+          isClosing={clientFormModal.isClosing}
         />
       )}
     </>

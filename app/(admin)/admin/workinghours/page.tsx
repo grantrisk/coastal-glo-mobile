@@ -5,6 +5,7 @@ import styles from "../../../../styles/AdminDashboard.module.css";
 import { WorkingHours } from "../../../lib/schemas";
 import { workingHoursService } from "../../../lib/dependencyInjector";
 import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
+import useModal from "../../../hooks/useModal";
 
 const dayOrder = [
   "sunday",
@@ -21,10 +22,10 @@ const WorkingHoursPage: React.FC = () => {
   const [workingHours, setWorkingHours] = useState<WorkingHours | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
   const [currentDay, setCurrentDay] = useState<keyof WorkingHours | null>(null);
   const [currentHours, setCurrentHours] = useState<string>("");
+
+  const workingHoursFormModal = useModal();
 
   useEffect(() => {
     fetchWorkingHours();
@@ -73,17 +74,14 @@ const WorkingHoursPage: React.FC = () => {
   const handleOpenModal = (day: keyof WorkingHours, hours: string) => {
     setCurrentDay(day);
     setCurrentHours(hours);
-    setIsModalOpen(true);
+    workingHoursFormModal.openModal();
   };
 
   const handleCloseModal = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setIsClosing(false);
+    workingHoursFormModal.closeModal(() => {
       setCurrentDay(null);
       setCurrentHours("");
-    }, 300);
+    });
   };
 
   if (loading) {
@@ -141,13 +139,13 @@ const WorkingHoursPage: React.FC = () => {
           ))}
         </ul>
       </div>
-      {isModalOpen && currentDay && (
+      {workingHoursFormModal.isOpen && currentDay && (
         <WorkingHoursFormModal
           day={currentDay}
           currentHours={currentHours}
           onClose={handleCloseModal}
           onSave={updateWorkingHours}
-          isClosing={isClosing}
+          isClosing={workingHoursFormModal.isClosing}
         />
       )}
     </>
