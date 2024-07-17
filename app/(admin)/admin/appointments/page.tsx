@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminAppointments.module.css";
-import { Appointment } from "../../../lib/schemas";
+import { Appointment, Service } from "../../../lib/schemas";
 import { appointmentService } from "../../../lib/dependencyInjector";
+import ConfirmationModal from "../../../components/ConfirmationModal";
+import useModal from "../../../hooks/useModal";
 
 // Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {
@@ -11,6 +13,10 @@ export default function AppointmentsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>("date");
+  const [appointmentToDelete, setAppointmentToDelete] =
+    useState<Appointment | null>(null);
+
+  const confirmationModal = useModal();
 
   useEffect(() => {
     fetchAppointments();
@@ -65,6 +71,18 @@ export default function AppointmentsPage() {
     } catch (error) {
       console.error("Error deleting appointment:", error);
       setError("Failed to delete appointment. Please try again later.");
+    }
+  };
+
+  const handleOpenConfirmation = (appointment: Appointment) => {
+    setAppointmentToDelete(appointment);
+    confirmationModal.openModal();
+  };
+
+  const handleConfirmDelete = () => {
+    if (appointmentToDelete) {
+      deleteAppointment(appointmentToDelete.appointmentId);
+      confirmationModal.closeModal();
     }
   };
 
@@ -182,7 +200,7 @@ export default function AppointmentsPage() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => deleteAppointment(appointment.appointmentId)}
+                  onClick={() => handleOpenConfirmation(appointment)}
                   className={styles.button}
                 >
                   Delete
@@ -192,6 +210,14 @@ export default function AppointmentsPage() {
           ))}
         </ul>
       </div>
+      {confirmationModal.isOpen && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this service?"
+          onConfirm={handleConfirmDelete}
+          onClose={() => confirmationModal.closeModal()}
+          isClosing={confirmationModal.isClosing}
+        />
+      )}
     </>
   );
 }

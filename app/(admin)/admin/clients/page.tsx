@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminClients.module.css";
-import { User } from "../../../lib/schemas";
+import { Service, User } from "../../../lib/schemas";
 import { clientService } from "../../../lib/dependencyInjector";
 import ClientFormModal from "../../../components/ClientFormModal";
 import { formatPhoneNumber } from "../../../utils";
 import useModal from "../../../hooks/useModal";
+import ConfirmationModal from "../../../components/ConfirmationModal";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
@@ -14,8 +15,10 @@ const ClientsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentClient, setCurrentClient] = useState<User | null>(null);
+  const [clientToDelete, setClientToDelete] = useState<User | null>(null);
 
   const clientFormModal = useModal();
+  const confirmationModal = useModal();
 
   useEffect(() => {
     fetchClients();
@@ -47,6 +50,18 @@ const ClientsPage: React.FC = () => {
   const handleOpenModal = (client?: User) => {
     setCurrentClient(client || null);
     clientFormModal.openModal();
+  };
+
+  const handleOpenConfirmation = (client: User) => {
+    setClientToDelete(client);
+    confirmationModal.openModal();
+  };
+
+  const handleConfirmDelete = () => {
+    if (clientToDelete) {
+      deleteClient(clientToDelete.id);
+      confirmationModal.closeModal();
+    }
   };
 
   const handleCloseModal = () => {
@@ -152,6 +167,7 @@ const ClientsPage: React.FC = () => {
   // TODO: add search functionality
   // TODO: add default email prompt
   // TODO: confirm modal for deleting clients
+  // TODO: make the client card smaller but allow a drop down to view more details
 
   return (
     <>
@@ -216,7 +232,7 @@ const ClientsPage: React.FC = () => {
                     Update
                   </button>
                   <button
-                    onClick={() => deleteClient(client.id)}
+                    onClick={() => handleOpenConfirmation(client)}
                     className={styles.button}
                   >
                     Delete
@@ -232,6 +248,14 @@ const ClientsPage: React.FC = () => {
           client={currentClient}
           onClose={handleCloseModal}
           isClosing={clientFormModal.isClosing}
+        />
+      )}
+      {confirmationModal.isOpen && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this client?"
+          onConfirm={handleConfirmDelete}
+          onClose={() => confirmationModal.closeModal()}
+          isClosing={confirmationModal.isClosing}
         />
       )}
     </>
