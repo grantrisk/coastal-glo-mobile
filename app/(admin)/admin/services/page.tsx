@@ -94,12 +94,18 @@ const ServicesPage: React.FC = () => {
                 <div className={styles.serviceInfo}>
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
-                  <p>Duration: {service.duration} mins</p>
-                  <p>Display Order: {service.listOrder}</p>
-                  <p>Price: ${service.price}</p>
                   <p>
-                    Recommended: {service.recommended ? "true" : "false"}
-                  </p>{" "}
+                    Duration:{" "}
+                    {service.duration !== null
+                      ? `${service.duration} mins`
+                      : "N/A"}
+                  </p>
+                  <p>Display Order: {service.listOrder}</p>
+                  <p>
+                    Price:{" "}
+                    {service.price !== null ? `$${service.price}` : "N/A"}
+                  </p>
+                  <p>Recommended: {service.recommended ? "true" : "false"}</p>{" "}
                   <p>Monthly Charge: {service.isMonthly ? "true" : "false"}</p>{" "}
                 </div>
                 <div className={styles.buttonGroup}>

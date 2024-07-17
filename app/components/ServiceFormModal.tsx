@@ -20,8 +20,8 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
   const [formData, setFormData] = useState<Omit<Service, "serviceId">>({
     name: "",
     description: "",
-    price: 0,
-    duration: 0,
+    price: null,
+    duration: null,
     listOrder: 0,
     recommended: false,
     isMonthly: false,
@@ -52,12 +52,31 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
         [name]: checked,
       }));
     } else {
+      /*setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]:
+          name === "price"
+            ? value === ""
+              ? null
+              : parseFloat(value)
+            : name === "duration" || name === "listOrder"
+              ? parseFloat(value)
+              : value,
+      }));*/
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]:
-          name === "price" || name === "duration" || name === "listOrder"
-            ? parseFloat(value)
-            : value,
+          name === "price"
+            ? value === ""
+              ? null
+              : parseFloat(value)
+            : name === "duration"
+              ? value === ""
+                ? null
+                : parseFloat(value)
+              : name === "listOrder"
+                ? parseFloat(value)
+                : value,
       }));
     }
   };
@@ -115,9 +134,8 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
             <input
               type="number"
               name="price"
-              value={formData.price}
+              value={formData.price !== null ? formData.price : ""}
               onChange={handleChange}
-              required
             />
           </label>
           <label>
@@ -125,9 +143,8 @@ const ServiceFormModal: React.FC<ServiceFormModalProps> = ({
             <input
               type="number"
               name="duration"
-              value={formData.duration}
+              value={formData.duration !== null ? formData.duration : ""}
               onChange={handleChange}
-              required
             />
           </label>
           <label>

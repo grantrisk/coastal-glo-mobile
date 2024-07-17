@@ -14,7 +14,7 @@ interface PricingCardProps {
   isMonthly?: boolean;
   listOrder?: number;
   serviceId?: string; // Optional, only for services
-  duration?: number; // Optional, only for services
+  duration?: number | null; // Optional, only for services
   productId?: string; // Optional, only for products
 }
 
@@ -36,8 +36,8 @@ const PricingCard: React.FC<PricingCardProps> = ({
     serviceId: serviceId || "",
     name: title,
     description,
-    price: price || 0,
-    duration: duration || 0,
+    price: price ?? null,
+    duration: duration ?? null,
     listOrder: listOrder || 0,
     recommended: recommended || false,
     isMonthly: isMonthly || false,
@@ -47,7 +47,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
     productId: productId || "",
     name: title,
     description,
-    price: price || 0,
+    price: price ?? null,
   };
 
   const openModal = () => {
@@ -84,7 +84,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
           <h2 className={styles.title}>{title}</h2>
           <p className={styles.description}>{description}</p>
           <div className={styles.priceContainer}>
-            {price !== undefined && (
+            {price !== null && (
               <>
                 <p className={styles.price}>
                   {`$${price}`}

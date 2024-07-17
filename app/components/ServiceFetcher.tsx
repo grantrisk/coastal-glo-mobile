@@ -15,11 +15,9 @@ const ServiceFetcher: React.FC = () => {
 
   useEffect(() => {
     if (prefetchedServices.length > 0) {
-      console.log("Using prefetched services");
       setLocalServices(prefetchedServices);
       setLoading(false);
     } else {
-      console.log("Fetching services");
       const fetchServices = async () => {
         try {
           const fetchedServices = await serviceService.fetchServices();
