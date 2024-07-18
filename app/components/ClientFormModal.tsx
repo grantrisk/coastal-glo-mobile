@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { User } from "../lib/schemas";
 import { clientService } from "../lib/dependencyInjector";
 import { formatPhoneNumber } from "../utils";
+import { createDateObject, formatDate } from "../utils";
 
 interface ClientFormModalProps {
   client?: User | null;
@@ -86,14 +87,6 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
         [name]: createDateObject(value),
       },
     }));
-  };
-
-  const createDateObject = (dateString: string) => {
-    if (!dateString) {
-      return null;
-    }
-    const [year, month, day] = dateString.split("-");
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -258,9 +251,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               type="date"
               name="lastSprayDate"
               value={
-                formData.lastSprayDate
-                  ? formData.lastSprayDate.toISOString().split("T")[0]
-                  : ""
+                formData.lastSprayDate ? formatDate(formData.lastSprayDate) : ""
               }
               onChange={handleChange}
             />
@@ -306,9 +297,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
                   name="nextBillingDate"
                   value={
                     formData.subscription.nextBillingDate
-                      ? formData.subscription.nextBillingDate
-                          .toISOString()
-                          .split("T")[0]
+                      ? formatDate(formData.subscription.nextBillingDate)
                       : ""
                   }
                   onChange={handleSubscriptionDateChange}

@@ -11,6 +11,7 @@ import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
 import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
+import { convertMilitaryTimeToAMPM as formatTime } from "../../../utils";
 
 const dayOrder = [
   "sunday",
@@ -235,8 +236,8 @@ const WorkingHoursPage: React.FC = () => {
           <ul className={styles.list}>
             {specialClosures.map((closure) => (
               <li key={closure.id} className={styles.listItem}>
-                {closure.date.toDateString()}: {closure.startTime} -{" "}
-                {closure.endTime}
+                {closure.date.toDateString()}: {formatTime(closure.startTime)} -{" "}
+                {formatTime(closure.endTime)}
                 <div className={styles.buttonGroup}>
                   <button
                     onClick={() => handleOpenSpecialClosureModal(closure)}
