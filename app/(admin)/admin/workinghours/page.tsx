@@ -9,6 +9,7 @@ import {
 } from "../../../lib/dependencyInjector";
 import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
 import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal";
+import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
 
 const dayOrder = [
@@ -32,9 +33,13 @@ const WorkingHoursPage: React.FC = () => {
   const [currentClosure, setCurrentClosure] = useState<SpecialClosure | null>(
     null,
   );
+  const [closureToDelete, setClosureToDelete] = useState<SpecialClosure | null>(
+    null,
+  );
 
   const workingHoursFormModal = useModal();
   const specialClosureFormModal = useModal();
+  const confirmationModal = useModal();
 
   useEffect(() => {
     fetchWorkingHours();
@@ -133,6 +138,18 @@ const WorkingHoursPage: React.FC = () => {
     specialClosureFormModal.openModal();
   };
 
+  const handleOpenConfirmation = (closure: SpecialClosure) => {
+    setClosureToDelete(closure);
+    confirmationModal.openModal();
+  };
+
+  const handleConfirmDelete = () => {
+    if (closureToDelete) {
+      deleteSpecialClosure(closureToDelete.id);
+      confirmationModal.closeModal();
+    }
+  };
+
   const handleCloseWorkingHoursModal = () => {
     workingHoursFormModal.closeModal(() => {
       setCurrentDay(null);
@@ -228,7 +245,7 @@ const WorkingHoursPage: React.FC = () => {
                     Update
                   </button>
                   <button
-                    onClick={() => deleteSpecialClosure(closure.id)}
+                    onClick={() => handleOpenConfirmation(closure)}
                     className={styles.button}
                   >
                     Delete
@@ -256,7 +273,14 @@ const WorkingHoursPage: React.FC = () => {
           isClosing={specialClosureFormModal.isClosing}
         />
       )}
-      {/*  TODO: add delete confirmation*/}
+      {confirmationModal.isOpen && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this special closure?"
+          onConfirm={handleConfirmDelete}
+          onClose={() => confirmationModal.closeModal()}
+          isClosing={confirmationModal.isClosing}
+        />
+      )}
     </>
   );
 };
