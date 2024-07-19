@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -8,8 +8,14 @@ import styles from "../../styles/AppointmentModal.module.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Appointment, Service, appointmentSchema } from "../lib/schemas";
-import { formatPhoneNumber } from "../utils";
+import {
+  convertMilitaryTimeToAMPM,
+  formatPhoneNumber,
+  getAvailableDays,
+  getAvailableTimeSlots,
+} from "../utils";
 import { appointmentService } from "../lib/dependencyInjector";
+import Loader from "./Loader";
 
 interface AppointmentModalProps {
   onClose: () => void;
@@ -23,6 +29,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   isClosing,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [availableDays, setAvailableDays] = useState<string[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -37,6 +45,49 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false); // State for loading
+
+  useEffect(() => {
+    const fetchAvailableDays = async () => {
+      setLoading(true);
+      try {
+        const days = await getAvailableDays(
+          new Date(),
+          new Date(new Date().setMonth(new Date().getMonth() + 1)),
+        );
+        setAvailableDays(days);
+      } catch (error) {
+        console.error("Error fetching available days: ", error);
+        toast.error("Failed to fetch available days. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAvailableDays();
+  }, []);
+
+  useEffect(() => {
+    const fetchAvailableTimeSlots = async () => {
+      if (selectedDate) {
+        setLoading(true); // Set loading to true when fetching starts
+        try {
+          const times = await getAvailableTimeSlots(
+            selectedDate,
+            service.duration!,
+          );
+          setAvailableTimes(times);
+        } catch (error) {
+          console.error("Error fetching available time slots: ", error);
+          toast.error(
+            "Failed to fetch available time slots. Please try again.",
+          );
+        } finally {
+          setLoading(false); // Set loading to false when fetching ends
+        }
+      }
+    };
+    fetchAvailableTimeSlots();
+  }, [selectedDate, service.duration]);
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
     setSelectedDate(date as Date);
@@ -155,19 +206,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     }
   };
 
-  const availableTimes = [
-    "08:00 AM",
-    "09:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "12:00 PM",
-    "01:00 PM",
-    "02:00 PM",
-    "03:00 PM",
-    "04:00 PM",
-    "05:00 PM",
-  ];
-
   return (
     <Modal onClose={onClose} isClosing={isClosing}>
       <div className={styles.modal}>
@@ -198,25 +236,35 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   }
                   return classes.join(" ");
                 }}
+                tileDisabled={({ date }) =>
+                  !availableDays.includes(date.toISOString().split("T")[0])
+                }
                 maxDate={
                   new Date(new Date().setMonth(new Date().getMonth() + 1))
                 }
                 minDate={new Date()}
               />
-              {selectedDate && (
-                <div className={styles.timeGrid}>
-                  {availableTimes.map((time) => (
-                    <div
-                      key={time}
-                      className={`${styles.timeSlot} ${
-                        selectedTime === time ? styles.selectedTimeSlot : ""
-                      }`}
-                      onClick={() => handleTimeClick(time)}
-                    >
-                      {time}
-                    </div>
-                  ))}
+
+              {loading ? (
+                <div className={styles.loaderContainer}>
+                  <Loader />
                 </div>
+              ) : (
+                selectedDate && (
+                  <div className={styles.timeGrid}>
+                    {availableTimes.map((time) => (
+                      <div
+                        key={time}
+                        className={`${styles.timeSlot} ${
+                          selectedTime === time ? styles.selectedTimeSlot : ""
+                        }`}
+                        onClick={() => handleTimeClick(time)}
+                      >
+                        {convertMilitaryTimeToAMPM(time)}
+                      </div>
+                    ))}
+                  </div>
+                )
               )}
             </div>
             <div className={styles.buttonContainerSingle}>

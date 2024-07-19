@@ -22,6 +22,23 @@ class AppointmentService {
     }
   }
 
+  async fetchAppointmentsByDate(date: Date): Promise<Appointment[]> {
+    if (!date) {
+      throw new Error("Date is required");
+    }
+    try {
+      return await this.appointmentRepository.getAppointmentsByDate(date);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch appointments: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching appointments.",
+        );
+      }
+    }
+  }
+
   async updateAppointmentStatus(
     appointmentId: string,
     status: string,

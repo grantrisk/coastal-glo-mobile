@@ -42,6 +42,26 @@ class WorkingHoursRepository implements IWorkingHoursRepository {
     }
   }
 
+  async getWorkingHoursByDay(day: keyof WorkingHours): Promise<string> {
+    try {
+      const docSnap = await getDoc(this.docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data() as WorkingHours;
+        return data[day];
+      } else {
+        throw new Error("No working hours found");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch working hours: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching working hours.",
+        );
+      }
+    }
+  }
+
   async createWorkingHours(workingHours: WorkingHours): Promise<void> {
     try {
       await setDoc(this.docRef, workingHours);

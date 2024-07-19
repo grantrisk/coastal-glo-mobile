@@ -6,9 +6,10 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { ISpecialClosureRepository } from "./ISpecialClosureRepository";
 import { convertTimestamp } from "../utils";
@@ -20,7 +21,7 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
     this.collection = collection(db, collectionName);
   }
 
-  async getSpecialClosures(): Promise<SpecialClosure[]> {
+  async getAllSpecialClosures(): Promise<SpecialClosure[]> {
     try {
       const snapshot = await getDocs(this.collection);
       return snapshot.docs.map((doc) => {
@@ -42,27 +43,70 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
     }
   }
 
-  async getSpecialClosureById(id: string): Promise<SpecialClosure> {
+  async getSpecialClosuresByDate(date: Date): Promise<SpecialClosure[]> {
     try {
-      const closureDoc = await getDoc(doc(this.collection, id));
-      if (!closureDoc.exists()) {
-        throw new Error("Special closure not found");
-      }
-      const data = closureDoc.data();
-      const transformedData = {
-        ...data,
-        date: convertTimestamp(data.date),
-      };
-      return specialClosureSchema.parse({
-        id: closureDoc.id,
-        ...transformedData,
+      const dateStart = new Date(date);
+      dateStart.setHours(0, 0, 0, 0);
+
+      const dateEnd = new Date(date);
+      dateEnd.setHours(23, 59, 59, 999);
+
+      const q = query(
+        this.collection,
+        where("date", ">=", dateStart),
+        where("date", "<=", dateEnd),
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const transformedData = {
+          ...data,
+          date: convertTimestamp(data.date),
+        };
+        return specialClosureSchema.parse({ id: doc.id, ...transformedData });
       });
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Failed to fetch special closure: ${error.message}`);
+        throw new Error(`Failed to fetch special closures: ${error.message}`);
       } else {
         throw new Error(
-          "An unknown error occurred while fetching special closure.",
+          "An unknown error occurred while fetching special closures.",
+        );
+      }
+    }
+  }
+
+  async getSpecialClosuresByDateRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<SpecialClosure[]> {
+    try {
+      const dateStart = new Date(startDate);
+      dateStart.setHours(0, 0, 0, 0);
+
+      const dateEnd = new Date(endDate);
+      dateEnd.setHours(23, 59, 59, 999);
+
+      const q = query(
+        this.collection,
+        where("date", ">=", dateStart),
+        where("date", "<=", dateEnd),
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const transformedData = {
+          ...data,
+          date: convertTimestamp(data.date),
+        };
+        return specialClosureSchema.parse({ id: doc.id, ...transformedData });
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch special closures: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching special closures.",
         );
       }
     }

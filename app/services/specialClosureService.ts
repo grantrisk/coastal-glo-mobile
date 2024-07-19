@@ -8,9 +8,49 @@ class SpecialClosureService {
     this.specialClosureRepository = specialClosureRepository;
   }
 
-  async fetchSpecialClosures(): Promise<SpecialClosure[]> {
+  async fetchAllSpecialClosures(): Promise<SpecialClosure[]> {
     try {
-      return await this.specialClosureRepository.getSpecialClosures();
+      return await this.specialClosureRepository.getAllSpecialClosures();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch special closures: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching special closures.",
+        );
+      }
+    }
+  }
+
+  async fetchSpecialClosuresByDate(date: Date): Promise<SpecialClosure[]> {
+    if (!date) {
+      throw new Error("Date is required");
+    }
+    try {
+      return await this.specialClosureRepository.getSpecialClosuresByDate(date);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch special closures: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching special closures.",
+        );
+      }
+    }
+  }
+
+  async fetchSpecialClosuresByDateRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<SpecialClosure[]> {
+    if (!startDate || !endDate) {
+      throw new Error("Start date and end date are required");
+    }
+    try {
+      return await this.specialClosureRepository.getSpecialClosuresByDateRange(
+        startDate,
+        endDate,
+      );
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to fetch special closures: ${error.message}`);

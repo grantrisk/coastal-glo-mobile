@@ -42,6 +42,35 @@ class AppointmentRepository implements IAppointmentRepository {
     }
   }
 
+  async getAppointmentsByDate(date: Date): Promise<Appointment[]> {
+    try {
+      const querySnapshot = await getDocs(this.collection);
+      return querySnapshot.docs
+        .map((doc) => {
+          const data = doc.data() as Appointment;
+          return {
+            ...data,
+            appointmentDate: convertTimestamp(data.appointmentDate) as Date,
+            createdAt: convertTimestamp(data.createdAt) as Date,
+            updatedAt: convertTimestamp(data.updatedAt) as Date,
+          };
+        })
+        .filter((appointment) => {
+          return (
+            appointment.appointmentDate.toDateString() === date.toDateString()
+          );
+        });
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch appointments: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching appointments.",
+        );
+      }
+    }
+  }
+
   async updateAppointmentStatus(
     appointmentId: string,
     status: string,

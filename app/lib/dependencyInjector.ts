@@ -11,8 +11,8 @@ import ServiceRepository from "../repositories/serviceRepository";
 import ServiceService from "../services/serviceService";
 import { IServiceRepository } from "../repositories/IServiceRepository";
 import { ISpecialClosureRepository } from "../repositories/ISpecialClosureRepository";
-import SpecialClosureRepository from "../repositories/SpecialClosureRepository";
-import SpecialClosureService from "../services/SpecialClosureService";
+import SpecialClosureRepository from "../repositories/specialClosureRepository";
+import SpecialClosureService from "../services/specialClosureService";
 
 /// Dependency Injection Setup
 // Client

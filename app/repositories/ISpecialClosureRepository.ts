@@ -1,7 +1,14 @@
 import { SpecialClosure } from "../lib/schemas";
 
 export interface ISpecialClosureRepository {
-  getSpecialClosures(): Promise<SpecialClosure[]>;
+  getAllSpecialClosures(): Promise<SpecialClosure[]>;
+
+  getSpecialClosuresByDate(date: Date): Promise<SpecialClosure[]>;
+
+  getSpecialClosuresByDateRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<SpecialClosure[]>;
 
   createSpecialClosure(
     specialClosure: Omit<SpecialClosure, "id">,

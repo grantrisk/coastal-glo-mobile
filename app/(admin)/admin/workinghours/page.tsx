@@ -62,7 +62,7 @@ const WorkingHoursPage: React.FC = () => {
   const fetchSpecialClosures = async () => {
     try {
       const fetchedSpecialClosures =
-        await specialClosureService.fetchSpecialClosures();
+        await specialClosureService.fetchAllSpecialClosures();
       setSpecialClosures(fetchedSpecialClosures);
     } catch (error) {
       console.error("Error fetching special closures:", error);
