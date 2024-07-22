@@ -28,7 +28,8 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
         const data = doc.data();
         const transformedData = {
           ...data,
-          date: convertTimestamp(data.date),
+          startTime: convertTimestamp(data.startTime),
+          endTime: convertTimestamp(data.endTime),
         };
         return specialClosureSchema.parse({ id: doc.id, ...transformedData });
       });
@@ -51,17 +52,19 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
       const dateEnd = new Date(date);
       dateEnd.setHours(23, 59, 59, 999);
 
+      // FIXME: this can get wrong with ranges of dates
       const q = query(
         this.collection,
-        where("date", ">=", dateStart),
-        where("date", "<=", dateEnd),
+        where("startTime", ">=", dateStart),
+        where("startTime", "<=", dateEnd),
       );
       const snapshot = await getDocs(q);
       return snapshot.docs.map((doc) => {
         const data = doc.data();
         const transformedData = {
           ...data,
-          date: convertTimestamp(data.date),
+          startTime: convertTimestamp(data.startTime),
+          endTime: convertTimestamp(data.endTime),
         };
         return specialClosureSchema.parse({ id: doc.id, ...transformedData });
       });
@@ -89,15 +92,16 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
 
       const q = query(
         this.collection,
-        where("date", ">=", dateStart),
-        where("date", "<=", dateEnd),
+        where("startTime", ">=", dateStart),
+        where("startTime", "<=", dateEnd),
       );
       const snapshot = await getDocs(q);
       return snapshot.docs.map((doc) => {
         const data = doc.data();
         const transformedData = {
           ...data,
-          date: convertTimestamp(data.date),
+          startTime: convertTimestamp(data.startTime),
+          endTime: convertTimestamp(data.endTime),
         };
         return specialClosureSchema.parse({ id: doc.id, ...transformedData });
       });

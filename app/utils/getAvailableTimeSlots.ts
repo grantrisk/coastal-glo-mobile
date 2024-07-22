@@ -4,6 +4,7 @@ import {
   specialClosureService,
 } from "../lib/dependencyInjector";
 import { WorkingHours, Appointment, SpecialClosure } from "../lib/schemas";
+import { getMilitaryTime } from "./dateUtils";
 
 /**
  * Converts a time from 12-hour format to 24-hour format.
@@ -108,8 +109,8 @@ const getAvailableTimeSlots = async (
   });
 
   specialClosures.forEach((closure) => {
-    const startTime = closure.startTime;
-    const endTime = closure.endTime;
+    const startTime = getMilitaryTime(closure.startTime);
+    const endTime = getMilitaryTime(closure.endTime);
     const closedSlots = generateTimeSlots(startTime, endTime, serviceDuration);
     closedSlots.forEach((slot) => {
       const index = availableSlots.indexOf(slot);
@@ -156,12 +157,14 @@ const getAvailableDays = async (
     if (hours !== "Closed") {
       const closure = specialClosures.find(
         (closure) =>
-          closure.date.toDateString() === dateIterator.toDateString(),
+          new Date(closure.startTime).toDateString() ===
+          dateIterator.toDateString(),
       );
 
       if (
         !closure ||
-        (closure.startTime === "00:00" && closure.endTime === "23:59")
+        (new Date(closure.startTime).toTimeString().slice(0, 5) === "00:00" &&
+          new Date(closure.endTime).toTimeString().slice(0, 5) === "23:59")
       ) {
         availableDays.push(dateIterator.toISOString().split("T")[0]);
       }

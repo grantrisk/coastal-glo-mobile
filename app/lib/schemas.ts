@@ -71,9 +71,8 @@ export const workingHoursSchema = z.object({
 
 export const specialClosureSchema = z.object({
   id: z.string(),
-  date: z.date(),
-  startTime: z.string(),
-  endTime: z.string(),
+  startTime: z.date(),
+  endTime: z.date(),
 });
 
 export const notificationSchema = z.object({

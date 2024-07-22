@@ -91,6 +91,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
     setSelectedDate(date as Date);
+    setSelectedTime(null);
   };
 
   const handleTimeClick = (time: string) => {
@@ -217,6 +218,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 onChange={handleDateChange}
                 value={selectedDate}
                 className={styles.calendar}
+                calendarType={"gregory"}
                 tileClassName={({ date, view }) => {
                   const classes = [];
                   if (view === "month") {

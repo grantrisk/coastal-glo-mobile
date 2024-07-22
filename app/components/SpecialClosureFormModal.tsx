@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import styles from "../../styles/SpecialClosureFormModal.module.css";
 import { SpecialClosure } from "../lib/schemas";
-import { createDateObject, formatDate } from "../utils";
+import { formatDateTime, createDateTimeObject } from "../utils";
 
 interface SpecialClosureFormModalProps {
   closure: SpecialClosure | null;
@@ -20,17 +20,15 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
   isClosing,
 }) => {
   const [formData, setFormData] = useState<Omit<SpecialClosure, "id">>({
-    date: new Date(),
-    startTime: "",
-    endTime: "",
+    startTime: new Date(),
+    endTime: new Date(),
   });
 
   useEffect(() => {
     if (closure) {
       setFormData({
-        date: closure.date,
-        startTime: closure.startTime,
-        endTime: closure.endTime,
+        startTime: new Date(closure.startTime),
+        endTime: new Date(closure.endTime),
       });
     }
   }, [closure]);
@@ -40,7 +38,7 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: name === "date" ? createDateObject(value) : value,
+      [name]: createDateTimeObject(value),
     }));
   };
 
@@ -59,21 +57,11 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
         <form onSubmit={handleSave} className={styles.form}>
           <h2>{closure ? "Update" : "Add"} Special Closure</h2>
           <label>
-            Date:
-            <input
-              type="date"
-              name="date"
-              value={formatDate(formData.date)}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
             Start Time:
             <input
-              type="time"
+              type="datetime-local"
               name="startTime"
-              value={formData.startTime}
+              value={formatDateTime(formData.startTime)}
               onChange={handleChange}
               required
             />
@@ -81,9 +69,9 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
           <label>
             End Time:
             <input
-              type="time"
+              type="datetime-local"
               name="endTime"
-              value={formData.endTime}
+              value={formatDateTime(formData.endTime)}
               onChange={handleChange}
               required
             />
