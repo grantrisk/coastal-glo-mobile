@@ -19,9 +19,9 @@ export default function Dashboard() {
   // Fetch available time slots for appointments on July 24th, 2024
   const dateToFetch = new Date(2024, 6, 24);
 
-  // Fetch available days between July 28th and August 3rd, 2024
-  const startDate = new Date(2024, 6, 28);
-  const endDate = new Date(2024, 7, 3);
+  // Fetch available days between August 12th and August 18th, 2024
+  const startDate = new Date(2024, 7, 12);
+  const endDate = new Date(2024, 7, 18);
 
   const fetchTimeSlots = async () => {
     setLoading(true);

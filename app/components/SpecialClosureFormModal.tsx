@@ -43,6 +43,7 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
   };
 
   const handleSave = (e: React.FormEvent) => {
+    // FIXME: where there were no special closures before, creating one created a duplicate
     e.preventDefault();
     const updatedClosure: SpecialClosure = {
       id: closure?.id || "",

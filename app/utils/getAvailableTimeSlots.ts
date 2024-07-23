@@ -81,6 +81,7 @@ const getAvailableTimeSlots = async (
   date: Date,
   serviceDuration: number,
 ): Promise<string[]> => {
+  // FIXME: this is still not working for partial closure days
   const workingHours: string =
     await workingHoursService.fetchWorkingHoursByDate(date);
 
@@ -94,12 +95,14 @@ const getAvailableTimeSlots = async (
   const specialClosures: SpecialClosure[] =
     await specialClosureService.fetchSpecialClosuresByDate(date);
 
-  const availableSlots: string[] = generateTimeSlots(
+  // Generate initial available time slots based on working hours
+  let availableSlots: string[] = generateTimeSlots(
     workingHours.split(" - ")[0],
     workingHours.split(" - ")[1],
     serviceDuration,
   );
 
+  // Remove slots that are already booked
   appointments.forEach((appointment) => {
     const bookedSlot = appointment.appointmentDate.toTimeString().slice(0, 5);
     const index = availableSlots.indexOf(bookedSlot);
@@ -108,16 +111,38 @@ const getAvailableTimeSlots = async (
     }
   });
 
+  // Adjust available slots based on special closures
   specialClosures.forEach((closure) => {
-    const startTime = getMilitaryTime(closure.startTime);
-    const endTime = getMilitaryTime(closure.endTime);
-    const closedSlots = generateTimeSlots(startTime, endTime, serviceDuration);
-    closedSlots.forEach((slot) => {
-      const index = availableSlots.indexOf(slot);
-      if (index !== -1) {
-        availableSlots.splice(index, 1);
-      }
+    const closureStart = convertTo24HourFormat(
+      getMilitaryTime(closure.startTime),
+    );
+    const closureEnd = convertTo24HourFormat(getMilitaryTime(closure.endTime));
+
+    // Filter out slots that fall within the closure period
+    availableSlots = availableSlots.filter((slot) => {
+      return slot < closureStart || slot >= closureEnd;
     });
+
+    // Handle edge cases where closures span over the slots
+    const startHour = workingHours.split(" - ")[0];
+    const endHour = workingHours.split(" - ")[1];
+
+    if (closureStart > startHour && closureEnd < endHour) {
+      // Split available slots into two parts: before and after the closure period
+      const beforeClosure = generateTimeSlots(
+        startHour,
+        closureStart,
+        serviceDuration,
+      );
+      const afterClosure = generateTimeSlots(
+        closureEnd,
+        endHour,
+        serviceDuration,
+      );
+
+      // Combine both parts into available slots
+      availableSlots = beforeClosure.concat(afterClosure);
+    }
   });
 
   return availableSlots;
@@ -135,44 +160,84 @@ const getAvailableDays = async (
   startDate: Date,
   endDate: Date,
 ): Promise<string[]> => {
+  console.log(`Fetching working hours for range: ${startDate} to ${endDate}`);
   const workingHours: WorkingHours =
     await workingHoursService.fetchWorkingHours();
+  console.log(`Working hours: ${workingHours}`);
 
-  const specialClosures: SpecialClosure[] =
-    await specialClosureService.fetchSpecialClosuresByDateRange(
-      startDate,
-      endDate,
-    );
+  console.log(
+    `Fetching special closures for range: ${startDate} to ${endDate}`,
+  );
+  let specialClosures: SpecialClosure[] = [];
+  try {
+    specialClosures =
+      await specialClosureService.fetchSpecialClosuresByDateRange(
+        startDate,
+        endDate,
+      );
+    console.log(`Special closures: ${specialClosures}`);
+  } catch (error) {
+    console.error(`Failed to fetch special closures: ${error.message}`);
+    return [];
+  }
 
   const availableDays: string[] = [];
-
   const dateIterator = new Date(startDate);
 
   while (dateIterator <= endDate) {
+    console.log(`Checking date: ${dateIterator}`);
     const dayOfWeek = dateIterator
       .toLocaleString("en-US", { weekday: "long" })
       .toLowerCase();
     const hours = workingHours[dayOfWeek as keyof WorkingHours];
+    console.log(`Working hours for ${dayOfWeek}: ${hours}`);
 
     if (hours !== "Closed") {
-      const closure = specialClosures.find(
-        (closure) =>
-          new Date(closure.startTime).toDateString() ===
-          dateIterator.toDateString(),
-      );
+      const [startHour, endHour] = hours
+        .split(" - ")
+        .map((time) => new Date(dateIterator.toDateString() + " " + time));
+      let isClosed = false;
 
-      if (
-        !closure ||
-        (new Date(closure.startTime).toTimeString().slice(0, 5) === "00:00" &&
-          new Date(closure.endTime).toTimeString().slice(0, 5) === "23:59")
-      ) {
+      specialClosures.forEach((closure) => {
+        const closureStart = new Date(closure.startTime);
+        const closureEnd = new Date(closure.endTime);
+
+        if (
+          (closureStart <= startHour && closureEnd >= startHour) || // Closure starts before working hours end after working hours start
+          (closureStart <= endHour && closureEnd >= endHour) || // Closure starts before working hours end after working hours end
+          (closureStart >= startHour && closureEnd <= endHour) // Closure is completely within working hours
+        ) {
+          if (closureStart <= startHour && closureEnd >= endHour) {
+            isClosed = true; // Full day closure
+          } else {
+            // Partial closure
+            const remainingHours = [
+              { start: startHour, end: closureStart },
+              { start: closureEnd, end: endHour },
+            ].filter(({ start, end }) => start < end); // Filter valid remaining hours
+
+            // Check if any remaining hours are available
+            isClosed = remainingHours.length === 0;
+          }
+        }
+      });
+
+      if (!isClosed) {
+        console.log(
+          `Adding available day: ${dateIterator.toISOString().split("T")[0]}`,
+        );
         availableDays.push(dateIterator.toISOString().split("T")[0]);
+      } else {
+        console.log(`Day closed: ${dateIterator.toISOString().split("T")[0]}`);
       }
+    } else {
+      console.log(`Day closed: ${dateIterator.toISOString().split("T")[0]}`);
     }
 
     dateIterator.setDate(dateIterator.getDate() + 1);
   }
 
+  console.log(`Available days: ${availableDays}`);
   return availableDays;
 };
 

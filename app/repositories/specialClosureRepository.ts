@@ -2,11 +2,13 @@ import { db } from "../lib/firebase";
 import { SpecialClosure, specialClosureSchema } from "../lib/schemas";
 import {
   addDoc,
+  and,
   collection,
   CollectionReference,
   deleteDoc,
   doc,
   getDocs,
+  or,
   query,
   updateDoc,
   where,
@@ -52,12 +54,25 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
       const dateEnd = new Date(date);
       dateEnd.setHours(23, 59, 59, 999);
 
-      // FIXME: this can get wrong with ranges of dates
+      // This is a composite query
       const q = query(
         this.collection,
-        where("startTime", ">=", dateStart),
-        where("startTime", "<=", dateEnd),
+        or(
+          and(
+            where("startTime", ">=", dateStart),
+            where("startTime", "<=", dateEnd),
+          ),
+          and(
+            where("endTime", ">=", dateStart),
+            where("endTime", "<=", dateEnd),
+          ),
+          and(
+            where("startTime", "<=", dateStart),
+            where("endTime", ">=", dateEnd),
+          ),
+        ),
       );
+
       const snapshot = await getDocs(q);
       return snapshot.docs.map((doc) => {
         const data = doc.data();
@@ -90,11 +105,25 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
       const dateEnd = new Date(endDate);
       dateEnd.setHours(23, 59, 59, 999);
 
+      // This is a composite query
       const q = query(
         this.collection,
-        where("startTime", ">=", dateStart),
-        where("startTime", "<=", dateEnd),
+        or(
+          and(
+            where("startTime", ">=", dateStart),
+            where("startTime", "<=", dateEnd),
+          ),
+          and(
+            where("endTime", ">=", dateStart),
+            where("endTime", "<=", dateEnd),
+          ),
+          and(
+            where("startTime", "<=", dateStart),
+            where("endTime", ">=", dateEnd),
+          ),
+        ),
       );
+
       const snapshot = await getDocs(q);
       return snapshot.docs.map((doc) => {
         const data = doc.data();
