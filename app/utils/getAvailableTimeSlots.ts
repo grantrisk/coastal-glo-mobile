@@ -1,9 +1,9 @@
 import {
   appointmentService,
-  workingHoursService,
   specialClosureService,
+  workingHoursService,
 } from "../lib/dependencyInjector";
-import { WorkingHours, Appointment, SpecialClosure } from "../lib/schemas";
+import { Appointment, SpecialClosure, WorkingHours } from "../lib/schemas";
 import { getMilitaryTime } from "./dateUtils";
 
 /**
@@ -81,50 +81,30 @@ const getAvailableTimeSlots = async (
   date: Date,
   serviceDuration: number,
 ): Promise<string[]> => {
-  console.log(
-    `Fetching available time slots for date: ${date} with service duration: ${serviceDuration} minutes`,
-  );
-
   const workingHours: string =
     await workingHoursService.fetchWorkingHoursByDate(date);
-  console.log(`Working hours for ${date}: ${workingHours}`);
 
   if (workingHours === "Closed") {
-    console.log("The facility is closed on the selected date.");
     return [];
   }
 
   const appointments: Appointment[] =
     await appointmentService.fetchAppointmentsByDate(date);
-  console.log(`Total appointments fetched for ${date}: ${appointments.length}`);
 
   const specialClosures: SpecialClosure[] =
     await specialClosureService.fetchSpecialClosuresByDate(date);
-  console.log(
-    `Total special closures fetched for ${date}: ${specialClosures.length}`,
-  );
-  console.log(
-    `Special closures fetched for ${date}: ${specialClosures.map(
-      (closure) => `${closure.startTime} - ${closure.endTime}`,
-    )}`,
-  );
 
   let availableSlots: string[] = generateTimeSlots(
     workingHours.split(" - ")[0],
     workingHours.split(" - ")[1],
     serviceDuration,
   );
-  console.log(
-    `Initial available slots before filtering: ${availableSlots.join(", ")}`,
-  );
 
   appointments.forEach((appointment) => {
     const bookedSlot = appointment.appointmentDate.toTimeString().slice(0, 5);
-    console.log(`Processing appointment: ${bookedSlot}`);
     const index = availableSlots.indexOf(bookedSlot);
     if (index !== -1) {
       availableSlots.splice(index, 1);
-      console.log(`Removed booked slot: ${bookedSlot}`);
     }
   });
 
@@ -133,20 +113,12 @@ const getAvailableTimeSlots = async (
       getMilitaryTime(closure.startTime),
     );
     const closureEnd = convertTo24HourFormat(getMilitaryTime(closure.endTime));
-    console.log(`Processing closure from ${closureStart} to ${closureEnd}`);
 
     availableSlots = availableSlots.filter((slot) => {
-      const isAvailable = slot < closureStart || slot >= closureEnd;
-      if (!isAvailable) {
-        console.log(`Removed slot due to closure: ${slot}`);
-      }
-      return isAvailable;
+      return slot < closureStart || slot >= closureEnd;
     });
   });
 
-  console.log(
-    `Final available slots after all adjustments: ${availableSlots.join(", ")}`,
-  );
   return availableSlots;
 };
 
@@ -162,15 +134,10 @@ const getAvailableDays = async (
   startDate: Date,
   endDate: Date,
 ): Promise<string[]> => {
-  console.log(`Fetching working hours for range: ${startDate} to ${endDate}`);
   const workingHours: WorkingHours =
     await workingHoursService.fetchWorkingHours();
-  console.log(`Working hours: ${workingHours}`);
 
-  console.log(
-    `Fetching special closures for range: ${startDate} to ${endDate}`,
-  );
-  let specialClosures: SpecialClosure[] =
+  const specialClosures: SpecialClosure[] =
     await specialClosureService.fetchSpecialClosuresByDateRange(
       startDate,
       endDate,
@@ -180,18 +147,22 @@ const getAvailableDays = async (
   const dateIterator = new Date(startDate);
 
   while (dateIterator <= endDate) {
-    console.log(`Checking date: ${dateIterator}`);
     const dayOfWeek = dateIterator
       .toLocaleString("en-US", { weekday: "long" })
       .toLowerCase();
     const hours = workingHours[dayOfWeek as keyof WorkingHours];
-    console.log(`Working hours for ${dayOfWeek}: ${hours}`);
 
     if (hours !== "Closed") {
       const [startHour, endHour] = hours
         .split(" - ")
         .map((time) => new Date(dateIterator.toDateString() + " " + time));
       let isClosed = false;
+
+      let availableSlots: string[] = generateTimeSlots(
+        hours.split(" - ")[0],
+        hours.split(" - ")[1],
+        30, // Assuming a default duration of 30 minutes for time slots
+      );
 
       specialClosures.forEach((closure) => {
         const closureStart = new Date(closure.startTime);
@@ -206,33 +177,41 @@ const getAvailableDays = async (
             isClosed = true; // Full day closure
           } else {
             // Partial closure
-            const remainingHours = [
-              { start: startHour, end: closureStart },
-              { start: closureEnd, end: endHour },
-            ].filter(({ start, end }) => start < end); // Filter valid remaining hours
-
-            // Check if any remaining hours are available
-            isClosed = remainingHours.length === 0;
+            availableSlots = availableSlots.filter((slot) => {
+              const slotTime = new Date(
+                dateIterator.toDateString() + " " + slot,
+              );
+              return slotTime < closureStart || slotTime >= closureEnd;
+            });
           }
         }
       });
 
+      // Adjust availability based on appointments
       if (!isClosed) {
-        console.log(
-          `Adding available day: ${dateIterator.toISOString().split("T")[0]}`,
+        const appointments: Appointment[] =
+          await appointmentService.fetchAppointmentsByDate(dateIterator);
+
+        const availableSlotsAfterAppointments = availableSlots.filter(
+          (slot) => {
+            return !appointments.some((appointment) => {
+              const appointmentTime = appointment.appointmentDate
+                .toTimeString()
+                .slice(0, 5);
+              return appointmentTime === slot;
+            });
+          },
         );
-        availableDays.push(dateIterator.toISOString().split("T")[0]);
-      } else {
-        console.log(`Day closed: ${dateIterator.toISOString().split("T")[0]}`);
+
+        if (availableSlotsAfterAppointments.length > 0) {
+          availableDays.push(dateIterator.toISOString().split("T")[0]);
+        }
       }
-    } else {
-      console.log(`Day closed: ${dateIterator.toISOString().split("T")[0]}`);
     }
 
     dateIterator.setDate(dateIterator.getDate() + 1);
   }
 
-  console.log(`Available days: ${availableDays}`);
   return availableDays;
 };
 
