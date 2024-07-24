@@ -6,6 +6,9 @@ import {
 import { Appointment, SpecialClosure, WorkingHours } from "../lib/schemas";
 import { getMilitaryTime } from "./dateUtils";
 
+// FIXME: This may need to be improved for scenarios where there are 45 minute duration slots and there are
+//  existing appointments that are 30 minutes long. Not sure if this is a valid scenario, but it's worth considering.
+
 /**
  * Converts a time from 12-hour format to 24-hour format.
  *
@@ -81,25 +84,30 @@ const getAvailableTimeSlots = async (
   date: Date,
   serviceDuration: number,
 ): Promise<string[]> => {
+  // Fetch working hours for the given date
   const workingHours: string =
     await workingHoursService.fetchWorkingHoursByDate(date);
 
+  // Return an empty array if the business is closed on the given date
   if (workingHours === "Closed") {
     return [];
   }
 
+  // Fetch existing appointments and special closures for the given date
   const appointments: Appointment[] =
     await appointmentService.fetchAppointmentsByDate(date);
 
   const specialClosures: SpecialClosure[] =
     await specialClosureService.fetchSpecialClosuresByDate(date);
 
+  // Generate initial time slots based on working hours
   let availableSlots: string[] = generateTimeSlots(
     workingHours.split(" - ")[0],
     workingHours.split(" - ")[1],
     serviceDuration,
   );
 
+  // Remove time slots that are already booked
   appointments.forEach((appointment) => {
     const bookedSlot = appointment.appointmentDate.toTimeString().slice(0, 5);
     const index = availableSlots.indexOf(bookedSlot);
@@ -108,6 +116,7 @@ const getAvailableTimeSlots = async (
     }
   });
 
+  // Remove time slots that fall within special closure periods
   specialClosures.forEach((closure) => {
     const closureStart = convertTo24HourFormat(
       getMilitaryTime(closure.startTime),
@@ -127,16 +136,20 @@ const getAvailableTimeSlots = async (
  *
  * @param {Date} startDate - The start date for which to fetch available days.
  * @param {Date} endDate - The end date for which to fetch available days.
+ * @param {number} serviceDuration - The duration of each time slot in minutes.
  * @returns {Promise<string[]>} A promise that resolves to an array of strings, each representing an available
  *                             day in the format "YYYY-MM-DD".
  */
 const getAvailableDays = async (
   startDate: Date,
   endDate: Date,
+  serviceDuration: number,
 ): Promise<string[]> => {
+  // Fetch working hours for the entire date range
   const workingHours: WorkingHours =
     await workingHoursService.fetchWorkingHours();
 
+  // Fetch special closures within the date range
   const specialClosures: SpecialClosure[] =
     await specialClosureService.fetchSpecialClosuresByDateRange(
       startDate,
@@ -146,6 +159,7 @@ const getAvailableDays = async (
   const availableDays: string[] = [];
   const dateIterator = new Date(startDate);
 
+  // Iterate through each day in the date range
   while (dateIterator <= endDate) {
     const dayOfWeek = dateIterator
       .toLocaleString("en-US", { weekday: "long" })
@@ -158,19 +172,21 @@ const getAvailableDays = async (
         .map((time) => new Date(dateIterator.toDateString() + " " + time));
       let isClosed = false;
 
+      // Generate initial time slots based on working hours
       let availableSlots: string[] = generateTimeSlots(
         hours.split(" - ")[0],
         hours.split(" - ")[1],
-        30, // Assuming a default duration of 30 minutes for time slots
+        serviceDuration,
       );
 
+      // Adjust availability based on special closures
       specialClosures.forEach((closure) => {
         const closureStart = new Date(closure.startTime);
         const closureEnd = new Date(closure.endTime);
 
         if (
-          (closureStart <= startHour && closureEnd >= startHour) || // Closure starts before working hours end after working hours start
-          (closureStart <= endHour && closureEnd >= endHour) || // Closure starts before working hours end after working hours end
+          (closureStart <= startHour && closureEnd >= startHour) || // Closure starts before working hours and ends after working hours start
+          (closureStart <= endHour && closureEnd >= endHour) || // Closure starts before working hours end and ends after working hours end
           (closureStart >= startHour && closureEnd <= endHour) // Closure is completely within working hours
         ) {
           if (closureStart <= startHour && closureEnd >= endHour) {
@@ -203,12 +219,14 @@ const getAvailableDays = async (
           },
         );
 
+        // Add the day to available days if there are any available slots
         if (availableSlotsAfterAppointments.length > 0) {
           availableDays.push(dateIterator.toISOString().split("T")[0]);
         }
       }
     }
 
+    // Move to the next day
     dateIterator.setDate(dateIterator.getDate() + 1);
   }
 

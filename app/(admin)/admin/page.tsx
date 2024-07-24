@@ -41,7 +41,7 @@ export default function Dashboard() {
     setLoading(true);
     setError(null);
     try {
-      const days = await getAvailableDays(startDate, endDate);
+      const days = await getAvailableDays(startDate, endDate, 30);
       setAvailableDays(days);
     } catch (err) {
       setError("Failed to fetch available days.");

@@ -54,6 +54,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         const days = await getAvailableDays(
           new Date(),
           new Date(new Date().setMonth(new Date().getMonth() + 1)),
+          service.duration!,
         );
         setAvailableDays(days);
       } catch (error) {
