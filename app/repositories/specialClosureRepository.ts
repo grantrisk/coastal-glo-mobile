@@ -74,7 +74,7 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
       );
 
       const snapshot = await getDocs(q);
-      return snapshot.docs.map((doc) => {
+      const closures = snapshot.docs.map((doc) => {
         const data = doc.data();
         const transformedData = {
           ...data,
@@ -82,6 +82,22 @@ class SpecialClosureRepository implements ISpecialClosureRepository {
           endTime: convertTimestamp(data.endTime),
         };
         return specialClosureSchema.parse({ id: doc.id, ...transformedData });
+      });
+
+      // Adjust each closure's start and end times to fit within the bounds of the requested date.
+      // If a closure starts before the beginning of the requested date, set its start time to the beginning of the date.
+      // If a closure ends after the end of the requested date, set its end time to the end of the date.
+      // This ensures that closures are properly adjusted and only relevant parts of closures that overlap with the requested date are returned.
+      return closures.map((closure) => {
+        const closureStart = new Date(closure.startTime);
+        const closureEnd = new Date(closure.endTime);
+        if (closureStart < dateStart) {
+          closure.startTime = dateStart;
+        }
+        if (closureEnd > dateEnd) {
+          closure.endTime = dateEnd;
+        }
+        return closure;
       });
     } catch (error) {
       if (error instanceof Error) {
