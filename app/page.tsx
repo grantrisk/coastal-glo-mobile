@@ -10,8 +10,8 @@ import ScrollAnimationWrapper from "./components/ScrollAnimationWrapper";
 export default function Home() {
   return (
     <>
-      <header>
-        <div className={styles.headerContainer}>
+      <header className={styles.headerContainer}>
+        <div className={styles.headerSection}>
           {/* Parallax Background Container */}
           <div className={styles.parallaxBackground}>
             <Image
@@ -25,32 +25,71 @@ export default function Home() {
           </div>
 
           <div className={styles.overlayText}>
-            <h1>Coastal Glo</h1>
-            <h1>Mobile</h1>
-          </div>
-          <div className={styles.overlayText2}>
-            <h4>Wilmington, NC.</h4>
-            <h4>Mobile Spray Tans</h4>
+            <div>
+              <h1>Coastal Glo</h1>
+              <h1>Mobile</h1>
+            </div>
+            <div className={styles.overlayTextBottom}>
+              <div>
+                <h4>Wilmington, NC.</h4>
+                <h4>Mobile Spray Tans</h4>
+              </div>
+              <div className={styles.bookNowButtonContainer}>
+                <Link
+                  href={"https://coastalglomobile.glossgenius.com/services"}
+                  prefetch
+                  target={"_blank"}
+                >
+                  <p className={styles.bookNowButton}>Book Now</p>
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* This adds a dark tink to the background image */}
+          {/* This adds a dark tint to the background image */}
           <div className={styles.imageTint}></div>
-
-          <Link
-            href={"https://coastalglomobile.glossgenius.com/services"}
-            prefetch
-            target={"_blank"}
-          >
-            <p className={styles.bookNowButton}>Book Now</p>
-          </Link>
-
-          {/* Need this container to position the Nav on top of the background image */}
-          <div className={styles.navContainer}>
-            <Nav />
-          </div>
+        </div>
+        {/* Need this container to position the Nav on top of the background image */}
+        <div className={styles.navContainer}>
+          <Nav />
         </div>
       </header>
       <main className={styles.main}>
+        <section className={styles.aboutSection}>
+          <div className={styles.aboutSectionWrapper}>
+            <Image
+              src={"/equipment-picture.jpg"}
+              alt={"Equipment Picture"}
+              className={styles.aboutSectionImage}
+              height={401.25}
+              width={321}
+            />
+            <div className={styles.aboutSectionText}>
+              <ScrollAnimationWrapper>
+                <h2>Professional Mobile Spray Tan Services</h2>
+              </ScrollAnimationWrapper>
+              <ScrollAnimationWrapper>
+                <p>
+                  My mobile spray tanning service brings the glow to your home.
+                  Using professional-grade equipment, I set up a dedicated spray
+                  tan tent to ensure a mess-free experience. My solutions are
+                  tailored to your skin type and desired tan depth. The setup is
+                  quick and efficient, allowing you to enjoy a flawless tan
+                  without leaving your home.
+                </p>
+              </ScrollAnimationWrapper>
+              <ScrollAnimationWrapper>
+                <p>
+                  I bring all necessary equipment, including the spray tan
+                  machine, tent, and high-quality tanning solutions. The process
+                  is comfortable and convenient, providing you with a beautiful,
+                  natural-looking tan.
+                </p>
+              </ScrollAnimationWrapper>
+            </div>
+          </div>
+        </section>
+
         <section className={styles.sjolieSection}>
           <h2>Sjolie Tanning Solution is</h2>
 
