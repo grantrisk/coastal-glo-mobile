@@ -70,17 +70,17 @@ export default function Home() {
               </ScrollAnimationWrapper>
               <ScrollAnimationWrapper>
                 <p>
-                  Our mobile spray tanning service brings the glow to your home.
-                  Using professional-grade equipment, we set up a dedicated
-                  spray tan tent to ensure a mess-free experience. Our solutions
-                  are tailored to your skin type and desired tan depth. The
-                  setup is quick and efficient, allowing you to enjoy a flawless
-                  tan without leaving your home.
+                  My mobile spray tanning service brings the glow to your home.
+                  Using professional-grade equipment, I set up a dedicated spray
+                  tan tent to ensure a mess-free experience. My solutions are
+                  tailored to your skin type and desired tan depth. The setup is
+                  quick and efficient, allowing you to enjoy a flawless tan
+                  without leaving your home.
                 </p>
               </ScrollAnimationWrapper>
               <ScrollAnimationWrapper>
                 <p>
-                  We bring all necessary equipment including the spray tan
+                  I bring all necessary equipment, including the spray tan
                   machine, tent, and high-quality tanning solutions. The process
                   is comfortable and convenient, providing you with a beautiful,
                   natural-looking tan.
