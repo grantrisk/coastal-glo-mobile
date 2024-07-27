@@ -25,22 +25,24 @@ export default function Home() {
           </div>
 
           <div className={styles.overlayText}>
-            <h1>Coastal Glo</h1>
-            <h1>Mobile</h1>
-          </div>
-          <div className={styles.bottomOverlayText}>
             <div>
-              <h4>Wilmington, NC.</h4>
-              <h4>Mobile Spray Tans</h4>
+              <h1>Coastal Glo</h1>
+              <h1>Mobile</h1>
             </div>
-            <div className={styles.bookNowButtonContainer}>
-              <Link
-                href={"https://coastalglomobile.glossgenius.com/services"}
-                prefetch
-                target={"_blank"}
-              >
-                <p className={styles.bookNowButton}>Book Now</p>
-              </Link>
+            <div className={styles.overlayTextBottom}>
+              <div>
+                <h4>Wilmington, NC.</h4>
+                <h4>Mobile Spray Tans</h4>
+              </div>
+              <div className={styles.bookNowButtonContainer}>
+                <Link
+                  href={"https://coastalglomobile.glossgenius.com/services"}
+                  prefetch
+                  target={"_blank"}
+                >
+                  <p className={styles.bookNowButton}>Book Now</p>
+                </Link>
+              </div>
             </div>
           </div>
 

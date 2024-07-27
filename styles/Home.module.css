@@ -4,12 +4,14 @@
 
 .headerContainer {
   height: 100vh;
+  min-height: 570px;
 }
 
 .headerSection {
   position: relative;
   height: calc(100vh - 70px); /* 70px is the height of the Nav component */
   width: 100%;
+  min-height: 500px;
 }
 
 .parallaxBackground {
@@ -23,35 +25,29 @@
 
 .overlayText {
   position: absolute;
-  top: 1%;
-  left: 3%;
-  transform: none;
   color: #fff;
   z-index: 3;
-  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+
+.overlayTextBottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap-reverse;
 }
 
 .overlayText h1 {
   font-size: 8rem;
 }
 
-.bottomOverlayText {
-  position: absolute;
-  top: calc(
-    100vh - 200px
-  ); /* Hard coded 200px to get the text above the Nav component */
-  left: 3%;
-  transform: none;
-  color: #fff;
-  z-index: 3;
-  width: 95%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap-reverse;
-}
-
-.bottomOverlayText h4 {
+.overlayText h4 {
   font-size: 2.5rem;
 }
 
@@ -68,7 +64,6 @@
 .bookNowButton {
   width: 250px;
   float: right;
-  margin: 20px;
   padding: 10px;
   font-size: 2rem;
   font-weight: 700;
@@ -232,6 +227,10 @@
 }
 
 @media (max-width: 768px) {
+  .headerContainer {
+    min-height: 500px;
+  }
+
   .headerSection {
     height: 100vh;
   }
@@ -240,11 +239,7 @@
     font-size: 5rem;
   }
 
-  .bottomOverlayText {
-    top: 85vh;
-  }
-
-  .bottomOverlayText h4 {
+  .overlayText h4 {
     font-size: 2rem;
   }
 
@@ -261,40 +256,12 @@
   }
 }
 
-@media (max-width: 591px) {
-  .bottomOverlayText {
-    top: 78vh;
-  }
-}
-
 @media (max-width: 480px) {
   .overlayText h1 {
     font-size: 4rem;
   }
 
-  .bottomOverlayText {
-    top: 78vh;
-  }
-
-  .bottomOverlayText h4 {
+  .overlayText h4 {
     font-size: 1.5rem;
-  }
-}
-
-@media (max-height: 768px) and (max-width: 760px) {
-  .bottomOverlayText {
-    top: 80vh;
-  }
-}
-
-@media (max-height: 470px) {
-  .bottomOverlayText {
-    top: 70vh;
-  }
-}
-
-@media (max-height: 300px) {
-  .bottomOverlayText {
-    display: none;
   }
 }
