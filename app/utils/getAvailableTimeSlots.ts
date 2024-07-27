@@ -6,9 +6,6 @@ import {
 import { Appointment, SpecialClosure, WorkingHours } from "../lib/schemas";
 import { getMilitaryTime } from "./dateUtils";
 
-// FIXME: This may need to be improved for scenarios where there are 45 minute duration slots and there are
-//  existing appointments that are 30 minutes long. Not sure if this is a valid scenario, but it's worth considering.
-
 /**
  * Converts a time from 12-hour format to 24-hour format.
  *
@@ -232,5 +229,10 @@ const getAvailableDays = async (
 
   return availableDays;
 };
+
+// FIXME: This may need to be improved for scenarios where there are 45 minute duration slots and there are
+//  existing appointments that are 30 minutes long. Not sure if this is a valid scenario, but it's worth considering.
+
+// FIXME: eventually refactor this file to not duplicate code
 
 export { getAvailableTimeSlots, getAvailableDays };
