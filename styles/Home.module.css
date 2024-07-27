@@ -96,10 +96,53 @@
   background-color: var(--color-primary);
 }
 
+.aboutSection {
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, var(--color-primary) 5%, white 100%);
+}
+
+.aboutSectionWrapper {
+  margin: auto;
+  max-width: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutSectionImage {
+  flex: 1;
+  max-width: 700px;
+  height: auto;
+  width: auto;
+  border-radius: 10px;
+  margin: auto;
+  box-shadow: -10px 10px 20px 5px rgba(0, 0, 0, 0.1),
+  10px 10px 20px 5px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+}
+
+.aboutSectionText {
+  flex: 1;
+  max-width: 40%;
+  width: 100%;
+  margin: auto;
+  /*padding: 50px;*/
+  padding-left: 50px;
+}
+
+.aboutSectionText h2 {
+  margin-bottom: 20px;
+}
+
+.aboutSectionText p {
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
 .sjolieSection {
   text-align: center;
   padding: 40px 20px;
-  background: linear-gradient(to bottom, var(--color-primary) 5%, white 100%);
+  background-color: white;
 }
 
 .cycleText {
@@ -164,6 +207,33 @@
   left: -200px;
 }
 
+@media (max-width: 1100px) {
+  .aboutSectionImage {
+    max-width: 100%;
+  }
+
+  .aboutSectionText {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 900px) {
+  .aboutSectionWrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .aboutSectionImage {
+    max-width: 100%;
+  }
+
+  .aboutSectionText {
+    margin-top: 20px;
+    max-width: 100%;
+    padding: 10px;
+  }
+}
+
 @media (max-width: 768px) {
   .headerContainer {
     height: 100vh;
@@ -205,20 +275,6 @@
 
   .overlayText2 h4 {
     font-size: 2rem;
-  }
-}
-
-@media (max-height: 500px) {
-  .overlayText h1 {
-    font-size: 4rem;
-  }
-
-  .overlayText2 {
-    top: calc(100vh - 150px);
-  }
-
-  .overlayText2 h4 {
-    font-size: 1.5rem;
   }
 }
 

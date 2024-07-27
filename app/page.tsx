@@ -33,7 +33,7 @@ export default function Home() {
             <h4>Mobile Spray Tans</h4>
           </div>
 
-          {/* This adds a dark tink to the background image */}
+          {/* This adds a dark tint to the background image */}
           <div className={styles.imageTint}></div>
 
           <Link
@@ -51,6 +51,41 @@ export default function Home() {
         </div>
       </header>
       <main className={styles.main}>
+        <section className={styles.aboutSection}>
+          <div className={styles.aboutSectionWrapper}>
+            <Image
+              src={"/equipment-picture.jpg"}
+              alt={"Equipment Picture"}
+              className={styles.aboutSectionImage}
+              height={401.25}
+              width={321}
+            />
+            <div className={styles.aboutSectionText}>
+              <ScrollAnimationWrapper>
+                <h2>Professional Mobile Spray Tan Services</h2>
+              </ScrollAnimationWrapper>
+              <ScrollAnimationWrapper>
+                <p>
+                  Our mobile spray tanning service brings the glow to your home.
+                  Using professional-grade equipment, we set up a dedicated
+                  spray tan tent to ensure a mess-free experience. Our solutions
+                  are tailored to your skin type and desired tan depth. The
+                  setup is quick and efficient, allowing you to enjoy a flawless
+                  tan without leaving your home.
+                </p>
+              </ScrollAnimationWrapper>
+              <ScrollAnimationWrapper>
+                <p>
+                  We bring all necessary equipment including the spray tan
+                  machine, tent, and high-quality tanning solutions. The process
+                  is comfortable and convenient, providing you with a beautiful,
+                  natural-looking tan.
+                </p>
+              </ScrollAnimationWrapper>
+            </div>
+          </div>
+        </section>
+
         <section className={styles.sjolieSection}>
           <h2>Sjolie Tanning Solution is</h2>
 
