@@ -3,8 +3,12 @@
 }
 
 .headerContainer {
+  height: 100vh;
+}
+
+.headerSection {
   position: relative;
-  height: 100vh; /* Adjusted to leave room for navbar */
+  height: calc(100vh - 70px); /* 70px is the height of the Nav component */
   width: 100%;
 }
 
@@ -13,7 +17,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 1;
 }
 
@@ -31,7 +35,7 @@
   font-size: 8rem;
 }
 
-.overlayText2 {
+.bottomOverlayText {
   position: absolute;
   top: calc(
     100vh - 200px
@@ -40,10 +44,14 @@
   transform: none;
   color: #fff;
   z-index: 3;
-  width: auto;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
 }
 
-.overlayText2 h4 {
+.bottomOverlayText h4 {
   font-size: 2.5rem;
 }
 
@@ -52,17 +60,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
 
 .bookNowButton {
   width: 250px;
-  position: absolute;
-  top: calc(100vh - 150px);
-  left: calc(100vw - 200px);
-  transform: translate(-50%, -50%);
+  float: right;
+  margin: 20px;
   padding: 10px;
   font-size: 2rem;
   font-weight: 700;
@@ -74,7 +80,6 @@
   box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 1);
   transition: 0.2s;
   text-align: center;
-  z-index: 2;
 }
 
 .bookNowButton:hover {
@@ -84,16 +89,8 @@
 }
 
 .navContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  transition: background-color 2s;
-  position: absolute;
-  top: calc(
-    100vh - 70px
-  ); /* The 70px is the height of the nav element in the Nav component */
   z-index: 10;
-  background-color: var(--color-primary);
+  height: 70px;
 }
 
 .aboutSection {
@@ -235,7 +232,7 @@
 }
 
 @media (max-width: 768px) {
-  .headerContainer {
+  .headerSection {
     height: 100vh;
   }
 
@@ -243,16 +240,12 @@
     font-size: 5rem;
   }
 
-  .overlayText2 {
+  .bottomOverlayText {
     top: 85vh;
   }
 
-  .overlayText2 h4 {
+  .bottomOverlayText h4 {
     font-size: 2rem;
-  }
-
-  .bookNowButton {
-    top: calc(100vh - 50px);
   }
 
   .navContainer {
@@ -268,9 +261,9 @@
   }
 }
 
-@media (max-width: 620px) {
-  .bookNowButton {
-    top: calc(100vh - 150px);
+@media (max-width: 591px) {
+  .bottomOverlayText {
+    top: 78vh;
   }
 }
 
@@ -279,27 +272,29 @@
     font-size: 4rem;
   }
 
-  .overlayText2 {
-    top: 88vh;
+  .bottomOverlayText {
+    top: 78vh;
   }
 
-  .overlayText2 h4 {
+  .bottomOverlayText h4 {
     font-size: 1.5rem;
-  }
-
-  .bookNowButton {
-    top: calc(100vh - 110px);
   }
 }
 
-@media (max-width: 350px) {
-  .bookNowButton {
-    left: calc(100vw - 150px);
+@media (max-height: 768px) and (max-width: 760px) {
+  .bottomOverlayText {
+    top: 80vh;
+  }
+}
+
+@media (max-height: 470px) {
+  .bottomOverlayText {
+    top: 70vh;
   }
 }
 
 @media (max-height: 300px) {
-  .overlayText2 {
+  .bottomOverlayText {
     display: none;
   }
 }

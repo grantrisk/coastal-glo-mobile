@@ -10,8 +10,8 @@ import ScrollAnimationWrapper from "./components/ScrollAnimationWrapper";
 export default function Home() {
   return (
     <>
-      <header>
-        <div className={styles.headerContainer}>
+      <header className={styles.headerContainer}>
+        <div className={styles.headerSection}>
           {/* Parallax Background Container */}
           <div className={styles.parallaxBackground}>
             <Image
@@ -28,26 +28,28 @@ export default function Home() {
             <h1>Coastal Glo</h1>
             <h1>Mobile</h1>
           </div>
-          <div className={styles.overlayText2}>
-            <h4>Wilmington, NC.</h4>
-            <h4>Mobile Spray Tans</h4>
+          <div className={styles.bottomOverlayText}>
+            <div>
+              <h4>Wilmington, NC.</h4>
+              <h4>Mobile Spray Tans</h4>
+            </div>
+            <div className={styles.bookNowButtonContainer}>
+              <Link
+                href={"https://coastalglomobile.glossgenius.com/services"}
+                prefetch
+                target={"_blank"}
+              >
+                <p className={styles.bookNowButton}>Book Now</p>
+              </Link>
+            </div>
           </div>
 
           {/* This adds a dark tint to the background image */}
           <div className={styles.imageTint}></div>
-
-          <Link
-            href={"https://coastalglomobile.glossgenius.com/services"}
-            prefetch
-            target={"_blank"}
-          >
-            <p className={styles.bookNowButton}>Book Now</p>
-          </Link>
-
-          {/* Need this container to position the Nav on top of the background image */}
-          <div className={styles.navContainer}>
-            <Nav />
-          </div>
+        </div>
+        {/* Need this container to position the Nav on top of the background image */}
+        <div className={styles.navContainer}>
+          <Nav />
         </div>
       </header>
       <main className={styles.main}>
