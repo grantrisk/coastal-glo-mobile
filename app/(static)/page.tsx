@@ -35,11 +35,7 @@ export default function Home() {
                 <h4>Mobile Spray Tans</h4>
               </div>
               <div className={styles.bookNowButtonContainer}>
-                <Link
-                  href={"https://coastalglomobile.glossgenius.com/services"}
-                  prefetch
-                  target={"_blank"}
-                >
+                <Link href={"/services"} prefetch>
                   <p className={styles.bookNowButton}>Book Now</p>
                 </Link>
               </div>
