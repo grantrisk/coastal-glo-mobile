@@ -58,12 +58,12 @@ export default function AdminLayout({
         <nav className={styles.dashboardNav}>
           <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
           <ul>
-            <Link href={"/admin"} prefetch>
+            <Link href={"/admin"}>
               <li className={pathname === "/admin" ? styles.activeLink : ""}>
                 <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
               </li>
             </Link>
-            <Link href={"/admin/appointments"} prefetch>
+            <Link href={"/admin/appointments"}>
               <li
                 className={
                   pathname === "/admin/appointments" ? styles.activeLink : ""
@@ -72,7 +72,7 @@ export default function AdminLayout({
                 <FontAwesomeIcon icon={faCalendarAlt} /> Manage Appointments
               </li>
             </Link>
-            <Link href={"/admin/clients"} prefetch>
+            <Link href={"/admin/clients"}>
               <li
                 className={
                   pathname === "/admin/clients" ? styles.activeLink : ""
@@ -81,7 +81,7 @@ export default function AdminLayout({
                 <FontAwesomeIcon icon={faUsers} /> Clients
               </li>
             </Link>
-            <Link href={"/admin/services"} prefetch>
+            <Link href={"/admin/services"}>
               <li
                 className={
                   pathname === "/admin/services" ? styles.activeLink : ""
@@ -90,7 +90,7 @@ export default function AdminLayout({
                 <FontAwesomeIcon icon={faConciergeBell} /> Services
               </li>
             </Link>
-            <Link href={"/admin/workinghours"} prefetch>
+            <Link href={"/admin/workinghours"}>
               <li
                 className={
                   pathname === "/admin/workinghours" ? styles.activeLink : ""

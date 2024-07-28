@@ -35,7 +35,7 @@ export default function Home() {
                 <h4>Mobile Spray Tans</h4>
               </div>
               <div className={styles.bookNowButtonContainer}>
-                <Link href={"/services"} prefetch>
+                <Link href={"/services"}>
                   <p className={styles.bookNowButton}>Book Now</p>
                 </Link>
               </div>
