@@ -1,11 +1,11 @@
-import styles from "../styles/Home.module.css";
-import Nav from "./components/Nav";
+import styles from "../../styles/Home.module.css";
+import Nav from "../components/Nav";
 import Link from "next/link";
 import React from "react";
-import CycleText from "./components/CycleText";
-import InfoCard from "./components/InfoCard";
+import CycleText from "../components/CycleText";
+import InfoCard from "../components/InfoCard";
 import Image from "next/image";
-import ScrollAnimationWrapper from "./components/ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../components/ScrollAnimationWrapper";
 
 export default function Home() {
   return (
@@ -35,11 +35,7 @@ export default function Home() {
                 <h4>Mobile Spray Tans</h4>
               </div>
               <div className={styles.bookNowButtonContainer}>
-                <Link
-                  href={"https://coastalglomobile.glossgenius.com/services"}
-                  prefetch
-                  target={"_blank"}
-                >
+                <Link href={"/services"}>
                   <p className={styles.bookNowButton}>Book Now</p>
                 </Link>
               </div>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
-import Footer from "./components/Footer";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import ReCaptchaContainer from "./components/ReCaptchaContainer";
+import { PrefetchProvider } from "./providers/PrefetchProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -64,8 +66,20 @@ export default function RootLayout({
       className={`${montserrat.variable} ${playfairDisplay.variable}`}
     >
       <body>
-        {children}
-        <Footer />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+        <ReCaptchaContainer />
+        <PrefetchProvider>{children}</PrefetchProvider>
       </body>
     </html>
   );

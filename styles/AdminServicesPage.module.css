@@ -1,0 +1,85 @@
+.section {
+    background-color: #f9f9f9;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.createButton {
+    background-color: var(--color-tertiary);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.createButton:hover {
+    background-color: var(--rich-brown);
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listItem {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.serviceInfo {
+    flex: 1;
+}
+
+.serviceInfo h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+.serviceInfo p {
+    margin: 5px 0;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.button {
+    background-color: var(--color-tertiary);
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--rich-brown);
+}
+
+.loadingText {
+    text-align: center;
+    font-size: 18px;
+}

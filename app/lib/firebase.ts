@@ -1,5 +1,7 @@
-import { initializeApp, getApp, getApps } from "firebase/app";
+import { initializeApp, getApp, getApps, FirebaseApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,15 +13,18 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase only if it hasn't been initialized yet
+let firebaseApp: FirebaseApp;
+
 if (!getApps().length) {
-  initializeApp(firebaseConfig);
-  // Check if it's in a browser environment
+  firebaseApp = initializeApp(firebaseConfig);
   if (typeof window !== "undefined") {
-    // Enable analytics if it's a browser
-    getAnalytics();
+    getAnalytics(firebaseApp);
   }
+} else {
+  firebaseApp = getApp();
 }
 
-// Export the Firebase app for use in other files
-export default getApp;
+const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
+
+export { firebaseApp, db, auth };
