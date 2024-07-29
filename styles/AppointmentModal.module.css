@@ -237,4 +237,42 @@
   font-size: 12px;
 }
 
-/*TODO: update this for mobile*/
+@media (max-height: 900px) {
+  .modal {
+    height: 90vh;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .timeGrid {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .timeGrid {
+    margin-bottom: 30px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .label,
+  .input {
+    width: 100%;
+  }
+}

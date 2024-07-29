@@ -166,7 +166,6 @@ const ClientsPage: React.FC = () => {
 
   // TODO: add search functionality
   // TODO: add default email prompt
-  // TODO: confirm modal for deleting clients
   // TODO: make the client card smaller but allow a drop down to view more details
 
   return (
