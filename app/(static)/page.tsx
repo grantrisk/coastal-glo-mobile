@@ -53,13 +53,15 @@ export default function Home() {
       <main className={styles.main}>
         <section className={styles.aboutSection}>
           <div className={styles.aboutSectionWrapper}>
-            <Image
-              src={"/equipment-picture.jpg"}
-              alt={"Equipment Picture"}
-              className={styles.aboutSectionImage}
-              height={401.25}
-              width={321}
-            />
+            <div className={styles.aboutSectionImageWrapper}>
+              <Image
+                src={"/equipment-picture.jpg"}
+                alt={"Equipment Picture"}
+                className={styles.aboutSectionImage}
+                height={803}
+                width={642}
+              />
+            </div>
             <div className={styles.aboutSectionText}>
               <ScrollAnimationWrapper>
                 <h2>Professional Mobile Spray Tan Services</h2>
