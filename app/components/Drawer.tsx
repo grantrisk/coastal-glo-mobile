@@ -9,9 +9,10 @@ interface Route {
 
 interface DrawerProps {
   routes: Route[];
+  position?: "left" | "right";
 }
 
-const Drawer: FC<DrawerProps> = ({ routes }) => {
+const Drawer: FC<DrawerProps> = ({ routes, position = "left" }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -22,14 +23,23 @@ const Drawer: FC<DrawerProps> = ({ routes }) => {
     setIsOpen(false);
   };
 
+  const drawerClasses = `${styles.drawer} ${
+    isOpen ? styles.open : ""
+  } ${position === "right" ? styles.right : ""}`;
+
   return (
     <div>
       {!isOpen && (
-        <button onClick={toggleDrawer} className={styles.menuButton}>
+        <button
+          onClick={toggleDrawer}
+          className={`${styles.menuButton} ${
+            position === "right" ? styles.menuButtonRight : ""
+          }`}
+        >
           ☰
         </button>
       )}
-      <div className={`${styles.drawer} ${isOpen ? styles.open : ""}`}>
+      <div className={drawerClasses}>
         <button onClick={toggleDrawer} className={styles.closeButton}>
           &times;
         </button>
@@ -48,10 +58,7 @@ const Drawer: FC<DrawerProps> = ({ routes }) => {
           ))}
         </ul>
       </div>
-      <div
-        className={isOpen ? styles.overlay : ""}
-        onClick={toggleDrawer}
-      ></div>
+      {isOpen && <div className={styles.overlay} onClick={toggleDrawer}></div>}
     </div>
   );
 };

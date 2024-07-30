@@ -1,7 +1,6 @@
 .drawer {
     position: fixed;
     top: 0;
-    left: 0;
     height: 100%;
     width: 250px;
     background-color: #111;
@@ -11,7 +10,13 @@
     z-index: 1000;
 }
 
-.open {
+.drawer.right {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+}
+
+.drawer.open {
     transform: translateX(0);
 }
 
@@ -54,6 +59,11 @@
     border-radius: 10%;
     box-shadow: -1px 1px 10px 1px rgba(0, 0, 0, 0.1),
     1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.menuButtonRight {
+    left: auto;
+    right: 15px;
 }
 
 .closeButton {
