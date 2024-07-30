@@ -10,9 +10,14 @@ interface Route {
 interface DrawerProps {
   routes: Route[];
   position?: "left" | "right";
+  displayAsNavBar?: boolean;
 }
 
-const Drawer: FC<DrawerProps> = ({ routes, position = "left" }) => {
+const Drawer: FC<DrawerProps> = ({
+  routes,
+  position = "left",
+  displayAsNavBar = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -23,13 +28,13 @@ const Drawer: FC<DrawerProps> = ({ routes, position = "left" }) => {
     setIsOpen(false);
   };
 
-  const drawerClasses = `${styles.drawer} ${
-    isOpen ? styles.open : ""
-  } ${position === "right" ? styles.right : ""}`;
+  const drawerClasses = `${styles.drawer} ${isOpen ? styles.open : ""} ${
+    position === "right" ? styles.right : ""
+  }`;
 
   return (
-    <div>
-      {!isOpen && (
+    <div className={styles.drawerBackground}>
+      {!displayAsNavBar && !isOpen && (
         <button
           onClick={toggleDrawer}
           className={`${styles.menuButton} ${
@@ -59,6 +64,29 @@ const Drawer: FC<DrawerProps> = ({ routes, position = "left" }) => {
         </ul>
       </div>
       {isOpen && <div className={styles.overlay} onClick={toggleDrawer}></div>}
+      {displayAsNavBar && (
+        <div className={styles.navBar}>
+          <ul className={styles.navList}>
+            {routes.map((route, index) => (
+              <li key={index} className={styles.navItem}>
+                <Link href={route.path} passHref className={styles.navLink}>
+                  {route.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {displayAsNavBar && (
+        <button
+          onClick={toggleDrawer}
+          className={`${styles.menuButton} ${
+            position === "right" ? styles.menuButtonRight : ""
+          } ${styles.alwaysVisible}`}
+        >
+          ☰
+        </button>
+      )}
     </div>
   );
 };
