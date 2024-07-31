@@ -93,10 +93,6 @@
 
 @media (max-width: 600px) {
   .modalContent {
-    width: 95%;
-    height: 95%;
-    max-width: none;
-    max-height: none;
     border-radius: 10px;
   }
 
