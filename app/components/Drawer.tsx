@@ -1,5 +1,6 @@
 import { useState, FC } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "../../styles/Drawer.module.css";
 
 interface Route {
@@ -19,6 +20,7 @@ const Drawer: FC<DrawerProps> = ({
   displayAsNavBar = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -54,7 +56,9 @@ const Drawer: FC<DrawerProps> = ({
               <Link
                 href={route.path}
                 passHref
-                className={styles.navLink}
+                className={`${styles.navLink} ${
+                  pathname === route.path ? styles.activeLink : ""
+                }`}
                 onClick={handleLinkClick}
               >
                 {route.name}
@@ -69,7 +73,13 @@ const Drawer: FC<DrawerProps> = ({
           <ul className={styles.navList}>
             {routes.map((route, index) => (
               <li key={index} className={styles.navItem}>
-                <Link href={route.path} passHref className={styles.navLink}>
+                <Link
+                  href={route.path}
+                  passHref
+                  className={`${styles.navLink} ${
+                    pathname === route.path ? styles.activeLink : ""
+                  }`}
+                >
                   {route.name}
                 </Link>
               </li>

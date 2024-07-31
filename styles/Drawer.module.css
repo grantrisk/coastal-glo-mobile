@@ -47,6 +47,11 @@
   background-color: var(--color-tertiary);
 }
 
+.activeLink {
+  background-color: var(--color-secondary);
+  color: black;
+}
+
 .menuButton {
   font-size: 30px;
   cursor: pointer;
