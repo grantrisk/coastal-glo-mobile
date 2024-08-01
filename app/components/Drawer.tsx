@@ -49,16 +49,13 @@ const Drawer: FC<DrawerProps> = ({
           }
           .${styles.navList} {
             display: flex;
-            flex-direction: column;
+            flex-direction: ${navBarDirection === "horizontal" ? "row" : "column"};
             flex-wrap: nowrap;
             justify-content: space-between;
             list-style-type: none;
             padding: 0;
             margin: 0;
             width: 100%;
-          }
-          .${styles.horizontal} {
-            flex-direction: row;
           }
           .${styles.alwaysVisible} {
             display: none;
@@ -70,7 +67,7 @@ const Drawer: FC<DrawerProps> = ({
         document.head.removeChild(styleElement);
       };
     }
-  }, [switchWidth, displayAsNavBar]);
+  }, [switchWidth, displayAsNavBar, navBarDirection]);
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
