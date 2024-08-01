@@ -43,7 +43,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return user ? (
     <>
       <main className={styles.dashboardMain}>
-        <Drawer routes={routes} displayAsNavBar={true} position={"right"} />
+        <Drawer
+          routes={routes}
+          displayAsNavBar={true}
+          position={"right"}
+          navBarDirection={"vertical"}
+          width={"190px"}
+        />
         <section className={styles.dashboardContent}>{children}</section>
       </main>
     </>
