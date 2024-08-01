@@ -49,6 +49,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           position={"right"}
           navBarDirection={"vertical"}
           width={"190px"}
+          switchWidth={"768px"}
         />
         <section className={styles.dashboardContent}>{children}</section>
       </main>

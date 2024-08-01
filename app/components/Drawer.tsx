@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "../../styles/Drawer.module.css";
@@ -37,6 +37,40 @@ const Drawer: FC<DrawerProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (displayAsNavBar && switchWidth) {
+      const styleElement = document.createElement("style");
+      styleElement.innerHTML = `
+        @media (min-width: ${switchWidth}) {
+          .${styles.navBar} {
+            display: block;
+            width: 100%;
+          }
+          .${styles.navList} {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+          }
+          .${styles.horizontal} {
+            flex-direction: row;
+          }
+          .${styles.alwaysVisible} {
+            display: none;
+          }
+        }
+      `;
+      document.head.appendChild(styleElement);
+      return () => {
+        document.head.removeChild(styleElement);
+      };
+    }
+  }, [switchWidth, displayAsNavBar]);
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
