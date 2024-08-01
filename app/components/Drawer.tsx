@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, FC, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,7 +53,7 @@ const Drawer: FC<DrawerProps> = ({
             display: flex;
             flex-direction: ${navBarDirection === "horizontal" ? "row" : "column"};
             flex-wrap: nowrap;
-            justify-content: space-between;
+            justify-content: space-around;
             list-style-type: none;
             padding: 0;
             margin: 0;

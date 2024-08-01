@@ -9,7 +9,7 @@
 
 .headerSection {
   position: relative;
-  height: calc(100vh - 70px); /* 70px is the height of the Nav component */
+  height: calc(100vh - 65px); /* 65px is the height of the Nav component */
   width: 100%;
   min-height: 500px;
 }
@@ -85,7 +85,7 @@
 
 .navContainer {
   z-index: 10;
-  height: 70px;
+  height: 65px;
 }
 
 .aboutSection {

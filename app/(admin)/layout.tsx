@@ -46,7 +46,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <Drawer
           routes={routes}
           displayAsNavBar={true}
-          position={"right"}
+          position={"left"}
           navBarDirection={"vertical"}
         />
         <section className={styles.dashboardContent}>{children}</section>
