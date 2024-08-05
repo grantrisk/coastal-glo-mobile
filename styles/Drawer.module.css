@@ -30,8 +30,9 @@
   margin: 60px 0 0;
 }
 
-.navItem {
-  padding: 10px 15px;
+.navItem,
+.navItemChild {
+  padding: 20px 30px;
 }
 
 .navLink {
@@ -39,7 +40,6 @@
   text-decoration: none;
   display: block;
   font-size: 1.3rem;
-  padding: 10px 15px;
   border-radius: 5px;
   font-weight: bold;
   transition: color 0.2s ease;

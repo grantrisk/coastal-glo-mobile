@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FC, useEffect } from "react";
+import { useState, FC, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "../../styles/Drawer.module.css";
@@ -17,6 +17,7 @@ interface DrawerProps {
   navBarDirection?: "horizontal" | "vertical"; // needs displayAsNavBar to be true
   width?: string; // needs displayAsNavBar to be true, sets the width of the vertical nav bar
   switchWidth?: string; // needs displayAsNavBar to be true, sets the width at which the nav bar switches to a drawer
+  children?: ReactNode; // Optional additional components
 }
 
 /**
@@ -27,6 +28,7 @@ interface DrawerProps {
  * @param navBarDirection - horizontal or vertical
  * @param width - width of the vertical nav bar
  * @param switchWidth - width at which the nav bar switches to a drawer
+ * @param children - optional additional components
  * @constructor
  */
 const Drawer: FC<DrawerProps> = ({
@@ -36,6 +38,7 @@ const Drawer: FC<DrawerProps> = ({
   navBarDirection = "horizontal",
   width = "190px",
   switchWidth = "768px",
+  children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -123,6 +126,7 @@ const Drawer: FC<DrawerProps> = ({
             </li>
           ))}
         </ul>
+        {children && <div className={styles.navItemChild}>{children}</div>}
       </div>
       {isOpen && <div className={styles.overlay} onClick={toggleDrawer}></div>}
       {displayAsNavBar && (
@@ -142,6 +146,7 @@ const Drawer: FC<DrawerProps> = ({
               </li>
             ))}
           </ul>
+          {children && <div className={styles.navItemChild}>{children}</div>}
         </div>
       )}
       {displayAsNavBar && (

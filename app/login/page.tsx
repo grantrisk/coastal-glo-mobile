@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import styles from "../../styles/Login.module.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
@@ -16,35 +16,19 @@ export default function LoginPage() {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await toast.promise(signInWithEmailAndPassword(auth, email, password), {
+        pending: "Logging in...",
+        success: "Logged in successfully.",
+        error: "An error occurred. Please try again.",
+      });
       router.push("/admin"); // Redirect to the admin page upon successful login
     } catch (error: any) {
-      toast.error("Login failed: Incorrect email or password", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      console.error("Login failed:", error);
     }
   };
 
   return (
     <div className={styles.page}>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <div className={styles.loginContainer}>
         <h1 className={styles.loginTitle}>Login</h1>
         <form onSubmit={handleLogin}>

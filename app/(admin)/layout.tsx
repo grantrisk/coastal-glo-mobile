@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 import Drawer from "../components/Drawer";
+import SignOut from "../components/SignOut";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -48,7 +49,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           displayAsNavBar={true}
           position={"left"}
           navBarDirection={"vertical"}
-        />
+        >
+          <SignOut />
+        </Drawer>
         <section className={styles.dashboardContent}>{children}</section>
       </main>
     </>
