@@ -91,7 +91,18 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   }, [selectedDate, service.duration]);
 
   const handleDateChange: CalendarProps["onChange"] = (date) => {
-    setSelectedDate(date as Date);
+    if (!date) return;
+    const newDate = date as Date;
+    // if new date month and day is the same as the selected date, return
+    if (
+      selectedDate &&
+      newDate.getMonth() === selectedDate.getMonth() &&
+      newDate.getDate() === selectedDate.getDate()
+    ) {
+      return;
+    }
+
+    setSelectedDate(newDate);
     setSelectedTime(null);
   };
 
