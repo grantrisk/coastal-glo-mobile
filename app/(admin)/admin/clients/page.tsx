@@ -8,6 +8,7 @@ import ClientFormModal from "../../../components/ClientFormModal";
 import { formatPhoneNumber } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
+import AdminHeader from "../../../components/AdminHeader";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
@@ -171,15 +172,14 @@ const ClientsPage: React.FC = () => {
   return (
     <>
       <div className={styles.section}>
-        <div className={styles.header}>
-          <h2>Clients</h2>
+        <AdminHeader title={"Clients"}>
           <button
             onClick={() => handleOpenModal()}
             className={styles.createButton}
           >
             Add Client
           </button>
-        </div>
+        </AdminHeader>
         {clients.length === 0 ? (
           <p>No clients found.</p>
         ) : (

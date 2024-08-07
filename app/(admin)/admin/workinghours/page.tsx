@@ -11,6 +11,7 @@ import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
 import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
+import AdminHeader from "../../../components/AdminHeader";
 
 const dayOrder = [
   "sunday",
@@ -191,7 +192,7 @@ const WorkingHoursPage: React.FC = () => {
   return (
     <>
       <div className={styles.section}>
-        <h2>Working Hours</h2>
+        <AdminHeader title={"Working Hours"} />
         <ul className={styles.list}>
           {orderedWorkingHours.map(([day, hours]) => (
             <li key={day} className={styles.listItem}>
@@ -222,13 +223,14 @@ const WorkingHoursPage: React.FC = () => {
         </ul>
       </div>
       <div className={styles.section}>
-        <h2>Special Closures</h2>
-        <button
-          onClick={() => handleOpenSpecialClosureModal()}
-          className={styles.createButton}
-        >
-          Add Special Closure
-        </button>
+        <AdminHeader title={"Special Closures"}>
+          <button
+            onClick={() => handleOpenSpecialClosureModal()}
+            className={styles.createButton}
+          >
+            Add Special Closure
+          </button>
+        </AdminHeader>
         {specialClosures.length === 0 ? (
           <p>No special closures found.</p>
         ) : (

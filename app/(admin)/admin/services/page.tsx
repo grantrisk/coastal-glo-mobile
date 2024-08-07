@@ -7,6 +7,7 @@ import { serviceService } from "../../../lib/dependencyInjector";
 import ServiceFormModal from "../../../components/ServiceFormModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
+import AdminHeader from "../../../components/AdminHeader";
 
 // Admin Dashboard Component for Managing Services
 const ServicesPage: React.FC = () => {
@@ -89,15 +90,14 @@ const ServicesPage: React.FC = () => {
   return (
     <>
       <div className={styles.section}>
-        <div className={styles.header}>
-          <h1>Services</h1>
+        <AdminHeader title={"Services"}>
           <button
             onClick={() => handleOpenModal()}
             className={styles.createButton}
           >
             Add Service
           </button>
-        </div>
+        </AdminHeader>
         {services.length === 0 ? (
           <p>No services found.</p>
         ) : (

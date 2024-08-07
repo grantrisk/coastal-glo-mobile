@@ -7,6 +7,7 @@ import {
   getAvailableDays,
   convertMilitaryTimeToAMPM,
 } from "../../utils";
+import AdminHeader from "../../components/AdminHeader";
 
 // Admin Dashboard Component
 export default function Dashboard() {
@@ -51,7 +52,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Admin Dashboard</h1>
+      <AdminHeader title={"Admin Dashboard"} />
       <div className={styles.container}>
         <button onClick={fetchTimeSlots} disabled={loading}>
           {loading ? "Loading..." : "Fetch Available Time Slots"}

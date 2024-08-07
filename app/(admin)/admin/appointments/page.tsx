@@ -6,8 +6,8 @@ import { Appointment, Service } from "../../../lib/schemas";
 import { appointmentService } from "../../../lib/dependencyInjector";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
+import AdminHeader from "../../../components/AdminHeader";
 
-// Admin Dashboard Component for Managing Appointments
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -128,7 +128,7 @@ export default function AppointmentsPage() {
   return (
     <>
       <div className={styles.section}>
-        <h2>Manage Appointments</h2>
+        <AdminHeader title={"Manage Appointments"} />
         <div className={styles.sortContainer}>
           <label htmlFor="sort">Sort by:</label>
           <select

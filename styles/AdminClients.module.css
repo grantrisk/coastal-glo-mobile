@@ -1,14 +1,3 @@
-.section {
-  margin-bottom: 10px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .createButton {
   padding: 10px 15px;
   border: none;
