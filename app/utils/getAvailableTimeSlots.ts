@@ -104,13 +104,24 @@ const getAvailableTimeSlots = async (
     serviceDuration,
   );
 
-  // Remove time slots that are already booked
+  // Remove time slots that are already booked or overlap with existing appointments
   appointments.forEach((appointment) => {
-    const bookedSlot = appointment.appointmentDate.toTimeString().slice(0, 5);
-    const index = availableSlots.indexOf(bookedSlot);
-    if (index !== -1) {
-      availableSlots.splice(index, 1);
-    }
+    const appointmentStart = convertTo24HourFormat(
+      appointment.appointmentDate.toTimeString().slice(0, 5),
+    );
+    const appointmentEnd = convertTo24HourFormat(
+      new Date(
+        appointment.appointmentDate.getTime() +
+          appointment.service.duration! * 60000,
+      )
+        .toTimeString()
+        .slice(0, 5),
+    );
+
+    availableSlots = availableSlots.filter((slot) => {
+      const slotTime = convertTo24HourFormat(slot);
+      return slotTime >= appointmentEnd || slotTime < appointmentStart;
+    });
   });
 
   // Remove time slots that fall within special closure periods
@@ -125,7 +136,7 @@ const getAvailableTimeSlots = async (
     });
   });
 
-  // Remove past timeslots if the selected date is today
+  // Remove past time slots if the selected date is today
   const today = new Date();
   if (
     date.getFullYear() === today.getFullYear() &&
@@ -222,10 +233,19 @@ const getAvailableDays = async (
         const availableSlotsAfterAppointments = availableSlots.filter(
           (slot) => {
             return !appointments.some((appointment) => {
-              const appointmentTime = appointment.appointmentDate
-                .toTimeString()
-                .slice(0, 5);
-              return appointmentTime === slot;
+              const appointmentStart = convertTo24HourFormat(
+                appointment.appointmentDate.toTimeString().slice(0, 5),
+              );
+              const appointmentEnd = convertTo24HourFormat(
+                new Date(
+                  appointment.appointmentDate.getTime() +
+                    appointment.service.duration! * 60000,
+                )
+                  .toTimeString()
+                  .slice(0, 5),
+              );
+
+              return slot >= appointmentStart && slot < appointmentEnd;
             });
           },
         );
@@ -243,9 +263,6 @@ const getAvailableDays = async (
 
   return availableDays;
 };
-
-// FIXME: This may need to be improved for scenarios where there are 45 minute duration slots and there are
-//  existing appointments that are 30 minutes long. Not sure if this is a valid scenario, but it's worth considering.
 
 // FIXME: eventually refactor this file to not duplicate code
 
