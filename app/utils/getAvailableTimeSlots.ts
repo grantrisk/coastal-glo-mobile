@@ -125,6 +125,20 @@ const getAvailableTimeSlots = async (
     });
   });
 
+  // Remove past timeslots if the selected date is today
+  const today = new Date();
+  if (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  ) {
+    const currentTime = `${String(today.getHours()).padStart(2, "0")}:${String(
+      today.getMinutes(),
+    ).padStart(2, "0")}`;
+
+    availableSlots = availableSlots.filter((slot) => slot > currentTime);
+  }
+
   return availableSlots;
 };
 
