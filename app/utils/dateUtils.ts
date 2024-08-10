@@ -54,7 +54,7 @@ export const formatDateTime = (date: Date): string => {
  * Converts a military time string to AM/PM format.
  * The input should be in the format "HH:MM".
  *
- * @param {string} militaryTime - The military time string to convert.
+ * @param date - The Date object to convert to military time.
  * @returns {string} The input time string in AM/PM format.
  */
 export const getMilitaryTime = (date: Date): string => {

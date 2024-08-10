@@ -106,6 +106,12 @@ const getAvailableTimeSlots = async (
 
   // Remove time slots that are already booked or overlap with existing appointments
   appointments.forEach((appointment) => {
+    const serviceDuration = appointment.service.duration ?? 0; // Default to 0 if null
+    if (serviceDuration === 0) {
+      // TODO: Optionally, log or handle the case where duration is not set.
+      return;
+    }
+
     const appointmentStart = convertTo24HourFormat(
       appointment.appointmentDate.toTimeString().slice(0, 5),
     );
@@ -136,7 +142,7 @@ const getAvailableTimeSlots = async (
     });
   });
 
-  // Remove past time slots if the selected date is today
+  // Remove pastime slots if the selected date is today
   const today = new Date();
   if (
     date.getFullYear() === today.getFullYear() &&
@@ -212,7 +218,7 @@ const getAvailableDays = async (
           (closureStart >= startHour && closureEnd <= endHour) // Closure is completely within working hours
         ) {
           if (closureStart <= startHour && closureEnd >= endHour) {
-            isClosed = true; // Full day closure
+            isClosed = true; // Full-day closure
           } else {
             // Partial closure
             availableSlots = availableSlots.filter((slot) => {
@@ -233,6 +239,12 @@ const getAvailableDays = async (
         const availableSlotsAfterAppointments = availableSlots.filter(
           (slot) => {
             return !appointments.some((appointment) => {
+              const serviceDuration = appointment.service.duration ?? 0; // Default to 0 if null
+              if (serviceDuration === 0) {
+                // TODO: Optionally, log or handle the case where duration is not set.
+                return;
+              }
+
               const appointmentStart = convertTo24HourFormat(
                 appointment.appointmentDate.toTimeString().slice(0, 5),
               );
