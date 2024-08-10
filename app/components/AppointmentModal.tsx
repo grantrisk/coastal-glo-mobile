@@ -250,9 +250,16 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   }
                   return classes.join(" ");
                 }}
-                tileDisabled={({ date }) =>
-                  !availableDays.includes(date.toISOString().split("T")[0])
-                }
+                tileDisabled={({ date, view }) => {
+                  // Only apply the logic when the view is 'month' (i.e., days are shown)
+                  if (view === "month") {
+                    return !availableDays.includes(
+                      date.toISOString().split("T")[0],
+                    );
+                  }
+                  // Return false when in other views like 'year' or 'decade' to avoid disabling months
+                  return false;
+                }}
                 maxDate={
                   new Date(new Date().setMonth(new Date().getMonth() + 1))
                 }
