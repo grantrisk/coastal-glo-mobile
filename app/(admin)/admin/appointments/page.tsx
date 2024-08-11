@@ -1,22 +1,25 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import styles from "../../../../styles/AdminAppointments.module.css";
-import { Appointment, Service } from "../../../lib/schemas";
+import { Appointment } from "../../../lib/schemas";
 import { appointmentService } from "../../../lib/dependencyInjector";
-import ConfirmationModal from "../../../components/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
 import AdminHeader from "../../../components/AdminHeader";
+import AppointmentDetailsModal from "../../../components/AppointmentDetailsModal";
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortOption, setSortOption] = useState<string>("date");
-  const [appointmentToDelete, setAppointmentToDelete] =
+  const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
-  const confirmationModal = useModal();
+  const detailsModal = useModal();
 
   useEffect(() => {
     fetchAppointments();
@@ -25,7 +28,6 @@ export default function AppointmentsPage() {
   const fetchAppointments = async () => {
     try {
       let fetchedAppointments = await appointmentService.fetchAllAppointments();
-      fetchedAppointments = sortAppointments(fetchedAppointments, sortOption);
       setAppointments(fetchedAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
@@ -35,83 +37,15 @@ export default function AppointmentsPage() {
     }
   };
 
-  useEffect(() => {
-    const sortedAppointments = sortAppointments(appointments, sortOption);
-    setAppointments(sortedAppointments);
-  }, [sortOption]);
-
-  const updateAppointmentStatus = async (
-    appointmentId: string,
-    status: Appointment["status"],
-  ) => {
-    try {
-      // FIXME: the lastUpdate field is not being updated
-      await appointmentService.updateAppointmentStatus(appointmentId, status);
-      setAppointments(
-        appointments.map((appointment) =>
-          appointment.appointmentId === appointmentId
-            ? { ...appointment, status }
-            : appointment,
-        ),
-      );
-    } catch (error) {
-      console.error("Error updating appointment status:", error);
-      setError("Failed to update appointment status. Please try again later.");
+  const handleEventClick = (info: { event: { id: string } }) => {
+    const clickedAppointment = appointments.find(
+      (appointment) => appointment.appointmentId === info.event.id,
+    );
+    if (clickedAppointment) {
+      setSelectedAppointment(clickedAppointment);
+      detailsModal.openModal();
     }
   };
-
-  const deleteAppointment = async (appointmentId: string) => {
-    try {
-      await appointmentService.deleteAppointment(appointmentId);
-      setAppointments(
-        appointments.filter(
-          (appointment) => appointment.appointmentId !== appointmentId,
-        ),
-      );
-    } catch (error) {
-      console.error("Error deleting appointment:", error);
-      setError("Failed to delete appointment. Please try again later.");
-    }
-  };
-
-  const handleOpenConfirmation = (appointment: Appointment) => {
-    setAppointmentToDelete(appointment);
-    confirmationModal.openModal();
-  };
-
-  const handleConfirmDelete = () => {
-    if (appointmentToDelete) {
-      deleteAppointment(appointmentToDelete.appointmentId);
-      confirmationModal.closeModal();
-    }
-  };
-
-  function sortAppointments(
-    appointments: Appointment[],
-    sortOption: string,
-  ): Appointment[] {
-    let sortedAppointments = [...appointments]; // Create a copy to avoid mutating the original array
-
-    switch (sortOption) {
-      case "date":
-        sortedAppointments.sort(
-          (a, b) => a.appointmentDate.getTime() - b.appointmentDate.getTime(),
-        );
-        break;
-      case "service":
-        sortedAppointments.sort((a, b) =>
-          a.service.name.localeCompare(b.service.name),
-        );
-        break;
-      case "status":
-        sortedAppointments.sort((a, b) => a.status.localeCompare(b.status));
-        break;
-      default:
-        break;
-    }
-
-    return sortedAppointments;
-  }
 
   if (loading) {
     return <p>Loading...</p>;
@@ -125,97 +59,52 @@ export default function AppointmentsPage() {
     );
   }
 
+  const events = appointments.map((appointment) => ({
+    id: appointment.appointmentId,
+    title: `${appointment.guestInfo?.firstName} ${appointment.guestInfo?.lastName}`,
+    start: appointment.appointmentDate,
+    end: new Date(
+      appointment.appointmentDate.getTime() +
+        appointment.service.duration! * 60000,
+    ),
+  }));
+
   return (
     <>
       <div className={styles.section}>
         <AdminHeader title={"Manage Appointments"} />
-        <div className={styles.sortContainer}>
-          <label htmlFor="sort">Sort by:</label>
-          <select
-            id="sort"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="date">Appointment Date</option>
-            <option value="service">Service Name</option>
-            <option value="status">Status</option>
-          </select>
+        <br />
+        <div className={styles.calendarContainer}>
+          <FullCalendar
+            plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
+            initialView="timeGridWeek"
+            nowIndicator={true}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            }}
+            events={events}
+            height="100%"
+            editable={true}
+            eventClick={handleEventClick}
+          />
         </div>
-        <ul className={styles.list}>
-          {appointments.map((appointment) => (
-            <li key={appointment.appointmentId} className={styles.listItem}>
-              <div className={styles.appointmentHeader}>
-                <span className={styles.appointmentDate}>
-                  {appointment.appointmentDate.toLocaleString()}
-                </span>
-                <span className={styles.appointmentStatus}>
-                  {appointment.status}
-                </span>
-              </div>
-              <div className={styles.appointmentDetails}>
-                <div>
-                  <strong>Service:</strong> {appointment.service.name}
-                </div>
-                <div>
-                  <strong>Price:</strong> ${appointment.service.price}
-                </div>
-                <div>
-                  <strong>Duration:</strong> {appointment.service.duration} mins
-                </div>
-                {appointment.guestInfo && (
-                  <div>
-                    <strong>Guest:</strong> {appointment.guestInfo.firstName}{" "}
-                    {appointment.guestInfo.lastName}
-                  </div>
-                )}
-                {appointment.guestInfo && (
-                  <div>
-                    <strong>Contact:</strong> {appointment.guestInfo.phone},{" "}
-                    {appointment.guestInfo.email}
-                  </div>
-                )}
-              </div>
-              <div className={styles.buttonGroup}>
-                <button
-                  onClick={() =>
-                    updateAppointmentStatus(
-                      appointment.appointmentId,
-                      "completed",
-                    )
-                  }
-                  className={styles.button}
-                >
-                  Complete
-                </button>
-                <button
-                  onClick={() =>
-                    updateAppointmentStatus(
-                      appointment.appointmentId,
-                      "canceled",
-                    )
-                  }
-                  className={styles.button}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleOpenConfirmation(appointment)}
-                  className={styles.button}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <br />
       </div>
-      {confirmationModal.isOpen && (
-        <ConfirmationModal
-          message="Are you sure you want to delete this service?"
-          onConfirm={handleConfirmDelete}
-          onClose={() => confirmationModal.closeModal()}
-          isClosing={confirmationModal.isClosing}
+      {detailsModal.isOpen && selectedAppointment && (
+        <AppointmentDetailsModal
+          appointment={selectedAppointment}
+          onClose={() => detailsModal.closeModal()}
+          isClosing={detailsModal.isClosing}
+          onAppointmentDeleted={(deletedAppointmentId) => {
+            setAppointments((prevAppointments) =>
+              prevAppointments.filter(
+                (appointment) =>
+                  appointment.appointmentId !== deletedAppointmentId,
+              ),
+            );
+          }}
         />
       )}
     </>

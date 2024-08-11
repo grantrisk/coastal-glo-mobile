@@ -11,8 +11,6 @@ const useModal = () => {
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-      // FIXME: occasionally, there is a display bug where the modal will jump. Its got to be
-      //  because of this timeout and callback
       if (callback) callback();
     }, 300);
   };

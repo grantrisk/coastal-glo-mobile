@@ -1,3 +1,10 @@
+.calendarContainer {
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  box-sizing: border-box; /* Ensure padding and border are included in the height calculation */
+}
+
 .list {
   list-style: none;
   padding: 0;
