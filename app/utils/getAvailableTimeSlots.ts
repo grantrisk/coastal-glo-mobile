@@ -106,12 +106,6 @@ const getAvailableTimeSlots = async (
 
   // Remove time slots that are already booked or overlap with existing appointments
   appointments.forEach((appointment) => {
-    const serviceDuration = appointment.service.duration ?? 0; // Default to 0 if null
-    if (serviceDuration === 0) {
-      // TODO: Optionally, log or handle the case where duration is not set.
-      return;
-    }
-
     const appointmentStart = convertTo24HourFormat(
       appointment.appointmentDate.toTimeString().slice(0, 5),
     );
@@ -126,7 +120,15 @@ const getAvailableTimeSlots = async (
 
     availableSlots = availableSlots.filter((slot) => {
       const slotTime = convertTo24HourFormat(slot);
-      return slotTime >= appointmentEnd || slotTime < appointmentStart;
+      const slotEndTime = convertTo24HourFormat(
+        new Date(
+          new Date(`${date.toDateString()} ${slotTime}`).getTime() +
+            serviceDuration * 60000,
+        )
+          .toTimeString()
+          .slice(0, 5),
+      );
+      return slotEndTime <= appointmentStart || slotTime >= appointmentEnd;
     });
   });
 

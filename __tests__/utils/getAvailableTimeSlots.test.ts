@@ -442,4 +442,53 @@ describe("Get Available Time Slots Tests", () => {
 
     expect(result).toEqual([]);
   });
+
+  test("should correctly handle 30-minute appointment slots overlapping with 45-minute service slots", async () => {
+    const mockDate = new Date();
+
+    // Set up working hours from 06:00 PM to 09:00 PM
+    (
+      workingHoursService.fetchWorkingHoursByDate as jest.Mock
+    ).mockResolvedValue("18:00 - 21:00");
+
+    // Set up existing appointment at 07:00 PM for 30 minutes
+    (appointmentService.fetchAppointmentsByDate as jest.Mock).mockResolvedValue(
+      [
+        {
+          appointmentId: "1",
+          userId: "user123",
+          service: {
+            serviceId: "service123",
+            name: "Test Service",
+            description: "A test service",
+            price: 100,
+            duration: 30, // 30 minutes
+            listOrder: 1,
+            recommended: true,
+            isMonthly: false,
+          },
+          appointmentDate: new Date(mockDate.setHours(19, 0, 0, 0)),
+          status: "scheduled",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+    );
+
+    // No special closures
+    (
+      specialClosureService.fetchSpecialClosuresByDate as jest.Mock
+    ).mockResolvedValue([]);
+
+    const result = await getAvailableTimeSlots(mockDate, 45);
+
+    // Expected result: 06:00 PM, 07:30 PM, 08:15 PM
+    const expectedResult = ["18:00", "19:30", "20:15"];
+    expect(result).toEqual(expectedResult);
+
+    // Expected not to be in result: 06:45 PM. If the 30-minute appointment slot overlaps
+    // with the 45-minute service slot, it should be excluded
+    const notExpectedResult = ["18:45"];
+    expect(result).not.toEqual(notExpectedResult);
+  });
 });
