@@ -8,14 +8,20 @@
 .dashboardMain {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  height: 100vh;
   font-family: Arial, sans-serif;
+}
+
+.drawer {
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .dashboardContent {
   flex-grow: 1;
   padding: 20px;
   background-color: #f8f8f8;
+  overflow-y: auto;
 }
 
 .list {
