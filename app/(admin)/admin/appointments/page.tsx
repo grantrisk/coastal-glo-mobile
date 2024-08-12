@@ -21,13 +21,11 @@ export default function AppointmentsPage() {
 
   const detailsModal = useModal();
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
   const fetchAppointments = async () => {
     try {
-      let fetchedAppointments = await appointmentService.fetchAllAppointments();
+      setLoading(true);
+      const fetchedAppointments =
+        await appointmentService.fetchAllAppointments();
       setAppointments(fetchedAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
@@ -46,6 +44,10 @@ export default function AppointmentsPage() {
       detailsModal.openModal();
     }
   };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
 
   if (loading) {
     return <p>Loading...</p>;

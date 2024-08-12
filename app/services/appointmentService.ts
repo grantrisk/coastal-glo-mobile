@@ -39,6 +39,29 @@ class AppointmentService {
     }
   }
 
+  async fetchAppointmentsInRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Appointment[]> {
+    if (!startDate || !endDate) {
+      throw new Error("Start and end dates are required");
+    }
+    try {
+      return await this.appointmentRepository.getAppointmentsInRange(
+        startDate,
+        endDate,
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch appointments: ${error.message}`);
+      } else {
+        throw new Error(
+          "An unknown error occurred while fetching appointments.",
+        );
+      }
+    }
+  }
+
   async updateAppointmentStatus(
     appointmentId: string,
     status: string,
