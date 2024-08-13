@@ -20,8 +20,8 @@ const SpecialClosureFormModal: React.FC<SpecialClosureFormModalProps> = ({
   isClosing,
 }) => {
   const [formData, setFormData] = useState<Omit<SpecialClosure, "id">>({
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: createDateTimeObject(new Date().toDateString()), // this defaults the time to midnight
+    endTime: createDateTimeObject(new Date().toDateString()),
   });
 
   useEffect(() => {
