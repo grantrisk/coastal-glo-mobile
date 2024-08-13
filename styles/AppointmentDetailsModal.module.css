@@ -51,3 +51,14 @@
 .closeButton:hover {
   background-color: #999;
 }
+
+.link,
+.link:visited {
+  color: var(--color-quaternary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: var(--rich-brown);
+}

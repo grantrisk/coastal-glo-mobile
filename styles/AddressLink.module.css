@@ -1,0 +1,10 @@
+.link,
+.link:visited {
+  color: var(--color-quaternary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: var(--rich-brown);
+}

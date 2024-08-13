@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/AdminClients.module.css";
-import { Service, User } from "../../../lib/schemas";
+import { User } from "../../../lib/schemas";
 import { clientService } from "../../../lib/dependencyInjector";
 import ClientFormModal from "../../../components/ClientFormModal";
-import { formatPhoneNumber } from "../../../utils";
+import { formatPhoneNumber, getPhoneLink } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import AdminHeader from "../../../components/AdminHeader";
+import { RenderAddressLink } from "../../../components/RenderAddressLinks";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
@@ -70,63 +71,6 @@ const ClientsPage: React.FC = () => {
       setCurrentClient(null);
     });
     fetchClients();
-  };
-
-  const getAddressLink = (address: any) => {
-    const street2 = address.street2 ? `, ${address.street2}` : "";
-    const encodedAddress = encodeURIComponent(
-      `${address.street1}${street2}, ${address.city}, ${address.state} ${address.zipCode}`,
-    );
-
-    const isIOS = /iPad|iPhone|iPod|Mac/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-
-    if (isIOS) {
-      return {
-        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
-        appleMaps: `http://maps.apple.com/?q=${encodedAddress}`,
-      };
-    } else if (isAndroid) {
-      return {
-        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
-      };
-    } else {
-      return {
-        googleMaps: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
-      };
-    }
-  };
-
-  const renderAddressLink = (address: any) => {
-    const addressLinks = getAddressLink(address);
-
-    return (
-      <>
-        <a
-          href={addressLinks.googleMaps}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.link}
-        >
-          {address.street1}
-          {address.street2 && `, ${address.street2}`}, {address.city},{" "}
-          {address.state} {address.zipCode}
-        </a>
-        {addressLinks.appleMaps && (
-          <>
-            {" | "}
-            <a
-              href={addressLinks.appleMaps}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.link}
-            >
-              Open in Apple Maps
-            </a>
-          </>
-        )}
-      </>
-    );
   };
 
   const renderSubscription = (subscription: any) => {
@@ -198,13 +142,16 @@ const ClientsPage: React.FC = () => {
                   </p>
                   <p>
                     <strong>Phone:</strong>{" "}
-                    <a href={`tel:${client.phone}`} className={styles.link}>
+                    <a
+                      href={getPhoneLink(client.phone)}
+                      className={styles.link}
+                    >
                       {formatPhoneNumber(client.phone)}
                     </a>
                   </p>
                   <p>
                     <strong>Address:</strong>{" "}
-                    {renderAddressLink(client.address)}
+                    {RenderAddressLink({ address: client.address })}
                   </p>
                   <p>
                     <strong>Last Solution Used:</strong>{" "}

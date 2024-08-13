@@ -7,6 +7,8 @@ import { appointmentService } from "../lib/dependencyInjector";
 import { Appointment } from "../lib/schemas";
 import ConfirmationModal from "./ConfirmationModal";
 import useModal from "../hooks/useModal";
+import { getPhoneLink } from "../utils";
+import { RenderAddressLink } from "./RenderAddressLinks";
 
 interface AppointmentDetailsModalProps {
   appointment: Appointment;
@@ -51,14 +53,40 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
             <strong>Date:</strong>{" "}
             {appointment.appointmentDate.toLocaleString()}
           </p>
-          <p>
-            <strong>Guest:</strong> {appointment.guestInfo?.firstName}{" "}
-            {appointment.guestInfo?.lastName}
-          </p>
-          <p>
-            <strong>Contact:</strong> {appointment.guestInfo?.phone},{" "}
-            {appointment.guestInfo?.email}
-          </p>
+          {appointment.guestInfo ? (
+            <>
+              <p>
+                <strong>Guest:</strong> {appointment.guestInfo.firstName}{" "}
+                {appointment.guestInfo.lastName}
+              </p>
+              <p>
+                <strong>Contact:</strong>{" "}
+                <a
+                  href={getPhoneLink(appointment.guestInfo.phone)}
+                  className={styles.link}
+                >
+                  {appointment.guestInfo.phone}
+                </a>
+                ,{" "}
+                <a
+                  href={`mailto:${appointment.guestInfo.email}`}
+                  className={styles.link}
+                >
+                  {appointment.guestInfo.email}
+                </a>
+              </p>
+              <p>
+                <strong>Location:</strong>{" "}
+                {appointment.guestInfo.address && (
+                  <RenderAddressLink address={appointment.guestInfo.address} />
+                )}
+              </p>
+            </>
+          ) : (
+            <p>
+              <strong>Guest:</strong> Guest information not available
+            </p>
+          )}
           <p>
             <strong>Status:</strong> {appointment.status}
           </p>
