@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import styles from "../../styles/AppointmentDetailsModal.module.css";
 import { appointmentService } from "../lib/dependencyInjector";
@@ -9,12 +9,19 @@ import ConfirmationModal from "./ConfirmationModal";
 import useModal from "../hooks/useModal";
 import { getPhoneLink } from "../utils";
 import { RenderAddressLink } from "./RenderAddressLinks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { z } from "zod";
+
+const statusOptions = ["scheduled", "completed", "canceled"] as const;
+const statusEnum = z.enum(statusOptions);
 
 interface AppointmentDetailsModalProps {
   appointment: Appointment;
   onClose: () => void;
   isClosing: boolean;
   onAppointmentDeleted: (appointmentId: string) => void;
+  onAppointmentUpdated: (updatedAppointment: Appointment) => void; // New prop
 }
 
 const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
@@ -22,8 +29,15 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
   onClose,
   isClosing,
   onAppointmentDeleted,
+  onAppointmentUpdated,
 }) => {
   const confirmationModal = useModal();
+  const [selectedStatus, setSelectedStatus] = useState(appointment.status);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
+  useEffect(() => {
+    setIsSaveEnabled(selectedStatus !== appointment.status);
+  }, [selectedStatus, appointment.status]);
 
   const handleDelete = async () => {
     try {
@@ -41,11 +55,42 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
     confirmationModal.openModal();
   };
 
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newStatus = event.target.value;
+    if (statusEnum.safeParse(newStatus).success) {
+      setSelectedStatus(newStatus as (typeof statusOptions)[number]);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      await appointmentService.updateAppointmentStatus(
+        appointment.appointmentId,
+        selectedStatus,
+      );
+      const updatedAppointment = { ...appointment, status: selectedStatus };
+      onAppointmentUpdated(updatedAppointment);
+      onClose();
+    } catch (error) {
+      console.error("Error updating appointment status:", error);
+      // Handle error (e.g., show a notification or alert)
+    }
+  };
+
   return (
     <>
       <Modal onClose={onClose} isClosing={isClosing}>
         <div className={styles.modalContent}>
-          <h2>Appointment Details</h2>
+          <div className={styles.modalHeader}>
+            <button
+              onClick={handleOpenConfirmation}
+              className={styles.trashButton}
+              title="Delete Appointment"
+            >
+              <FontAwesomeIcon icon={faTrashAlt} />
+            </button>
+            <h2>Appointment Details</h2>
+          </div>
           <p>
             <strong>Service:</strong> {appointment.service.name}
           </p>
@@ -88,14 +133,26 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
             </p>
           )}
           <p>
-            <strong>Status:</strong> {appointment.status}
+            <strong>Status:</strong>
+            <select
+              value={selectedStatus}
+              onChange={handleStatusChange}
+              className={styles.statusSelect}
+            >
+              {statusOptions.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
           </p>
           <div className={styles.buttonGroup}>
             <button
-              onClick={handleOpenConfirmation}
-              className={styles.deleteButton}
+              onClick={handleSaveChanges}
+              className={styles.saveButton}
+              disabled={!isSaveEnabled}
             >
-              Delete
+              Save Changes
             </button>
             <button onClick={onClose} className={styles.closeButton}>
               Close

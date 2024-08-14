@@ -45,6 +45,16 @@ export default function AppointmentsPage() {
     }
   };
 
+  const handleAppointmentUpdated = (updatedAppointment: Appointment) => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.map((appointment) =>
+        appointment.appointmentId === updatedAppointment.appointmentId
+          ? updatedAppointment
+          : appointment,
+      ),
+    );
+  };
+
   useEffect(() => {
     fetchAppointments();
   }, []);
@@ -107,6 +117,7 @@ export default function AppointmentsPage() {
               ),
             );
           }}
+          onAppointmentUpdated={handleAppointmentUpdated} // Pass the new prop
         />
       )}
     </>

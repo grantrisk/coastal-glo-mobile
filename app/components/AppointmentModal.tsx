@@ -45,15 +45,20 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [phoneError, setPhoneError] = useState<string>("");
   const [step, setStep] = useState<number>(1);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false); // State for loading
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const currentDate = new Date();
+  const oneMonthFromToday = new Date(
+    new Date().setMonth(new Date().getMonth() + 1),
+  );
 
   useEffect(() => {
     const fetchAvailableDays = async () => {
       setLoading(true);
       try {
         const days = await getAvailableDays(
-          new Date(),
-          new Date(new Date().setMonth(new Date().getMonth() + 1)),
+          currentDate,
+          oneMonthFromToday,
           service.duration!,
         );
         setAvailableDays(days);

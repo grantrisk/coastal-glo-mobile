@@ -6,16 +6,52 @@
   max-width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: left;
-}
-
-.modalContent h2 {
-  margin-bottom: 20px;
-  font-size: 18px;
-  text-align: center;
+  position: relative;
 }
 
 .modalContent p {
-  margin: 10px 0;
+    margin-bottom: 20px;
+}
+
+.modalHeader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalHeader h2 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.trashButton {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+}
+
+.statusSelect {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.statusSelect:focus {
+  border-color: #888;
+  outline: none;
 }
 
 .buttonGroup {
@@ -24,8 +60,8 @@
   margin-top: 20px;
 }
 
-.deleteButton {
-  background-color: red;
+.saveButton {
+  background-color: green;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -34,8 +70,9 @@
   transition: background-color 0.2s ease;
 }
 
-.deleteButton:hover {
-  background-color: darkred;
+.saveButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .closeButton {
