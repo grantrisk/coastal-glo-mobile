@@ -10,6 +10,7 @@ import {
   getDocs,
   or,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -144,7 +145,10 @@ class AppointmentRepository implements IAppointmentRepository {
   ): Promise<void> {
     try {
       const docRef = doc(this.collection, appointmentId);
-      await updateDoc(docRef, { status });
+      await updateDoc(docRef, {
+        status,
+        updatedAt: serverTimestamp(), // Automatically update the 'updatedAt' field
+      });
 
       // Invalidate the cache as the data might have changed
       this.cache.clear();
