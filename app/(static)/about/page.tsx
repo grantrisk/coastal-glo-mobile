@@ -1,7 +1,7 @@
-import styles from "../../../styles/About.module.css";
-import Nav from "../../components/Nav";
+import styles from "./About.module.css";
+import Nav from "../../components/Nav/Nav";
 import Image from "next/image";
-import Footer from "../../components/Footer";
+import Footer from "../../components/Footer/Footer";
 
 export default function About() {
   return (

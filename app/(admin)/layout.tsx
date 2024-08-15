@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/AdminDashboard.module.css";
+import styles from "./admin/AdminDashboard.module.css";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/navigation";
-import Drawer from "../components/Drawer";
-import SignOut from "../components/SignOut";
+import Drawer from "../components/Drawer/Drawer";
+import SignOut from "../components/SignOut/SignOut";
 
 interface AdminLayoutProps {
   children: React.ReactNode;

@@ -5,12 +5,12 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import styles from "../../../../styles/AdminAppointments.module.css";
+import styles from "./AdminAppointments.module.css";
 import { Appointment } from "../../../lib/schemas";
 import { appointmentService } from "../../../lib/dependencyInjector";
 import useModal from "../../../hooks/useModal";
-import AdminHeader from "../../../components/AdminHeader";
-import AppointmentDetailsModal from "../../../components/AppointmentDetailsModal";
+import AdminHeader from "../../../components/AdminHeader/AdminHeader";
+import AppointmentDetailsModal from "../../../components/AppointmentDetailsModal/AppointmentDetailsModal";
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);

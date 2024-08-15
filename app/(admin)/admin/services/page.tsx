@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../../../../styles/AdminServicesPage.module.css";
+import styles from "./AdminServicesPage.module.css";
 import { Service } from "../../../lib/schemas";
 import { serviceService } from "../../../lib/dependencyInjector";
-import ServiceFormModal from "../../../components/ServiceFormModal";
-import ConfirmationModal from "../../../components/ConfirmationModal";
+import ServiceFormModal from "../../../components/ServiceFormModal/ServiceFormModal";
+import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
-import AdminHeader from "../../../components/AdminHeader";
+import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 
 // Admin Dashboard Component for Managing Services
 const ServicesPage: React.FC = () => {

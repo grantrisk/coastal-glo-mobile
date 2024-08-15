@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import styles from "../../../styles/AdminDashboard.module.css";
-import AdminHeader from "../../components/AdminHeader";
+import styles from "./AdminDashboard.module.css";
+import AdminHeader from "../../components/AdminHeader/AdminHeader";
 
 // Admin Dashboard Component
 export default function Dashboard() {

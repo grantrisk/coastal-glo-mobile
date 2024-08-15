@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
-import "../styles/globals.css";
+import "./globals.css";
 import React from "react";
 import { ToastContainer } from "react-toastify";
-import ReCaptchaContainer from "./components/ReCaptchaContainer";
+import ReCaptchaContainer from "./components/ReCaptchaContainer/ReCaptchaContainer";
 import { PrefetchProvider } from "./providers/PrefetchProvider";
 
 const montserrat = Montserrat({

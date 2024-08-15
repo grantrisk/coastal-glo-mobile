@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../../../../styles/WorkingHours.module.css";
+import styles from "./WorkingHours.module.css";
 import { WorkingHours, SpecialClosure } from "../../../lib/schemas";
 import {
   workingHoursService,
   specialClosureService,
 } from "../../../lib/dependencyInjector";
-import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal";
-import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal";
-import ConfirmationModal from "../../../components/ConfirmationModal";
+import WorkingHoursFormModal from "../../../components/WorkingHoursFormModal/WorkingHoursFormModal";
+import SpecialClosureFormModal from "../../../components/SpecialClosureFormModal/SpecialClosureFormModal";
+import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
 import useModal from "../../../hooks/useModal";
-import AdminHeader from "../../../components/AdminHeader";
+import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 
 const dayOrder = [
   "sunday",

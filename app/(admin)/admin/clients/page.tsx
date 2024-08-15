@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../../../../styles/AdminClients.module.css";
+import styles from "./AdminClients.module.css";
 import { User } from "../../../lib/schemas";
 import { clientService } from "../../../lib/dependencyInjector";
-import ClientFormModal from "../../../components/ClientFormModal";
+import ClientFormModal from "../../../components/ClientFormModal/ClientFormModal";
 import { formatPhoneNumber, getPhoneLink } from "../../../utils";
 import useModal from "../../../hooks/useModal";
-import ConfirmationModal from "../../../components/ConfirmationModal";
-import AdminHeader from "../../../components/AdminHeader";
-import { RenderAddressLink } from "../../../components/RenderAddressLinks";
+import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
+import AdminHeader from "../../../components/AdminHeader/AdminHeader";
+import { RenderAddressLink } from "../../../components/RenderAddressLinks/RenderAddressLinks";
 
 // Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {

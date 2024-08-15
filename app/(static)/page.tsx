@@ -1,11 +1,11 @@
-import styles from "../../styles/Home.module.css";
-import Nav from "../components/Nav";
+import styles from "./Home.module.css";
+import Nav from "../components/Nav/Nav";
 import Link from "next/link";
 import React from "react";
-import CycleText from "../components/CycleText";
-import InfoCard from "../components/InfoCard";
+import CycleText from "../components/CycleText/CycleText";
+import InfoCard from "../components/InfoCard/InfoCard";
 import Image from "next/image";
-import ScrollAnimationWrapper from "../components/ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../components/ScrollAnimationWrapper/ScrollAnimationWrapper";
 
 export default function Home() {
   return (
