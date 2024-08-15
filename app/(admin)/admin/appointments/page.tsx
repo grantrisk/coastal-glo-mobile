@@ -79,7 +79,43 @@ export default function AppointmentsPage() {
       appointment.appointmentDate.getTime() +
         appointment.service.duration! * 60000,
     ),
+    backgroundColor:
+      appointment.status === "completed"
+        ? "#17712b"
+        : appointment.status === "scheduled"
+          ? "#e1aa0a"
+          : "#a62733",
+    borderColor:
+      appointment.status === "completed"
+        ? "#17712b"
+        : appointment.status === "scheduled"
+          ? "#e1aa0a"
+          : "#a62733",
+    extendedProps: {
+      serviceType: appointment.service.name,
+      status: appointment.status,
+    },
   }));
+
+  const handleMouseEnter = (arg: any) => {
+    const tooltip = document.getElementById("tooltip");
+    if (tooltip) {
+      tooltip.innerHTML = `
+        <strong>Service:</strong> ${arg.event.extendedProps.serviceType}<br/>
+        <strong>Status:</strong> ${arg.event.extendedProps.status}<br/>
+      `;
+      tooltip.style.opacity = "1";
+      tooltip.style.left = `${arg.jsEvent.pageX + 10}px`;
+      tooltip.style.top = `${arg.jsEvent.pageY + 10}px`;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    const tooltip = document.getElementById("tooltip");
+    if (tooltip) {
+      tooltip.style.opacity = "0";
+    }
+  };
 
   return (
     <>
@@ -100,10 +136,13 @@ export default function AppointmentsPage() {
             height="100%"
             editable={true}
             eventClick={handleEventClick}
+            eventMouseEnter={handleMouseEnter}
+            eventMouseLeave={handleMouseLeave}
           />
         </div>
         <br />
       </div>
+      <div id="tooltip" className={styles.tooltip}></div>
       {detailsModal.isOpen && selectedAppointment && (
         <AppointmentDetailsModal
           appointment={selectedAppointment}
@@ -117,7 +156,7 @@ export default function AppointmentsPage() {
               ),
             );
           }}
-          onAppointmentUpdated={handleAppointmentUpdated} // Pass the new prop
+          onAppointmentUpdated={handleAppointmentUpdated}
         />
       )}
     </>
