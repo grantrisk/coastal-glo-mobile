@@ -14,21 +14,18 @@ const Status: React.FC = () => {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    console.log("Fetching status...");
     // URL of the AWS Lambda API Gateway endpoint
     const url =
       "https://sz8mehug3g.execute-api.us-east-1.amazonaws.com/checkBusinessStatus";
 
     fetch(url)
       .then((response) => {
-        console.log("Response:", JSON.stringify(response));
         if (!response.ok) {
           throw new Error(`HTTP status ${response.status}`);
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Data:", JSON.stringify(data));
         setStatus(data.status);
       })
       .catch((error) => {

@@ -12,6 +12,7 @@ export default function Dashboard() {
       <div className={styles.container}>
         <h2>Ze Dashboard</h2>
         <p>Manage your world!</p>
+        <p>Coming soon...</p>
       </div>
     </>
   );

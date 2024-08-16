@@ -83,7 +83,6 @@ class AppointmentRepository implements IAppointmentRepository {
   ): Promise<Appointment[]> {
     const cacheKey = `${startDate.getTime()}-${endDate.getTime()}`;
     if (this.cache.has(cacheKey)) {
-      console.log("Cache hit for appointments in range");
       return this.cache.get(cacheKey) as Appointment[];
     }
 

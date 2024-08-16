@@ -11,13 +11,13 @@ import ConfirmationModal from "../../../components/ConfirmationModal/Confirmatio
 import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 import { RenderAddressLink } from "../../../components/RenderAddressLinks/RenderAddressLinks";
 
-// Admin Dashboard Component for Managing Clients
 const ClientsPage: React.FC = () => {
   const [clients, setClients] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentClient, setCurrentClient] = useState<User | null>(null);
   const [clientToDelete, setClientToDelete] = useState<User | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const clientFormModal = useModal();
   const confirmationModal = useModal();
@@ -29,7 +29,6 @@ const ClientsPage: React.FC = () => {
   const fetchClients = async () => {
     try {
       const fetchedClients = await clientService.fetchAllClients();
-      console.log(fetchedClients);
       setClients(fetchedClients);
     } catch (error) {
       console.error("Error fetching clients:", error);
@@ -97,6 +96,14 @@ const ClientsPage: React.FC = () => {
     }
   };
 
+  const filteredClients = clients.filter(
+    (client) =>
+      `${client.firstName} ${client.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      client.email.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   if (loading) {
     return <p className={styles.loadingText}>Loading...</p>;
   }
@@ -109,10 +116,6 @@ const ClientsPage: React.FC = () => {
     );
   }
 
-  // TODO: add search functionality
-  // TODO: add default email prompt
-  // TODO: make the client card smaller but allow a drop down to view more details
-
   return (
     <>
       <div className={styles.section}>
@@ -124,11 +127,18 @@ const ClientsPage: React.FC = () => {
             Add Client
           </button>
         </AdminHeader>
-        {clients.length === 0 ? (
+        <input
+          type="text"
+          placeholder="Search clients..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={styles.searchInput}
+        />
+        {filteredClients.length === 0 ? (
           <p>No clients found.</p>
         ) : (
           <ul className={styles.list}>
-            {clients.map((client) => (
+            {filteredClients.map((client) => (
               <li key={client.id} className={styles.listItem}>
                 <div className={styles.clientInfo}>
                   <h3>
