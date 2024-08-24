@@ -5,6 +5,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import ReCaptchaContainer from "./components/ReCaptchaContainer/ReCaptchaContainer";
 import { PrefetchProvider } from "./providers/PrefetchProvider";
+import Notification from "./components/Notification";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -79,6 +80,7 @@ export default function RootLayout({
           theme="colored"
         />
         <ReCaptchaContainer />
+        <Notification />
         <PrefetchProvider>{children}</PrefetchProvider>
       </body>
     </html>
