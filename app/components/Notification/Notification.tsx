@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaBell } from "react-icons/fa";
-import styles from "../../styles/Notification.module.css";
+import styles from "./Notification.module.css";
 
 const Notification: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);

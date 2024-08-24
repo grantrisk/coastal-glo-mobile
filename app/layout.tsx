@@ -5,7 +5,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import ReCaptchaContainer from "./components/ReCaptchaContainer/ReCaptchaContainer";
 import { PrefetchProvider } from "./providers/PrefetchProvider";
-import Notification from "./components/Notification";
+import Notification from "./components/Notification/Notification";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
