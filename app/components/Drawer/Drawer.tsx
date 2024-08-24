@@ -37,7 +37,7 @@ const Drawer: FC<DrawerProps> = ({
   displayAsNavBar = false,
   navBarDirection = "horizontal",
   width = "190px",
-  switchWidth = "768px",
+  switchWidth = "769px",
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);

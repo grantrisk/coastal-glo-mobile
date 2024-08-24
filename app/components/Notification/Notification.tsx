@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaBell } from "react-icons/fa";
 import styles from "./Notification.module.css";
 
-const Notification: React.FC = () => {
+interface NotificationProps {
+  topPadding?: string;
+}
+
+const Notification: React.FC<NotificationProps> = ({ topPadding }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -16,6 +20,7 @@ const Notification: React.FC = () => {
   return (
     <div
       className={`${styles.container} ${isMinimized ? styles.minimized : ""}`}
+      style={{ top: topPadding || "20px" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
