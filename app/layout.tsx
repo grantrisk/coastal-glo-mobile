@@ -3,6 +3,7 @@ import { Montserrat, Playfair_Display } from "next/font/google";
 import "../styles/globals.css";
 import Footer from "./components/Footer";
 import React from "react";
+import Notification from "./components/Notification";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -64,6 +65,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${playfairDisplay.variable}`}
     >
       <body>
+        <Notification />
         {children}
         <Footer />
       </body>
