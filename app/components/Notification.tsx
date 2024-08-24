@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaBell } from "react-icons/fa";
 import styles from "../../styles/Notification.module.css";
 
 const Notification: React.FC = () => {
@@ -24,7 +24,11 @@ const Notification: React.FC = () => {
           {isMinimized ? <FaArrowLeft /> : <FaArrowRight />}
         </div>
       )}
-      {!isHovered && <div className={styles.pulsatingDot}></div>}
+      {!isHovered && (
+        <div className={styles.pulsatingBellContainer}>
+          <FaBell className={styles.pulsatingBell} />
+        </div>
+      )}
       {!isMinimized && (
         <span className={styles.text}>
           On maternity leave, returning in Spring 2025
