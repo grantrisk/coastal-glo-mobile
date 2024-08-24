@@ -1,0 +1,55 @@
+.container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+.minimized {
+  padding: 10px;
+  width: 50px;
+  justify-content: center;
+}
+
+.pulsatingDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  box-shadow: 0 0 5px 1px rgba(255, 0, 0, 0.7);
+  animation: pulsate 3s infinite;
+}
+
+.text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-left: 15px;
+}
+
+.arrow {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.5);
+    box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(0.7);
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    transform: scale(0.5);
+    box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.3);
+  }
+}
