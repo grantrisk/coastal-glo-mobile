@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../styles/NotFound.module.css";
+import styles from "./NotFound.module.css";
 
 export default function NotFound() {
   return (

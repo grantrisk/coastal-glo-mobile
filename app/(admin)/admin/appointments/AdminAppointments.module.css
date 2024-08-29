@@ -1,0 +1,83 @@
+.calendarContainer {
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  box-sizing: border-box; /* Ensure padding and border are included in the height calculation */
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  background-color: var(--color-primary);
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.appointmentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.appointmentDate {
+  font-weight: bold;
+}
+
+.appointmentStatus {
+  font-style: italic;
+  color: gray;
+}
+
+.appointmentDetails {
+  margin-bottom: 10px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  padding: 5px 10px;
+  border: none;
+  background-color: var(--color-tertiary);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--rich-brown);
+}
+
+.sortContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sortSelect {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid var(--dark-espresso);
+  border-radius: 4px;
+}

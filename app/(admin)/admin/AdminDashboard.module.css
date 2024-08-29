@@ -1,0 +1,51 @@
+.loadingText {
+  color: var(--color-secondary);
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.dashboardMain {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.drawer {
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.dashboardContent {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f8f8f8;
+  overflow-y: auto;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  background-color: var(--color-primary);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .dashboardContent {
+    padding: 10px;
+  }
+}

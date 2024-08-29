@@ -1,0 +1,279 @@
+.modal {
+  height: 800px;
+  width: 1200px;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal > h2 {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
+
+.dateTimeSection {
+  height: 100%;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  overflow-y: auto;
+}
+
+.calendar {
+  border: none;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.timeSlot {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.timeSlot:hover {
+  background-color: #f0f0f0;
+}
+
+.selectedTimeSlot {
+  background-color: var(--color-quaternary);
+  color: white;
+}
+
+.selectedTimeSlot:hover {
+  background-color: var(--color-quaternary);
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.weekend {
+  color: black;
+}
+
+/* Overwrite default styles for react-calendar */
+.today {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.today:hover {
+  background: #e8a58b !important;
+}
+
+.selectedDate {
+  background: var(--color-quaternary) !important;
+  color: white;
+}
+
+.selectedDate:hover,
+.selectedDate:active,
+.selectedDate:focus {
+  background: var(--color-quaternary) !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 1000px;
+  overflow-y: auto;
+}
+
+.label {
+  color: var(--color-quaternary);
+  width: 80%;
+  display: block;
+  font-weight: bold;
+  margin: 0 auto 5px;
+}
+
+.input {
+  display: block;
+  width: 80%;
+  margin: 10px auto 30px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-tertiary);
+}
+
+.address {
+  margin: 10px auto;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 1000px;
+  overflow-y: auto;
+}
+
+.reviewSection {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.reviewSection h3 {
+  margin-bottom: 10px;
+  color: var(--color-quaternary);
+  font-size: 18px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 5px;
+}
+
+.reviewSection p {
+  margin: 5px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.reviewSection p strong {
+  color: var(--color-secondary);
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.buttonContainerSingle,
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  box-shadow: 0 -8px 6px rgba(0, 0, 0, 0.1);
+}
+
+.buttonLeft,
+.buttonRight {
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  text-align: center;
+  text-decoration: none;
+  min-width: 80px;
+}
+
+.buttonLeft {
+  margin-right: auto; /* Align Back button to the left */
+}
+
+.buttonRight {
+  margin-left: auto; /* Align Next and Confirm buttons to the right */
+}
+
+.disabledButton {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 1px solid #999;
+}
+
+.buttonRight:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 1px solid #999;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+@media (max-height: 900px) {
+  .modal {
+    height: 90vh;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .timeGrid {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .timeGrid {
+    margin-bottom: 30px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .label,
+  .input {
+    width: 100%;
+  }
+}

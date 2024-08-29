@@ -1,0 +1,72 @@
+.dashboardNav {
+  width: 250px;
+  min-width: 250px;
+  background-color: var(--dark-espresso);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 100vh;
+}
+
+.dashboardTitle {
+  margin: 20px 0;
+  font-size: 1.5em;
+}
+
+.dashboardNav ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.dashboardNav li {
+  padding: 10px 20px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.dashboardNav li:hover {
+  background-color: var(--color-secondary);
+  color: var(--dark-espresso);
+  border-radius: 4px;
+}
+
+.dashboardNav li svg {
+  margin-right: 10px;
+}
+
+.dashboardNav .activeLink {
+  background-color: var(--color-secondary);
+  color: var(--dark-espresso);
+  border-radius: 4px;
+}
+
+.dashboardNav button {
+  padding: 10px 20px;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.dashboardNav button svg {
+  margin-right: 10px;
+}
+
+.button {
+  padding: 5px 10px;
+  border: none;
+  background-color: var(--color-tertiary);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--rich-brown);
+}
