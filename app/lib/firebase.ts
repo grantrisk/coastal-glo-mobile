@@ -1,4 +1,8 @@
 import { initializeApp, getApp, getApps, FirebaseApp } from "firebase/app";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -17,7 +21,16 @@ let firebaseApp: FirebaseApp;
 
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
+
+  // Initialize App Check once
   if (typeof window !== "undefined") {
+    initializeAppCheck(firebaseApp, {
+      provider: new ReCaptchaEnterpriseProvider(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+      ),
+      isTokenAutoRefreshEnabled: true,
+    });
+
     getAnalytics(firebaseApp);
   }
 } else {
