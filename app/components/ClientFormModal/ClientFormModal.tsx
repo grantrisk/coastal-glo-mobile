@@ -45,6 +45,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
     lastSolutionUsed: null,
     lastSprayDate: null,
     subscription: client?.subscription ? client.subscription : null,
+    notes: client?.notes ? client.notes : null,
   });
 
   useEffect(() => {
@@ -57,7 +58,9 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
   }, [client]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -146,6 +149,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
       <div className={styles.modalContent}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2>{client ? "Update Client" : "Add Client"}</h2>
+          <h3>Personal Information</h3>
           <label>
             First Name:
             <input
@@ -186,6 +190,16 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               required
             />
           </label>
+          <label>
+            Notes:
+            <textarea
+              name="notes"
+              value={formData.notes || ""}
+              onChange={handleChange}
+              rows={5}
+            />
+          </label>
+          <h3>Address</h3>
           <label>
             Street:
             <input
@@ -236,6 +250,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({
               required
             />
           </label>
+          <h3>Spray Information</h3>
           <label>
             Last Solution Used:
             <input
