@@ -27,6 +27,7 @@ class ClientRepository implements IClientRepository {
         const data = doc.data();
         const transformedData = {
           ...data,
+          notes: data.notes || "", // Required since notes may not exist in the database
           lastSprayDate: convertTimestamp(data.lastSprayDate),
           subscription: data.subscription
             ? {
@@ -57,6 +58,7 @@ class ClientRepository implements IClientRepository {
       const data = clientDoc.data();
       const transformedData = {
         ...data,
+        notes: data.notes || "", // Required since notes may not exist in the database
         lastSprayDate: convertTimestamp(data.lastSprayDate),
         subscription: data.subscription
           ? {

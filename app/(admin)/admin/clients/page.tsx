@@ -179,6 +179,9 @@ const ClientsPage: React.FC = () => {
                       ? renderSubscription(client.subscription)
                       : "No subscription selected"}
                   </p>
+                  <p>
+                    <strong>Notes:</strong> {client.notes}
+                  </p>
                 </div>
                 <div className={styles.buttonGroup}>
                   <button

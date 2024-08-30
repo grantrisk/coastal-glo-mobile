@@ -20,6 +20,9 @@
   font-size: 1.5em;
   color: var(--dark-espresso);
 }
+.form h3 {
+  font-size: 1.2em;
+}
 
 .form label {
   display: flex;
@@ -30,6 +33,7 @@
 }
 
 .form input,
+.form textarea,
 .form select {
   padding: 10px;
   border: 1px solid #ccc;
@@ -39,6 +43,7 @@
 }
 
 .form input:focus,
+.form input:textarea,
 .form select:focus {
   border-color: var(--color-primary);
   outline: none;
