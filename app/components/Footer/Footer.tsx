@@ -16,35 +16,54 @@ export default function Footer() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchWorkingHours = async () => {
-      try {
-        const hours = await workingHoursService.fetchWorkingHours();
-        setWorkingHours(hours);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred while fetching working hours.");
+    try {
+      const fetchWorkingHours = async () => {
+        try {
+          const hours = await workingHoursService.fetchWorkingHours();
+          setWorkingHours(hours);
+        } catch (err) {
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError("An unknown error occurred while fetching working hours.");
+          }
+          console.error(err);
         }
-      }
-    };
+      };
 
-    fetchWorkingHours();
+      fetchWorkingHours();
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred while fetching working hours.");
+      }
+      console.error(err);
+    }
   }, []);
 
   const renderWorkingHours = () => {
-    if (!workingHours) {
-      return <p>Loading...</p>;
+    try {
+      if (!workingHours) {
+        return <p>Loading...</p>;
+      }
+
+      const groupedHours = groupWorkingHours(workingHours);
+
+      return groupedHours.map((group, index) => (
+        <p key={index}>
+          {group.days}: {group.hours}
+          <br />
+        </p>
+      ));
+    } catch (err) {
+      console.error(err);
+      if (err instanceof Error) {
+        return <p>{err.message}</p>;
+      } else {
+        return <p>An unknown error occurred while processing working hours.</p>;
+      }
     }
-
-    const groupedHours = groupWorkingHours(workingHours);
-
-    return groupedHours.map((group, index) => (
-      <p key={index}>
-        {group.days}: {group.hours}
-        <br />
-      </p>
-    ));
   };
 
   return (
